@@ -69,4 +69,4 @@ Create your template YAML file and add it to a Git repository that Developer Hub
 . Enter the URL to your template YAML (or the catalog location that points to it).
 . The template appears in the **Create** page for developers to use.
 
-xref:m6/trusted-artifact-signer.adoc[Next: Deploy Trusted Artifact Signer →]
+xref:m7/developer-experience.adoc[Next: Module 7 — Use the Platform as a Developer →]

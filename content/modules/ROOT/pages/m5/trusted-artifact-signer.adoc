@@ -48,4 +48,4 @@ oc get pods -n trusted-artifact-signer
 
 TAS integrates with OpenShift Pipelines so that Tekton tasks can sign container images automatically. Configure your pipeline tasks to use the Sigstore signing service; signed artifacts are then verifiable for supply chain compliance.
 
-xref:m7/developer-experience.adoc[Next: Use the Platform as a Developer →]
+xref:m6/developer-hub.adoc[Next: Module 6 — Deploy Red Hat Developer Hub →]

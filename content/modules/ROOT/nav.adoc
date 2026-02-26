@@ -17,16 +17,16 @@
 ** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
 ** xref:m3/rbac.adoc[Configure RBAC]
 
-* Module 4: The Developer Portal
-** xref:m4/developer-hub.adoc[Deploy Red Hat Developer Hub]
-** xref:m4/configure-rhdh.adoc[Configure the Portal]
+* Module 4: Cloud IDE
+** xref:m4/devspaces.adoc[Deploy Dev Spaces]
 
-* Module 5: Golden Paths
-** xref:m5/devspaces.adoc[Deploy Dev Spaces]
-** xref:m5/templates.adoc[Create Software Templates]
+* Module 5: Secure Supply Chain
+** xref:m5/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
 
-* Module 6: Secure Supply Chain
-** xref:m6/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
+* Module 6: The Developer Portal
+** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
+** xref:m6/configure-rhdh.adoc[Configure the Portal]
+** xref:m6/templates.adoc[Create Software Templates]
 
 * Module 7: Developer Test Drive
 ** xref:m7/developer-experience.adoc[Use the Platform as a Developer]

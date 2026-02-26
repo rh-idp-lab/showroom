@@ -68,16 +68,16 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 |Deploy Keycloak for SSO, store secrets in Vault, configure RBAC
 
 |*Module 4*
-|20 min
-|Deploy Red Hat Developer Hub and integrate it with Keycloak and GitLab
+|15 min
+|Deploy Red Hat OpenShift Dev Spaces — a cloud IDE for developers
 
 |*Module 5*
-|20 min
-|Deploy Dev Spaces and create Software Templates (golden paths)
-
-|*Module 6*
 |10 min
 |Deploy Trusted Artifact Signer for supply chain security
+
+|*Module 6*
+|25 min
+|Deploy Red Hat Developer Hub — the portal that integrates all platform services — and create Software Templates
 
 |*Module 7*
 |15 min

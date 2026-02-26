@@ -35,4 +35,4 @@ Developer Hub extends Backstage with plugins for:
 * **ArgoCD** — Manage GitOps applications.
 * **Keycloak** — SSO and user synchronization.
 
-xref:m5/devspaces.adoc[Next: Deploy Dev Spaces →]
+xref:m6/templates.adoc[Next: Create Software Templates →]

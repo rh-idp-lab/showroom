@@ -1,7 +1,17 @@
 = Deploy Red Hat Developer Hub
 :navtitle: Deploy Red Hat Developer Hub
 
-Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage — the open source platform for building Internal Developer Platforms. It serves as the core of your IDP: a single pane of glass where developers discover services, APIs, documentation, and golden-path templates.
+You have deployed all the platform services: GitOps, CI/CD pipelines, secrets management, SSO, a cloud IDE, and supply chain signing. Now it is time to tie them all together with a **developer portal**.
+
+Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. It acts as the **single gateway** to your entire Internal Developer Platform — the one place where developers discover services, browse APIs, read documentation, and instantiate golden-path templates. It integrates with every service you have deployed so far:
+
+* **Keycloak** — SSO authentication (Module 3)
+* **GitLab** — source code discovery and repository creation (pre-installed)
+* **ArgoCD** — application deployment status (Module 2)
+* **OpenShift Pipelines** — pipeline run visibility (Module 2)
+* **External Secrets / Vault** — secrets injection (Modules 2 & 3)
+* **Dev Spaces** — one-click cloud IDE links (Module 4)
+* **Trusted Artifact Signer** — signed artifact verification (Module 5)
 
 == Prerequisites
 
@@ -80,4 +90,4 @@ Wait until all pods report `Running` and `1/1` or `2/2` READY. The chart deploys
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 
-xref:m4/configure-rhdh.adoc[Next: Configure the Developer Hub portal →]
+xref:m6/configure-rhdh.adoc[Next: Configure the Developer Hub portal →]

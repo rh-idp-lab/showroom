@@ -95,4 +95,4 @@ You configured identity, secrets, and access control:
 * **Vault** — Central storage for shared secrets; External Secrets syncs them into Kubernetes
 * **RBAC** — RoleBindings grant developers and platform engineers appropriate access to GitLab, ArgoCD, and team namespaces
 
-xref:m4/developer-hub.adoc[Continue to Module 4: Deploy Red Hat Developer Hub →]
+xref:m4/devspaces.adoc[Continue to Module 4: Deploy Dev Spaces →]

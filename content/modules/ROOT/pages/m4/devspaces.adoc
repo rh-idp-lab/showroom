@@ -50,4 +50,4 @@ oc get pods -n openshift-devspaces
 
 Open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
 
-xref:m5/templates.adoc[Next: Create Software Templates →]
+xref:m5/trusted-artifact-signer.adoc[Next: Module 5 — Deploy Trusted Artifact Signer →]
