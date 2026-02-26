@@ -1,3 +1,5 @@
+* xref:demo/guide.adoc[Demo Guide (30 min)]
+
 * xref:index.adoc[Introduction]
 * xref:env.adoc[Your Environment]
 

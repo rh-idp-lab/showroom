@@ -1,0 +1,288 @@
+= Demo Guide: Build an IDP in 30 Minutes
+:navtitle: Demo Guide (30 min)
+
+[NOTE]
+====
+This is a **presenter guide**. Timing cues are in brackets. Pre-deploy all components before the demo so you can show the finished platform and deploy one component live.
+====
+
+== Pre-Demo Checklist
+
+Before you start, ensure these are deployed and healthy:
+
+[source,bash,subs="attributes"]
+----
+oc get applications -n openshift-gitops
+----
+
+All of the following should show `Synced` / `Healthy`:
+
+* `openshift-pipelines`
+* `external-secrets`
+* `rhdh-gitops`
+* `keycloak`
+* `rbac`
+* `devspaces`
+* `trusted-artifact-signer`
+* `backstage-bootstrap`
+
+Prepare two browser tabs:
+
+. ArgoCD: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
+. Developer Hub: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
+
+---
+
+== Act 1: The Problem [3 min]
+
+=== Talking Points
+
+* "Every organization building on Kubernetes faces the same problem: **too many tools, too much cognitive load** for developers."
+* "Developers don't want to learn Helm, ArgoCD, Vault, Tekton, Keycloak. They want to write code and ship it."
+* "Platform engineering solves this by building a **self-service layer** — an Internal Developer Platform."
+* "Today I'll show you one built entirely on **Red Hat OpenShift products**, deployed in under 2 hours using only **Helm charts and GitOps**."
+
+=== Visual
+
+Show this architecture table (you can draw it on a whiteboard or display it):
+
+[cols="1,3",options="header"]
+|===
+|Layer |What We Use
+
+|GitOps Foundation
+|OpenShift GitOps (ArgoCD)
+
+|Source Code
+|GitLab
+
+|Secrets
+|HashiCorp Vault + External Secrets Operator
+
+|CI/CD
+|OpenShift Pipelines (Tekton)
+
+|Identity / SSO
+|Red Hat Build of Keycloak
+
+|Cloud IDE
+|Red Hat OpenShift Dev Spaces
+
+|Supply Chain Security
+|Red Hat Trusted Artifact Signer
+
+|**Developer Portal**
+|**Red Hat Developer Hub (Backstage)**
+|===
+
+---
+
+== Act 2: The Developer Experience [7 min]
+
+[TIP]
+====
+Show the end result first. Start with the developer's perspective — this is the hook.
+====
+
+=== Step 1: Open Developer Hub [2 min]
+
+Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
+
+* Sign in via SSO (Keycloak) — "One login for the entire platform."
+* Browse the **Catalog** — "Every service, API, and component in one place."
+* Show a registered component — "Docs, ownership, dependencies, all discoverable."
+
+=== Step 2: Create an Application from a Template [3 min]
+
+* Go to **Create** → Pick a Software Template (e.g., Quarkus Application)
+* Fill in the form: name, owner, description
+* Click **Create** and narrate each step:
+** "A GitLab repo is being created..."
+** "A Tekton pipeline is set up..."
+** "An ArgoCD Application is created..."
+** "The component is registered in the catalog."
+
+=== Step 3: Show the Running App [2 min]
+
+* In Developer Hub, open the newly created component
+* Show the **ArgoCD plugin** — "The app is deployed and synced."
+* Show the **Tekton plugin** — "The build pipeline ran successfully."
+* Click the **Dev Spaces** link — "The developer can start coding immediately in a cloud IDE."
+
+---
+
+== Act 3: How It All Works — The GitOps Engine [8 min]
+
+[TIP]
+====
+Switch to ArgoCD. Now peel back the curtain.
+====
+
+=== Step 1: ArgoCD Overview [2 min]
+
+Open: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
+
+* "Everything you just saw was deployed by ArgoCD — including ArgoCD itself."
+* Show the list of Applications — "Each tile is a platform component, deployed from a Helm chart in Git."
+* Click on one (e.g., `keycloak`) — Show the resource tree: "ArgoCD renders the Helm chart and reconciles every resource."
+
+=== Step 2: Anatomy of a Deployment [2 min]
+
+Show a terminal and display an ArgoCD Application:
+
+[source,bash,subs="attributes"]
+----
+oc get application openshift-pipelines -n openshift-gitops -o yaml | head -30
+----
+
+* "This is the entire deployment definition. A source (Helm chart in Git) and a destination (namespace). That's it."
+* "No `helm install`. No manual steps. Git is the source of truth."
+
+=== Step 3: The Helm Chart Repository [2 min]
+
+* "All components come from a single Helm chart repository."
+* Show the repo: `{helm_repo}` (branch: `{helm_repo_tag}`)
+* "Each folder is a component: `keycloak/`, `external-secrets/`, `redhat-developer-hub/`, etc."
+* "Want to change something? Update the chart, push to Git, ArgoCD reconciles."
+
+=== Step 4: Two ArgoCD Instances [2 min]
+
+* "We use two ArgoCD instances: one for the **platform** (openshift-gitops), one for **developer apps** (rhdh-gitops)."
+* Open: https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}[RHDH GitOps^]
+* "When a developer creates an app from a template, the ArgoCD Application lands here — not in the platform GitOps."
+* "Separation of concerns: platform team owns platform GitOps, developers deploy through the portal."
+
+---
+
+== Act 4: Security & Identity [5 min]
+
+=== Step 1: SSO Everywhere [2 min]
+
+Open: https://sso.{openshift_cluster_ingress_domain}[Keycloak^]
+
+* "One Keycloak realm — `backstage` — provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
+* Show the **Clients** tab — "backstage, backstage-plugin, openshift — each service is a registered OIDC client."
+* Show **Users** and **Groups** — "Groups map to RBAC: developers get access to their namespaces, platform engineers get admin."
+
+=== Step 2: Secrets Management [1.5 min]
+
+[source,bash,subs="attributes"]
+----
+oc exec -n vault vault-0 -- vault kv get kv/secrets/rhdh/common_password
+----
+
+* "Vault stores shared secrets. External Secrets Operator syncs them into Kubernetes automatically."
+* "No secrets in Git. No manual `oc create secret`. It's all automated."
+
+=== Step 3: Supply Chain Security [1.5 min]
+
+* "Trusted Artifact Signer uses Sigstore to sign every container image built by Tekton."
+* "Developers don't think about it — it happens automatically in the pipeline."
+* Show the TAS operator: `oc get securesign -n trusted-artifact-signer`
+
+---
+
+== Act 5: Live Deployment [5 min]
+
+[TIP]
+====
+Deploy one component live to prove it takes seconds.
+====
+
+Pick a component that isn't deployed yet (or delete one before the demo). For example, delete and redeploy `external-secrets`:
+
+[source,bash,subs="attributes"]
+----
+oc delete application external-secrets -n openshift-gitops
+----
+
+Wait a moment, then redeploy:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' | oc apply -f -
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-secrets
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: external-secrets
+    helm:
+      values: |
+        vault-integration:
+          vault:
+            namespace: vault
+            name: vault
+            auth:
+              namespace: default
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+EOF
+----
+
+Switch to ArgoCD UI and watch it sync in real time.
+
+* "That's it. One YAML, applied to the cluster. ArgoCD does the rest."
+* "This is how we deployed every component — in under 2 hours."
+
+---
+
+== Act 6: Wrap Up [2 min]
+
+=== Key Takeaways
+
+* "We built a complete IDP using **8 Red Hat / open source products**, all deployed via **GitOps**."
+* "Developers get a **self-service portal** — they never touch Helm, ArgoCD, or Vault directly."
+* "The platform team manages everything through **Git** — infrastructure as code, for real."
+* "This entire platform was deployed in **under 2 hours**. You can do it too."
+
+=== Call to Action
+
+* "The full hands-on lab is available — 7 modules, step by step."
+* "All the Helm charts are open source."
+* "Questions?"
+
+---
+
+== Timing Summary
+
+[cols="1,1,3",options="header"]
+|===
+|Time |Duration |Section
+
+|0:00
+|3 min
+|Act 1 — The Problem
+
+|3:00
+|7 min
+|Act 2 — Developer Experience (show Developer Hub, create an app)
+
+|10:00
+|8 min
+|Act 3 — How It Works (ArgoCD, Helm charts, GitOps)
+
+|18:00
+|5 min
+|Act 4 — Security & Identity (Keycloak, Vault, TAS)
+
+|23:00
+|5 min
+|Act 5 — Live Deployment (deploy a component in real time)
+
+|28:00
+|2 min
+|Act 6 — Wrap Up & Q&A
+|===
