@@ -1,0 +1,44 @@
+= Explore GitLab
+:navtitle: Explore GitLab
+
+GitLab is pre-installed and will serve as source code management, CI/CD pipeline host, and OAuth provider for Dev Spaces.
+
+== Open GitLab
+
+. Open: https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^]
+. Log in as `root` / `{common_password}`
+
+== Navigate the GitLab UI
+
+* **Groups** — organize projects (e.g., `opencodequest`)
+* **Projects** — repositories for applications and platform configs
+* **CI/CD → Pipelines** — view and run pipelines (once configured)
+* **Settings** — OAuth applications, integrations
+
+== GitLab Roles in the IDP
+
+[cols="1,3",options="header"]
+|===
+|Role |Purpose
+
+|Source code management
+|Host application repos and platform configuration
+
+|CI/CD pipeline host
+|Run Tekton/OpenShift Pipelines triggered from GitLab webhooks
+
+|OAuth provider
+|Authenticate users in Red Hat OpenShift Dev Spaces (Module 5)
+|===
+
+== Check GitLab Health
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n gitlab
+----
+
+Ensure pods are `Running`. GitLab has multiple components (web, sidekiq, gitaly); allow time for full startup.
+
+[.text-center]
+xref:m1/explore-vault.adoc[Explore Vault →]

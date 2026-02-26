@@ -1,0 +1,72 @@
+= Create Software Templates (Golden Paths)
+:navtitle: Create Software Templates
+
+Software Templates are opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths.
+
+== Template structure
+
+A Backstage Template is a catalog entity with this structure:
+
+[source,yaml]
+----
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: quarkus-app
+  title: Quarkus Application
+  description: Create a new Quarkus microservice
+  tags:
+    - quarkus
+    - java
+spec:
+  parameters:
+    - title: Component details
+      properties:
+        name:
+          title: Component name
+          type: string
+        owner:
+          title: Owner (team or user)
+          type: string
+  steps:
+    - id: fetch
+      name: Fetch skeleton
+      action: fetch:template
+      input:
+        url: ./skeleton
+    - id: publish
+      name: Publish to GitLab
+      action: publish:gitlab
+      input:
+        repoUrl: gitlab.com/yourgroup/${{ parameters.name }}
+    - id: register
+      name: Register in catalog
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
+    - id: argocd
+      name: Create ArgoCD Application
+      action: ...
+  output:
+    links:
+      - title: Repository
+        url: ${{ steps.publish.output.remoteUrl }}
+----
+
+== Create a simple template
+
+A template that scaffolds a Quarkus app, publishes to GitLab, creates an ArgoCD Application, and registers in the catalog typically includes:
+
+* **Parameters** — `component name`, `owner`, and optional `description`.
+* **Steps** — fetch skeleton → publish to GitLab → create ArgoCD Application → register in catalog.
+
+Create your template YAML file and add it to a Git repository that Developer Hub catalogs (e.g., a `templates` repo).
+
+== Register the template in Developer Hub
+
+. In Developer Hub, go to **Create**.
+. Click **Register existing component**.
+. Enter the URL to your template YAML (or the catalog location that points to it).
+. The template appears in the **Create** page for developers to use.
+
+xref:m6/trusted-artifact-signer.adoc[Next: Deploy Trusted Artifact Signer →]

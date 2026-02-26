@@ -1,0 +1,62 @@
+= Conclusion and Next Steps
+:navtitle: Conclusion & Next Steps
+
+== What You Built
+
+You assembled a complete Internal Developer Platform with:
+
+* **GitOps** — ArgoCD Applications reconcile Helm charts from Git.
+* **SSO** — Keycloak provides unified authentication.
+* **Developer portal** — Red Hat Developer Hub (Backstage).
+* **CI/CD** — OpenShift Pipelines (Tekton).
+* **Secrets management** — Vault and External Secrets.
+* **Cloud IDE** — Red Hat OpenShift Dev Spaces.
+* **Supply chain security** — Red Hat Trusted Artifact Signer.
+
+== Architecture Recap
+
+[cols="2,4",options="header"]
+|===
+|Component |Role
+
+|OpenShift GitOps
+|Cluster-wide ArgoCD; deploys all platform components
+
+|GitLab
+|Source code management, OAuth, repositories
+
+|Vault + ESO
+|Secrets storage and injection
+
+|Keycloak (RHBK)
+|SSO, realms, clients
+
+|Red Hat Developer Hub
+|Developer portal, catalog, templates, plugins
+
+|OpenShift Pipelines
+|Tekton-based CI/CD
+
+|RHDH GitOps (optional)
+|Dedicated ArgoCD for application deployments
+
+|Dev Spaces
+|Cloud-based IDE
+
+|Trusted Artifact Signer
+|Sigstore-based signing
+|===
+
+== What to Explore Next
+
+* **Custom plugins** — Add domain-specific Backstage plugins.
+* **More templates** — Expand golden paths for your stack.
+* **Observability** — Integrate OpenShift monitoring and dashboards.
+* **Service mesh** — Add Red Hat OpenShift Service Mesh for traffic management.
+
+== Resources
+
+* link:https://docs.redhat.com/en/documentation/red_hat_developer_hub/[Red Hat Developer Hub documentation^]
+* link:https://docs.openshift.com/gitops/[OpenShift GitOps documentation^]
+* link:https://backstage.io[Backstage.io community^]
+* link:https://platformengineering.org/[Platform Engineering community^]

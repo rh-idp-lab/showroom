@@ -1,0 +1,78 @@
+= Platform Overview
+:navtitle: Platform Overview
+
+An **Internal Developer Platform (IDP)** is a self-service layer that reduces cognitive load for developers. Platform engineering teams build golden paths and automation so developers can focus on writing code, not configuring infrastructure.
+
+== Why Platform Engineering Matters
+
+Platform engineering shifts the burden of toolchain complexity from individual teams to a dedicated platform layer. Developers get:
+
+* Self-service access to environments, pipelines, and services
+* Pre-built templates (golden paths) that encode security and best practices
+* Consistent experience across the organization
+
+== Architecture We Will Build
+
+This lab assembles an IDP on OpenShift using a layered architecture:
+
+[cols="1,4",options="header"]
+|===
+|Layer |Components
+
+|GitOps Foundation
+|ArgoCD deploys everything from Git. Source of truth is the Helm chart repository.
+
+|Secrets
+|HashiCorp Vault stores secrets. External Secrets Operator syncs them into Kubernetes.
+
+|CI/CD
+|OpenShift Pipelines (Tekton) and GitLab run pipelines from commit to deploy.
+
+|Identity
+|Red Hat Build of Keycloak provides SSO across all platform services.
+
+|Developer Portal
+|Red Hat Developer Hub (Backstage) — single pane of glass for services, docs, templates.
+
+|Developer Experience
+|Red Hat OpenShift Dev Spaces provides cloud IDEs. Software Templates create new projects in one click.
+|===
+
+== GitOps Approach
+
+Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No manual `helm install` — ArgoCD reconciles desired state from Git into the cluster.
+
+* You create an ArgoCD `Application` YAML
+* ArgoCD pulls the chart from Git and deploys it
+* Changes to Git are automatically reconciled (or manually synced)
+
+== Helm Chart Repository
+
+All platform components come from a single Helm chart repository:
+
+[cols="1,3",options="header"]
+|===
+|Item |Value
+
+|Repository
+|`{helm_repo}`
+
+|Branch
+|`{helm_repo_tag}`
+|===
+
+Each ArgoCD Application references a chart path within this repository (e.g., `charts/rhdh-gitops`).
+
+== Pre-Installed Foundation
+
+Your cluster already has:
+
+* **OpenShift GitOps (ArgoCD)** — the GitOps engine
+* **GitLab** — source code management and CI/CD host
+* **HashiCorp Vault** — centralized secrets store
+* **NooBaa** — object storage (S3-compatible)
+
+In this module, you will explore these components.
+
+[.text-center]
+xref:m1/explore-gitops.adoc[Explore ArgoCD (GitOps) →]

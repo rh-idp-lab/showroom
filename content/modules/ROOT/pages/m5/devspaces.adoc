@@ -1,0 +1,53 @@
+= Deploy Red Hat OpenShift Dev Spaces
+:navtitle: Deploy Dev Spaces
+
+Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access — all in the browser.
+
+== Create the ArgoCD Application
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > devspaces-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devspaces
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: devspaces
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        devspaces:
+          gitlab:
+            url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+            oauthClientId: YOUR_GITLAB_OAUTH_APP_ID
+            oauthClientSecret: YOUR_GITLAB_OAUTH_APP_SECRET
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-devspaces
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+EOF
+----
+
+Replace `YOUR_GITLAB_OAUTH_APP_ID` and `YOUR_GITLAB_OAUTH_APP_SECRET` with values from a GitLab OAuth application (GitLab → Admin → Applications → New application).
+
+== Apply and verify
+
+[source,bash,subs="attributes"]
+----
+oc apply -f devspaces-app.yaml
+oc get pods -n openshift-devspaces
+----
+
+== Access Dev Spaces
+
+Open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
+
+xref:m5/templates.adoc[Next: Create Software Templates →]

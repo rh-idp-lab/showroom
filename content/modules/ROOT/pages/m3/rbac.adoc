@@ -1,0 +1,98 @@
+= Configure Platform RBAC
+:navtitle: Configure RBAC
+
+Users need access to their own namespaces, view access to GitLab (for pipelines), and read access to ArgoCD namespaces (`openshift-gitops`, `rhdh-gitops`) to see application status. The RBAC chart creates RoleBindings that grant these permissions per team.
+
+== Create the ArgoCD Application
+
+Create the ArgoCD Application for RBAC:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > rbac-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rbac
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: rbac
+    helm:
+      values: |
+        rbac:
+          - namespace: devteam1
+            subjects:
+              - kind: Group
+                name: devteam1
+                role: admin
+          - namespace: gitlab
+            subjects:
+              - kind: Group
+                name: developers
+                role: view
+              - kind: Group
+                name: platformengineers
+                role: admin
+          - namespace: openshift-gitops
+            subjects:
+              - kind: Group
+                name: platformengineers
+                role: admin
+              - kind: Group
+                name: developers
+                role: view
+          - namespace: rhdh-gitops
+            subjects:
+              - kind: Group
+                name: platformengineers
+                role: admin
+              - kind: Group
+                name: developers
+                role: view
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-gitops
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+EOF
+----
+
+Apply the Application:
+
+[source,bash]
+----
+oc apply -f rbac-app.yaml -n openshift-gitops
+----
+
+== Verify RoleBindings
+
+Confirm RoleBindings were created:
+
+[source,bash]
+----
+oc get rolebindings -n gitlab
+----
+
+You should see bindings for `developers` (view) and `platformengineers` (admin). Check other namespaces:
+
+[source,bash]
+----
+oc get rolebindings -n openshift-gitops
+oc get rolebindings -n rhdh-gitops
+----
+
+== Module 3 Summary
+
+You configured identity, secrets, and access control:
+
+* **Keycloak** — SSO for Developer Hub, Dev Spaces, and ArgoCD with the `backstage` realm
+* **Vault** — Central storage for shared secrets; External Secrets syncs them into Kubernetes
+* **RBAC** — RoleBindings grant developers and platform engineers appropriate access to GitLab, ArgoCD, and team namespaces
+
+xref:m4/developer-hub.adoc[Continue to Module 4: Deploy Red Hat Developer Hub →]

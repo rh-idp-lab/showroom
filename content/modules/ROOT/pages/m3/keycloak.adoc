@@ -1,0 +1,99 @@
+= Deploy Red Hat Build of Keycloak
+:navtitle: Deploy Keycloak (RHBK)
+
+Red Hat Build of Keycloak provides **single sign-on (SSO)** for the entire platform. Developer Hub, Dev Spaces, and ArgoCD will all authenticate users through Keycloak, eliminating separate logins and centralizing identity management.
+
+== Create the ArgoCD Application
+
+Create the ArgoCD Application that deploys Keycloak from the Helm chart:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > keycloak-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: keycloak
+    helm:
+      values: |
+        keycloak:
+          route:
+            host: sso.{openshift_cluster_ingress_domain}
+        keycloak-realm-import:
+          realm:
+            name: backstage
+          users:
+            password: {common_password}
+          backstageClient:
+            backstage:
+              name: backstage
+            backstagePlugin:
+              name: backstage-plugin
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+  ignoreDifferences:
+    - group: k8s.keycloak.org
+      kind: KeycloakRealmImport
+      jsonPointers:
+        - /status
+EOF
+----
+
+Apply the Application:
+
+[source,bash]
+----
+oc apply -f keycloak-app.yaml -n openshift-gitops
+----
+
+== Verify the Deployment
+
+Wait for Keycloak pods to become ready:
+
+[source,bash]
+----
+oc get pods -n keycloak -w
+----
+
+Press `Ctrl+C` when all pods show `Running`. Check the realm import:
+
+[source,bash]
+----
+oc get keycloakrealmimport -n keycloak
+----
+
+The `backstage` realm should show `Completed` or `Reconciled`.
+
+== Access Keycloak
+
+Open Keycloak at: https://sso.{openshift_cluster_ingress_domain}[https://sso.{openshift_cluster_ingress_domain}]
+
+. Log in with a platform user (e.g., `pe1` / `{common_password}`).
+. Navigate to the **backstage** realm.
+. Under *Clients*, verify `backstage`, `backstage-plugin`, and `openshift` are configured.
+. Under *Users* and *Groups*, explore the RBAC structure (developers, platformengineers, rhdh, infrastructure).
+
+== Next Step
+
+xref:m3/vault-secrets.adoc[Store platform secrets in Vault →]

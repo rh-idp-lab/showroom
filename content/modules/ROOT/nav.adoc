@@ -1,0 +1,33 @@
+* xref:index.adoc[Introduction]
+* xref:env.adoc[Your Environment]
+
+* Module 1: Explore the Foundation
+** xref:m1/intro.adoc[Platform Overview]
+** xref:m1/explore-gitops.adoc[Explore ArgoCD]
+** xref:m1/explore-gitlab.adoc[Explore GitLab]
+** xref:m1/explore-vault.adoc[Explore Vault]
+
+* Module 2: Build the CI/CD Layer
+** xref:m2/pipelines.adoc[Deploy OpenShift Pipelines]
+** xref:m2/external-secrets.adoc[Deploy External Secrets]
+** xref:m2/rhdh-gitops.adoc[Deploy a Dedicated ArgoCD]
+
+* Module 3: Identity & Access
+** xref:m3/keycloak.adoc[Deploy Keycloak (RHBK)]
+** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
+** xref:m3/rbac.adoc[Configure RBAC]
+
+* Module 4: The Developer Portal
+** xref:m4/developer-hub.adoc[Deploy Red Hat Developer Hub]
+** xref:m4/configure-rhdh.adoc[Configure the Portal]
+
+* Module 5: Golden Paths
+** xref:m5/devspaces.adoc[Deploy Dev Spaces]
+** xref:m5/templates.adoc[Create Software Templates]
+
+* Module 6: Secure Supply Chain
+** xref:m6/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
+
+* Module 7: Developer Test Drive
+** xref:m7/developer-experience.adoc[Use the Platform as a Developer]
+** xref:m7/conclusion.adoc[Conclusion & Next Steps]

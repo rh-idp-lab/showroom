@@ -1,0 +1,29 @@
+---
+type: showroom
+default_width: 50
+view_switcher:
+  enabled: true
+  default_mode: split
+persist_url_state: true
+tabs:
+  - name: Terminal
+    path: '/tty1'
+    port: '443'
+  - name: OCP Console
+    url: 'https://console-openshift-console.${DOMAIN}'
+    external: true
+  - name: Developer Hub
+    url: 'https://backstage-rhdh.${DOMAIN}'
+    external: true
+  - name: Dev Spaces
+    url: 'https://devspaces.${DOMAIN}'
+    external: true
+  - name: GitLab
+    url: 'https://gitlab-gitlab.${DOMAIN}'
+    external: true
+  - name: ArgoCD (Cluster)
+    url: 'https://openshift-gitops-server-openshift-gitops.${DOMAIN}'
+    external: true
+  - name: ArgoCD (Apps)
+    url: 'https://rhdh-gitops-server-rhdh-gitops.${DOMAIN}'
+    external: true

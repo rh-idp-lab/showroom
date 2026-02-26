@@ -1,0 +1,32 @@
+name: modules
+title: "How to create your Internal Developer Platform in 2 hours"
+version: master
+start_page: index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+
+asciidoc:
+  attributes:
+    product_name_rhdh: Red Hat Developer Hub
+    lab_name: "How to create your Internal Developer Platform in 2 hours"
+    release-version: master
+    page-pagination: true
+    guid: my-guid
+    ssh_user: lab-user
+    ssh_password: changeme
+    openshift_cluster_ingress_domain: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
+    openshift_cluster_console_url: https://console-openshift-console.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
+    common_password: changeme
+    helm_repo: https://github.com/rh-opencodequest-origins/helm.git
+    helm_repo_tag: opencodequest
+    page-links:
+    - url: https://console-openshift-console.{openshift_cluster_ingress_domain}
+      text: OCP Console
+    - url: https://backstage-rhdh.{openshift_cluster_ingress_domain}
+      text: Developer Hub
+    - url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+      text: GitLab
+    - url: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
+      text: ArgoCD
+    environment_variables:
+      DOMAIN: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com

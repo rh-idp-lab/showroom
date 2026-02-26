@@ -1,0 +1,31 @@
+= Use the Platform as a Developer
+:navtitle: Use the Platform as a Developer
+
+Switch perspective: use the IDP you built as a developer would — from template selection to deployment.
+
+== Run a Software Template
+
+. Open https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^] and sign in.
+. Go to **Create** and select a Software Template.
+. Fill in the form: component name, team, description.
+. Click **Create** and watch the execution.
+
+== Observe the workflow
+
+* **Repository created** — New repo appears in GitLab.
+* **Pipeline triggered** — OpenShift Pipelines runs the build.
+* **ArgoCD Application created** — In `rhdh-gitops` or your GitOps namespace.
+* **Application deployed** — The app is deployed to the cluster.
+
+== Make a code change
+
+. Open https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^].
+. Open the workspace for your new component.
+. Edit a file and push the change.
+. Watch the pipeline re-run and the deployment update.
+
+== Verify the signed artifact
+
+If Trusted Artifact Signer is integrated with your pipeline, confirm that the built image is signed and verifiable.
+
+xref:m7/conclusion.adoc[Next: Conclusion & Next Steps →]

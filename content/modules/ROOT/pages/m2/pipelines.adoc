@@ -1,0 +1,78 @@
+= Deploy OpenShift Pipelines
+:navtitle: Deploy OpenShift Pipelines
+
+== What OpenShift Pipelines provides
+
+OpenShift Pipelines is a cloud-native CI/CD solution based on Tekton. It provides:
+
+* Native Kubernetes pipelines that run as containers
+* A declarative pipeline-as-code model using YAML
+* Built-in integrations with Git, container registries, and OpenShift
+* Standard CI/CD workflows: build, test, deploy
+* Tekton resources: Tasks, Pipelines, PipelineRuns, and Triggers
+
+== Create the ArgoCD Application
+
+Create the ArgoCD Application YAML that deploys the OpenShift Pipelines Operator from the Helm chart:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > pipelines-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-pipelines
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-operators
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: openshift-pipelines
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=false
+      - RespectIgnoreDifferences=true
+EOF
+----
+
+== Apply the Application
+
+[source,bash,subs="attributes"]
+----
+oc apply -f pipelines-application.yaml
+----
+
+== Verify in ArgoCD UI
+
+Open the ArgoCD UI and confirm the `openshift-pipelines` application syncs successfully and shows a healthy status.
+
+xref:env.adoc#cluster-access[ArgoCD] is at `https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}`
+
+== Verify with CLI
+
+[source,bash,subs="attributes"]
+----
+oc get tektonconfig
+oc get pods -n openshift-pipelines
+----
+
+Expect the TektonConfig to be ready and pipeline controller pods running in `openshift-pipelines`.
+
+== Next
+
+Continue to xref:m2/external-secrets.adoc[Deploy External Secrets Operator].

@@ -1,0 +1,51 @@
+= Deploy Red Hat Trusted Artifact Signer
+:navtitle: Deploy Trusted Artifact Signer
+
+Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to sign container images and verify provenance.
+
+== Create the ArgoCD Application
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > trusted-artifact-signer-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trusted-artifact-signer
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: rhtas
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        oidcIssuer: https://sso.{openshift_cluster_ingress_domain}/realms/backstage
+        email: admin@example.com
+        organization: my-org
+        instanceName: tas
+        namespace: trusted-artifact-signer
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-artifact-signer
+  syncPolicy:
+    automated: {}
+    syncOptions:
+      - CreateNamespace=true
+EOF
+----
+
+== Apply and verify
+
+[source,bash,subs="attributes"]
+----
+oc apply -f trusted-artifact-signer-app.yaml
+oc get pods -n trusted-artifact-signer
+----
+
+== Integration with Tekton pipelines
+
+TAS integrates with OpenShift Pipelines so that Tekton tasks can sign container images automatically. Configure your pipeline tasks to use the Sigstore signing service; signed artifacts are then verifiable for supply chain compliance.
+
+xref:m7/developer-experience.adoc[Next: Use the Platform as a Developer →]

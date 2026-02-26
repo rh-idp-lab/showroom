@@ -1,0 +1,38 @@
+= Configure the Developer Hub Portal
+:navtitle: Configure the Portal
+
+== Sign in with SSO
+
+. Open https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^].
+. Click **Sign in with SSO**.
+. Authenticate via Keycloak using your lab credentials.
+
+== Explore the Backstage UI
+
+* **Catalog** — Browse components, APIs, and documentation.
+* **APIs** — View API definitions registered in the catalog.
+* **Docs** — Technical documentation.
+* **Tech Radar** — Assess technologies and tools.
+
+== Verify integrations
+
+=== GitLab integration
+
+. Go to **Integrations** or a component backed by GitLab.
+. Confirm that repositories from your GitLab instance are discovered.
+
+=== ArgoCD integration
+
+. Open the ArgoCD plugin view.
+. Confirm that ArgoCD applications are listed and their sync status is visible.
+
+== Plugin ecosystem
+
+Developer Hub extends Backstage with plugins for:
+
+* **Kubernetes** — View cluster resources.
+* **Tekton** — Inspect pipelines and runs.
+* **ArgoCD** — Manage GitOps applications.
+* **Keycloak** — SSO and user synchronization.
+
+xref:m5/devspaces.adoc[Next: Deploy Dev Spaces →]

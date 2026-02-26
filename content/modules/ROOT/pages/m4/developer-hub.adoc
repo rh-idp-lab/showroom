@@ -1,0 +1,83 @@
+= Deploy Red Hat Developer Hub
+:navtitle: Deploy Red Hat Developer Hub
+
+Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage — the open source platform for building Internal Developer Platforms. It serves as the core of your IDP: a single pane of glass where developers discover services, APIs, documentation, and golden-path templates.
+
+== Prerequisites
+
+Retrieve the GitLab root token and (optionally) a default service account token for OpenShift integration:
+
+[source,bash,subs="attributes"]
+----
+oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d
+----
+
+Copy the output; you will use it in the Helm values. For the default SA token, create the namespace first or use an existing service account after deployment.
+
+== Create the ArgoCD Application
+
+Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > backstage-bootstrap-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage-bootstrap
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: redhat-developer-hub
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        keycloak:
+          realm: backstage
+          url: https://sso.{openshift_cluster_ingress_domain}
+          clientId: backstage
+          clientSecret: YOUR_KEYCLOAK_CLIENT_SECRET
+        gitlab:
+          host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+          token: YOUR_GITLAB_TOKEN
+        argocd:
+          enabled: true
+        vault:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backstage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+EOF
+----
+
+Replace `YOUR_GITLAB_TOKEN` and `YOUR_KEYCLOAK_CLIENT_SECRET` with values from your environment or reference existing secrets.
+
+== Apply the Application
+
+[source,bash,subs="attributes"]
+----
+oc apply -f backstage-bootstrap-app.yaml
+----
+
+== Verify
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n backstage
+----
+
+Wait until all pods report `Running` and `1/1` or `2/2` READY. The chart deploys three subcharts: `redhat-developer-hub-prereqs`, `redhat-developer-hub-config-template`, and `redhat-developer-hub-application`.
+
+== Access Developer Hub
+
+Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
+
+xref:m4/configure-rhdh.adoc[Next: Configure the Developer Hub portal →]

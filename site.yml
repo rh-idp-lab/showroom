@@ -1,0 +1,29 @@
+---
+site:
+  title: "How to create your Internal Developer Platform in 2 hours"
+  url: https://developers.redhat.com
+  start_page: modules::index.adoc
+
+content:
+  sources:
+    - url: .
+      start_path: content
+
+ui:
+  bundle:
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/patternfly-6/ui-bundle.zip
+    snapshot: true
+  supplemental_files:
+    - path: ./content/supplemental-ui
+    - path: ./content/lib
+    - path: .nojekyll
+    - path: ui.yml
+      contents: "static_files: [ .nojekyll ]"
+
+runtime:
+  fetch: true
+  cache_dir: ./.cache/antora
+
+antora:
+  extensions:
+    - require: ./content/lib/resolve-page-links.js

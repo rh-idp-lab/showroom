@@ -1,0 +1,97 @@
+= Deploy a Dedicated ArgoCD Instance
+:navtitle: Deploy a Dedicated ArgoCD Instance
+
+== Why a separate ArgoCD instance
+
+The cluster GitOps ArgoCD (in `openshift-gitops`) manages platform components. A separate ArgoCD instance in `rhdh-gitops` is used for developer applications. This separation provides:
+
+* Clear boundary: platform team owns cluster GitOps; developers use app GitOps
+* Different RBAC and access control per instance
+* Isolation so developer deployments do not affect platform stability
+
+== Create the ArgoCD Application
+
+Create the ArgoCD Application YAML that deploys the dedicated ArgoCD instance:
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > rhdh-gitops-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhdh-gitops
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rhdh-gitops
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: gitops
+    helm:
+      values: |
+        nameOverride: rhdh-gitops
+        password: {common_password}
+        controller:
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 1500m
+              memory: 3Gi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+----
+
+== Apply the Application
+
+[source,bash,subs="attributes"]
+----
+oc apply -f rhdh-gitops-application.yaml
+----
+
+== Verify
+
+Confirm the application syncs in ArgoCD UI and check pods:
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n rhdh-gitops
+----
+
+== Access the new ArgoCD
+
+Once deployed, the dedicated ArgoCD UI is available at:
+
+link:https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}[RHDH GitOps^]
+
+Log in with `admin` and password `{common_password}`.
+
+== Module 2 summary
+
+You deployed the CI/CD layer:
+
+* OpenShift Pipelines (Tekton) for build, test, and deploy workflows
+* External Secrets Operator to sync secrets from Vault into Kubernetes
+* A dedicated ArgoCD instance for developer applications
+
+== Next
+
+Continue to xref:m3/keycloak.adoc[Module 3: Deploy Keycloak (RHBK)].
