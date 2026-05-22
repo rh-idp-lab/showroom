@@ -11,9 +11,9 @@ view_switcher:
   default_mode: split
 
 tabs:
-  # Web terminal (SSH into the bastion)
+  # Web terminal (OCP in-cluster terminal)
   - name: Terminal
-    path: '/tty1'
+    path: '/terminal/'
     port: '443'
 
   # OCP Console
