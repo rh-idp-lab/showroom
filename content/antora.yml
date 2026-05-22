@@ -22,11 +22,11 @@ asciidoc:
     page-links:
     - url: https://console-openshift-console.{openshift_cluster_ingress_domain}
       text: OCP Console
-    - url: https://backstage-rhdh.{openshift_cluster_ingress_domain}
-      text: Developer Hub
-    - url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-      text: GitLab
-    - url: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
-      text: ArgoCD
+    # - url: https://backstage-rhdh.{openshift_cluster_ingress_domain}
+    #   text: Developer Hub
+    # - url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+    #   text: GitLab
+    # - url: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
+    #   text: ArgoCD
     environment_variables:
       DOMAIN: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
