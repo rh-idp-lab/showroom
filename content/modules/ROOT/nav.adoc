@@ -11,6 +11,7 @@
 
 * Module 2: Build the CI/CD Layer
 ** xref:m2/pipelines.adoc[Deploy OpenShift Pipelines]
+** xref:m2/quay.adoc[Deploy Red Hat Quay]
 ** xref:m2/external-secrets.adoc[Deploy External Secrets]
 ** xref:m2/rhdh-gitops.adoc[Deploy a Dedicated ArgoCD]
 

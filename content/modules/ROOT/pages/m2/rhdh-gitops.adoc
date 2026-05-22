@@ -89,6 +89,7 @@ Log in with `admin` and password `{common_password}`.
 You deployed the CI/CD layer:
 
 * OpenShift Pipelines (Tekton) for build, test, and deploy workflows
+* Red Hat Quay as the platform's private container image registry
 * External Secrets Operator to sync secrets from Vault into Kubernetes
 * A dedicated ArgoCD instance for developer applications
 

@@ -75,4 +75,4 @@ Expect the TektonConfig to be ready and pipeline controller pods running in `ope
 
 == Next
 
-Continue to xref:m2/external-secrets.adoc[Deploy External Secrets Operator].
+Continue to xref:m2/quay.adoc[Deploy Red Hat Quay].

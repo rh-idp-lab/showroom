@@ -36,6 +36,9 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 |*CI/CD*
 |OpenShift Pipelines (Tekton)
 
+|*Container Registry*
+|Red Hat Quay
+
 |*Identity & SSO*
 |Red Hat Build of Keycloak (RHBK)
 
@@ -60,8 +63,8 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 |Explore the pre-installed foundation: ArgoCD, GitLab, Vault, NooBaa
 
 |*Module 2*
-|20 min
-|Deploy OpenShift Pipelines, External Secrets Operator, and a dedicated ArgoCD instance
+|30 min
+|Deploy OpenShift Pipelines, Red Hat Quay (container registry), External Secrets Operator, and a dedicated ArgoCD instance
 
 |*Module 3*
 |20 min
