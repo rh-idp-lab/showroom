@@ -27,3 +27,6 @@ runtime:
 antora:
   extensions:
     - require: ./content/lib/resolve-page-links.js
+
+output:
+  dir: ./www

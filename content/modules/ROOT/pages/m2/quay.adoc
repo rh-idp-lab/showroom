@@ -1,0 +1,138 @@
+= Deploy Red Hat Quay
+:navtitle: Deploy Red Hat Quay
+
+== What Red Hat Quay provides
+
+Red Hat Quay is an enterprise container image registry that gives your platform a secure, private place to store and distribute container images. As part of your IDP it provides:
+
+* A private registry for all images built by your CI/CD pipelines
+* Role-based access control for image repositories
+* Image vulnerability scanning via Clair
+* Geo-replication and mirroring support
+* Integration with Vault for credentials and with NooBaa for object storage
+
+NOTE: Quay uses *NooBaa* (deployed as part of the foundation) as its object storage backend, and pulls its admin credentials from *Vault*. Both must be healthy before Quay finishes initialising.
+
+== Prerequisites check
+
+Confirm NooBaa is ready before proceeding:
+
+[source,bash,subs="attributes"]
+----
+oc get noobaa -n openshift-storage
+----
+
+You should see `STATUS: Ready`.
+
+== Create the ArgoCD Application
+
+The `quay` Helm chart (path `quay/` in the Helm repository) installs both the Quay Operator and a `QuayRegistry` instance in one shot.
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > quay-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quay
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: quay-registry
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: quay
+    helm:
+      values: |
+        quay-registry:
+          quay:
+            host: quay.{openshift_cluster_ingress_domain}
+            adminUser: quayadmin
+            adminUserPassword: {common_password}
+          noobaa:
+            name: noobaa
+            namespace: openshift-storage
+          vault:
+            name: vault
+            namespace: vault
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 10
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+----
+
+== Apply the Application
+
+[source,bash,subs="attributes"]
+----
+oc apply -f quay-application.yaml
+----
+
+== Monitor the deployment
+
+Quay takes a few minutes to initialise — the operator must first provision PostgreSQL, Redis, and then configure the registry against NooBaa object storage.
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n quay-registry -w
+----
+
+You can also track progress in the ArgoCD UI under the `quay` application. All resources should reach *Synced / Healthy* status before moving on.
+
+== Verify Quay is accessible
+
+Once the `QuayRegistry` reports `Ready`, open the Quay UI:
+
+link:https://quay.{openshift_cluster_ingress_domain}[Quay Registry^]
+
+Log in with:
+
+* *Username:* `quayadmin`
+* *Password:* `{common_password}`
+
+Verify from the CLI:
+
+[source,bash,subs="attributes"]
+----
+oc get quayregistry -n quay-registry
+podman login quay.{openshift_cluster_ingress_domain} \
+  -u quayadmin -p {common_password} --tls-verify=false
+----
+
+== What was deployed
+
+[cols="1,3",options="header"]
+|===
+|Resource |Purpose
+
+|`Subscription` (quay-operator)
+|Installs the Red Hat Quay Operator from OperatorHub
+
+|`QuayRegistry` (quay-registry)
+|Manages the full Quay instance: app, Clair scanner, database, Redis, object storage
+
+|`Job` (quay-config)
+|Post-install job that creates the admin user and configures the registry
+
+|`Job` (noobaa-status)
+|Waits for NooBaa to be healthy before creating the `QuayRegistry`
+|===
+
+== Next
+
+Continue to xref:m2/external-secrets.adoc[Deploy External Secrets Operator].
