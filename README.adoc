@@ -1,0 +1,78 @@
+= How to Create Your Internal Developer Platform in 2 Hours
+
+A hands-on Red Hat Showroom lab guide built with https://antora.org[Antora].
+Participants deploy a full Internal Developer Platform (IDP) on OpenShift using Helm charts and GitOps — step by step, in a single 2-hour session.
+
+== What You Will Build
+
+[cols="1,3",options="header"]
+|===
+|Layer |Components
+
+|*GitOps Foundation*
+|OpenShift GitOps (ArgoCD)
+
+|*Source Code Management*
+|GitLab
+
+|*Secrets Management*
+|HashiCorp Vault + External Secrets Operator
+
+|*CI/CD*
+|OpenShift Pipelines (Tekton)
+
+|*Container Registry*
+|Red Hat Quay
+
+|*Identity & SSO*
+|Red Hat Build of Keycloak (RHBK)
+
+|*Developer Portal*
+|Red Hat Developer Hub (Backstage)
+
+|*Cloud IDE*
+|Red Hat OpenShift Dev Spaces
+
+|*Software Supply Chain Security*
+|Red Hat Trusted Artifact Signer
+|===
+
+== Quick Start (local preview)
+
+[source,sh]
+----
+podman run --rm --name antora -v $PWD:/antora -p 8080:8080 -i -t ghcr.io/juliaaano/antora-viewer
+----
+
+On SELinux systems, append `:z` to the volume mount.
+Then open http://localhost:8080 in your browser.
+
+== Repository Layout
+
+----
+content/
+  antora.yml               # Component metadata and runtime attribute defaults
+  modules/ROOT/
+    nav.adoc               # Left-hand navigation
+    pages/
+      index.adoc           # Welcome / home page
+      env.adoc             # Environment overview
+      demo/guide.adoc      # Presenter demo guide
+      m1/ … m7/            # Lab modules (one sub-directory per module)
+  supplemental-ui/         # Custom Handlebars partials (header links)
+  lib/                     # Custom Antora extensions (resolve-page-links.js)
+site.yml                   # Antora site build configuration
+ui-config.yml              # Showroom UI layout and tab definitions
+----
+
+== Deploying on the Red Hat Demo Platform
+
+This content repository is consumed by the `agnosticd.showroom` Ansible collection.
+See https://github.com/rhpds/showroom_template_nookbag[showroom_template_nookbag] for full AgnosticV catalog and deployer documentation.
+
+== Related Projects
+
+* https://github.com/rhpds/showroom_template_nookbag[showroom_template_nookbag] — base content repo template (this repo was created from it)
+* https://github.com/rhpds/showroom-deployer[showroom-deployer] — Helm charts that power OCP deployments
+* https://github.com/rhpds/showroom-images[showroom-images] — container images (content server, terminals, Antora, etc.)
+* https://github.com/rhpds/nookbag[nookbag] — the zero-touch UI bundle
