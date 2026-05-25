@@ -90,9 +90,10 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 === Prerequisites
 
 * An OpenShift 4.14+ cluster (provided)
-* `oc` CLI installed and logged in
-* Basic knowledge of Kubernetes, YAML, and Helm
 * A web browser (Chrome/Firefox recommended)
+* Basic knowledge of Kubernetes, YAML, and Helm
+
+NOTE: No local CLI installation required. All commands run directly from the in-browser terminal on the right side of this page.
 
 === How This Lab Works
 
@@ -104,7 +105,7 @@ Every component is deployed using the **GitOps pattern**:
 
 All Helm charts are sourced from your GitLab instance: `{helm_repo}` (branch: `{helm_repo_tag}`)
 
-TIP: Use the links in the top-right corner of this page to quickly access the OCP Console, ArgoCD, GitLab, and Developer Hub.
+TIP: Use the **Terminal** tab on the right to run `oc` and `helm` commands. Use the other tabs to open the OCP Console, ArgoCD, GitLab, and Developer Hub directly in your browser.
 
 [.text-center]
 **Let's build your Internal Developer Platform!** +

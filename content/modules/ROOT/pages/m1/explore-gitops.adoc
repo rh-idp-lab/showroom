@@ -6,7 +6,7 @@ ArgoCD is the GitOps engine. It watches Git repositories and keeps your cluster 
 == Open the ArgoCD UI
 
 . Open: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
-. Log in using your **OpenShift credentials** (same as `oc login`)
+. Log in using `admin` / `{common_password}`
 
 == Navigate the ArgoCD UI
 
