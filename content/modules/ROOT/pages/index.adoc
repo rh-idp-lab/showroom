@@ -102,7 +102,7 @@ Every component is deployed using the **GitOps pattern**:
 . ArgoCD reconciles the desired state from Git into your cluster
 . You verify the deployment in the OpenShift Console and ArgoCD UI
 
-All Helm charts are sourced from: `{helm_repo}` (branch: `{helm_repo_tag}`)
+All Helm charts are sourced from your GitLab instance: `{helm_repo}` (branch: `{helm_repo_tag}`)
 
 TIP: Use the links in the top-right corner of this page to quickly access the OCP Console, ArgoCD, GitLab, and Developer Hub.
 

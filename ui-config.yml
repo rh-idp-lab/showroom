@@ -2,7 +2,7 @@
 type: showroom
 
 # Set the left column width to 50%
-default_width: 50
+default_width: 60
 # Persist the URL state so browser refresh doesn't reset the UI
 persist_url_state: true
 

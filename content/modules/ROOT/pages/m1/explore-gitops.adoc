@@ -47,8 +47,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/rh-opencodequest-origins/helm.git
-    targetRevision: opencodequest
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
     path: charts/my-chart
   destination:
     server: https://kubernetes.default.svc

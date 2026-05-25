@@ -17,8 +17,8 @@ asciidoc:
     openshift_cluster_ingress_domain: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
     openshift_cluster_console_url: https://console-openshift-console.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
     common_password: changeme
-    helm_repo: https://github.com/rh-opencodequest-origins/helm.git
-    helm_repo_tag: opencodequest
+    helm_repo: https://gitlab-gitlab.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com/idp-lab/helm.git
+    helm_repo_tag: main
     page-links:
     - url: https://console-openshift-console.{openshift_cluster_ingress_domain}
       text: OCP Console
