@@ -74,7 +74,7 @@ Open the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ing
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Operators → Installed Operators*
+. Navigate to *Ecosystem → Installed Operators*
 . Select the `openshift-operators` project (or *All Projects*)
 . Confirm **Red Hat OpenShift Pipelines** appears with status `Succeeded`
 
