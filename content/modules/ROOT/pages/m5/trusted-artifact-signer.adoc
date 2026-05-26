@@ -57,16 +57,24 @@ spec:
     targetRevision: {helm_repo_tag}
     helm:
       values: |
-        oidcIssuer: https://sso.{openshift_cluster_ingress_domain}/realms/backstage
-        email: admin@example.com
-        organization: my-org
-        instanceName: tas
-        namespace: trusted-artifact-signer
+        trusted-artifact-signer:
+          instance: securesign
+          email: admin@example.com
+          org: my-org
+          oidc: sso.{openshift_cluster_ingress_domain}/realms/backstage
   destination:
     server: https://kubernetes.default.svc
     namespace: trusted-artifact-signer
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
     syncOptions:
       - CreateNamespace=true
 EOF
