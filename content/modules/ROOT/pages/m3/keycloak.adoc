@@ -87,7 +87,7 @@ The `backstage` realm should show `Completed` or `Reconciled`.
 
 == Access Keycloak
 
-Open Keycloak at: https://sso.{openshift_cluster_ingress_domain}[https://sso.{openshift_cluster_ingress_domain}]
+Open Keycloak at: https://sso.{openshift_cluster_ingress_domain}[https://sso.{openshift_cluster_ingress_domain}^]
 
 . Log in with a platform user (e.g., `pe1` / `{common_password}`).
 . Navigate to the **backstage** realm.

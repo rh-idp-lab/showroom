@@ -55,7 +55,7 @@ All platform components come from a single Helm chart repository:
 |Item |Value
 
 |Repository
-|`{helm_repo}`
+|{helm_repo}[{helm_repo}^]
 
 |Branch
 |`{helm_repo_tag}`
