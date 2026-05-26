@@ -1,9 +1,19 @@
 = Deploy OpenShift Pipelines
 :navtitle: Deploy OpenShift Pipelines
 
-== What OpenShift Pipelines provides
+== Why OpenShift Pipelines?
 
-OpenShift Pipelines is a cloud-native CI/CD solution based on Tekton. It provides:
+For CI/CD pipelines in this IDP, we chose **OpenShift Pipelines** (based on Tekton) rather than GitLab CI. Both are valid options — GitLab CI is already available in this cluster and perfectly capable of running pipelines. However, OpenShift Pipelines offers a compelling advantage for a platform engineering context:
+
+* **Native to OpenShift** — it ships as a certified operator in the Red Hat catalog; no additional infrastructure to manage
+* **Kubernetes-native execution** — each pipeline step runs as an isolated container pod, with full resource control and auditability
+* **Declarative pipeline-as-code** — Tasks, Pipelines, and PipelineRuns are standard Kubernetes resources stored in Git
+* **Deep OpenShift integration** — built-in triggers, cluster-level RBAC, and integration with image streams and the OpenShift Console
+* **Separation of concerns** — GitLab manages source code and merge requests; OpenShift Pipelines handles the build and deployment orchestration
+
+In a real-world IDP, you would likely use both: GitLab CI for lightweight repository-level automation (linting, unit tests) and OpenShift Pipelines for cluster-side build, security scan, and deployment workflows.
+
+== What OpenShift Pipelines provides
 
 * Native Kubernetes pipelines that run as containers
 * A declarative pipeline-as-code model using YAML
@@ -59,9 +69,20 @@ oc apply -f pipelines-application.yaml
 
 == Verify in ArgoCD UI
 
-Open the ArgoCD UI and confirm the `openshift-pipelines` application syncs successfully and shows a healthy status.
+Open the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD UI^] and confirm the `openshift-pipelines` application syncs successfully and shows a **Healthy** status.
 
-xref:env.adoc#cluster-access[ArgoCD] is at `https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}`
+== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to *Operators → Installed Operators*
+. Select the `openshift-operators` project (or *All Projects*)
+. Confirm **Red Hat OpenShift Pipelines** appears with status `Succeeded`
+
+Then explore the deployed workloads:
+
+. In the Console, navigate to *Workloads → Topology*
+. Switch to the `openshift-pipelines` project
+. You should see the Pipelines controller, webhook, and trigger components as running pods
 
 == Verify with CLI
 
