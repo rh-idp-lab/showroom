@@ -36,7 +36,7 @@ Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
 
 [source,bash,subs="attributes"]
 ----
-cat <<EOF > backstage-bootstrap-app.yaml
+cat \<<EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
