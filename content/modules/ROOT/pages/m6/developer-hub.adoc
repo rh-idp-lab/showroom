@@ -20,15 +20,18 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{
 
 The chart installs the Developer Hub operator (via OLM) and a `Backstage` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
 
-== Create the ArgoCD Application
+== Step 1 — Retrieve the GitLab token
 
-Export your GitLab token, then deploy the ArgoCD Application in a single command:
+[source,bash]
+----
+export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
+----
+
+== Step 2 — Create the ArgoCD Application
 
 [source,bash,subs="attributes,macros"]
 ----
-export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
-
-cat pass:[<<]'EOF' | envsubst | oc apply -f -
+cat pass:[<<]EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -68,6 +71,13 @@ spec:
 EOF
 ----
 
+Apply it:
+
+[source,bash]
+----
+oc apply -f backstage-bootstrap-app.yaml
+----
+
 == Verify
 
 [source,bash,subs="attributes"]
@@ -75,7 +85,7 @@ EOF
 oc get pods -n backstage
 ----
 
-Wait until all pods report `Running` and `1/1` or `2/2` READY. The chart deploys three subcharts: `redhat-developer-hub-prereqs`, `redhat-developer-hub-config-template`, and `redhat-developer-hub-application`.
+Wait until all pods report `Running` and `1/1` or `2/2` READY.
 
 == Access Developer Hub
 
