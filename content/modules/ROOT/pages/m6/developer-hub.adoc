@@ -36,7 +36,7 @@ Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
 
 [source,bash,subs="attributes"]
 ----
-cat \<<EOF > backstage-bootstrap-app.yaml
+cat {empty}<<EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -59,7 +59,7 @@ spec:
           clientSecret: {common_password}
         gitlab:
           host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-          token: \$GITLAB_TOKEN
+          token: $GITLAB_TOKEN
         argocd:
           enabled: true
         vault:
