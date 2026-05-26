@@ -5,6 +5,7 @@ openshift_cluster_ingress_domain: apps.cluster-tvvgl.dynamic2.redhatworkshops.io
 openshift_cluster_console_url: https://console-openshift-console.apps.cluster-tvvgl.dynamic2.redhatworkshops.io
 common_password: a12tQVs3QJtaVvfr
 helm_repo: https://gitlab-gitlab.apps.cluster-6nvjh.dynamic2.redhatworkshops.io/idp-lab/helm.git
+helm_repo_browse: https://gitlab-gitlab.apps.cluster-tvvgl.dynamic2.redhatworkshops.io/idp-lab/helm
 helm_repo_tag: main
 environment_variables:
   DOMAIN: apps.cluster-tvvgl.dynamic2.redhatworkshops.io

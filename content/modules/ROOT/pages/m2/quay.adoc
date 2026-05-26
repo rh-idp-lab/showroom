@@ -24,9 +24,14 @@ oc get noobaa -n openshift-storage
 
 You should see `STATUS: Ready`.
 
-== Create the ArgoCD Application
+== The Helm Chart
 
-The `quay` Helm chart (path `quay/` in the Helm repository) installs both the Quay Operator and a `QuayRegistry` instance in one shot.
+The ArgoCD Application points to the `quay` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/quay[{helm_repo_browse}/-/tree/{helm_repo_tag}/quay^]
+
+The chart installs both the Quay Operator (via an OLM `Subscription`) and a `QuayRegistry` instance in one shot.
+
+== Create the ArgoCD Application
 
 [source,bash,subs="attributes"]
 ----

@@ -3,6 +3,13 @@
 
 Red Hat Build of Keycloak provides **single sign-on (SSO)** for the entire platform. Developer Hub, Dev Spaces, and ArgoCD will all authenticate users through Keycloak, eliminating separate logins and centralizing identity management.
 
+== The Helm Chart
+
+The ArgoCD Application points to the `keycloak` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/keycloak[{helm_repo_browse}/-/tree/{helm_repo_tag}/keycloak^]
+
+The chart deploys the Red Hat Build of Keycloak operator (via OLM), a `Keycloak` instance, and a pre-configured `KeycloakRealmImport` with users and clients for the IDP.
+
 == Create the ArgoCD Application
 
 Create the ArgoCD Application that deploys Keycloak from the Helm chart:

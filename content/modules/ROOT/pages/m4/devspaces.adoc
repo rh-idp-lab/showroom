@@ -3,6 +3,13 @@
 
 Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access — all in the browser.
 
+== The Helm Chart
+
+The ArgoCD Application points to the `devspaces` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/devspaces[{helm_repo_browse}/-/tree/{helm_repo_tag}/devspaces^]
+
+The chart installs the Dev Spaces operator (via OLM) and a `CheCluster` instance pre-configured with the Keycloak OAuth integration.
+
 == Create the ArgoCD Application
 
 [source,bash,subs="attributes"]

@@ -3,6 +3,13 @@
 
 Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to sign container images and verify provenance.
 
+== The Helm Chart
+
+The ArgoCD Application points to the `rhtas` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/rhtas[{helm_repo_browse}/-/tree/{helm_repo_tag}/rhtas^]
+
+The chart installs the Trusted Artifact Signer operator (via OLM) and a `SecureSign` instance that provisions the Fulcio CA, Rekor transparency log, and Cosign tooling.
+
 == Create the ArgoCD Application
 
 [source,bash,subs="attributes"]

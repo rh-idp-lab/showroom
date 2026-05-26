@@ -9,6 +9,13 @@ The cluster GitOps ArgoCD (in `openshift-gitops`) manages platform components. A
 * Different RBAC and access control per instance
 * Isolation so developer deployments do not affect platform stability
 
+== The Helm Chart
+
+The ArgoCD Application points to the `gitops` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/gitops[{helm_repo_browse}/-/tree/{helm_repo_tag}/gitops^]
+
+The chart deploys a dedicated ArgoCD instance (`ArgoCD` CR) with its RBAC, routes, and resource customizations pre-configured.
+
 == Create the ArgoCD Application
 
 Create the ArgoCD Application YAML that deploys the dedicated ArgoCD instance:

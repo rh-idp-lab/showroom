@@ -141,7 +141,7 @@ oc get application openshift-pipelines -n openshift-gitops -o yaml | head -30
 === Step 3: The Helm Chart Repository [2 min]
 
 * "All components come from a single Helm chart repository."
-* Show the repo: {helm_repo}[{helm_repo}^] (branch: `{helm_repo_tag}`)
+* Show the repo: {helm_repo_browse}[{helm_repo_browse}^] (branch: `{helm_repo_tag}`)
 * "Each folder is a component: `keycloak/`, `external-secrets/`, `redhat-developer-hub/`, etc."
 * "Want to change something? Update the chart, push to Git, ArgoCD reconciles."
 

@@ -3,6 +3,13 @@
 
 Users need access to their own namespaces, view access to GitLab (for pipelines), and read access to ArgoCD namespaces (`openshift-gitops`, `rhdh-gitops`) to see application status. The RBAC chart creates RoleBindings that grant these permissions per team.
 
+== The Helm Chart
+
+The ArgoCD Application points to the `rbac` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/rbac[{helm_repo_browse}/-/tree/{helm_repo_tag}/rbac^]
+
+The chart creates the `ClusterRoles`, `RoleBindings`, and `Groups` that define access control across platform namespaces.
+
 == Create the ArgoCD Application
 
 Create the ArgoCD Application for RBAC:

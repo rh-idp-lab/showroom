@@ -24,6 +24,13 @@ oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | b
 
 Copy the output; you will use it in the Helm values. For the default SA token, create the namespace first or use an existing service account after deployment.
 
+== The Helm Chart
+
+The ArgoCD Application points to the `redhat-developer-hub` chart in your GitLab repository.
+Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub^]
+
+The chart installs the Developer Hub operator (via OLM) and a `Backstage` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
+
 == Create the ArgoCD Application
 
 Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
