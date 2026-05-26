@@ -24,7 +24,7 @@ The chart installs the Developer Hub operator (via OLM) and a `Backstage` instan
 
 Export your GitLab token, then deploy the ArgoCD Application in a single command:
 
-[source,bash,subs="attributes"]
+[source,bash,subs="attributes,macros"]
 ----
 export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
 
