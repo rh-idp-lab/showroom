@@ -12,7 +12,7 @@ Dev Spaces eliminates this entirely:
 * **Zero local setup** — developers open a browser, click a link, and land in a fully configured IDE running inside the cluster. No installation required.
 * **Reproducible environments** — workspaces are defined as code (`devfile.yaml` in the repository). Every developer gets the exact same toolchain, every time.
 * **Direct cluster access** — the IDE runs inside OpenShift. No VPN, no port-forwarding, no firewall issues. The terminal has direct access to the cluster.
-* **Git integration via OAuth** — Dev Spaces authenticates to GitLab using the OAuth application configured earlier. Developers push code without managing SSH keys or tokens manually.
+* **Git integration via OAuth** — Dev Spaces authenticates to GitLab using an OAuth application. Developers push code without managing SSH keys or tokens manually.
 * **Consistent security posture** — code stays inside the cluster. No source code on laptops, no credentials in `~/.gitconfig` on personal machines.
 * **SSO via Keycloak** — developers log in once using their platform identity. No separate Dev Spaces account.
 
@@ -25,11 +25,49 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/devspaces[{helm_repo_b
 
 The chart installs the Dev Spaces operator (via OLM) and a `CheCluster` instance pre-configured with the Keycloak OAuth integration.
 
-== Create the ArgoCD Application
+== Step 1 — Create a GitLab OAuth Application
+
+Dev Spaces needs a GitLab OAuth application to authenticate developers and allow them to clone and push to repositories.
+
+. Open https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] and log in as `root` / `{common_password}`
+. Navigate to *Admin Area* (wrench icon, top right) → *Applications*
+. Click *New application* and fill in:
++
+[cols="1,3",options="header"]
+|===
+|Field |Value
+
+|*Name*
+|`devspaces`
+
+|*Redirect URI*
+|`https://devspaces.{openshift_cluster_ingress_domain}/api/oauth/callback`
+
+|*Scopes*
+|`api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
+
+|*Trusted*
+|✓ Check this box
+|===
+
+. Click *Save application*
+. Copy the **Application ID** and **Secret** — these values are shown only once
+
+Save them in environment variables in your terminal:
 
 [source,bash,subs="attributes"]
 ----
-cat <<'EOF' > devspaces-app.yaml
+export GITLAB_OAUTH_ID=<paste Application ID here>
+export GITLAB_OAUTH_SECRET=<paste Secret here>
+----
+
+== Step 2 — Create the ArgoCD Application
+
+Use the OAuth credentials to generate and apply the Dev Spaces Application:
+
+[source,bash,subs="attributes"]
+----
+cat <<EOF > devspaces-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -46,8 +84,8 @@ spec:
         devspaces:
           gitlab:
             url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-            oauthClientId: YOUR_GITLAB_OAUTH_APP_ID
-            oauthClientSecret: YOUR_GITLAB_OAUTH_APP_SECRET
+            oauthClientId: $GITLAB_OAUTH_ID
+            oauthClientSecret: $GITLAB_OAUTH_SECRET
   destination:
     server: https://kubernetes.default.svc
     namespace: openshift-devspaces
@@ -56,20 +94,29 @@ spec:
     syncOptions:
       - CreateNamespace=true
 EOF
+
+oc apply -f devspaces-app.yaml
 ----
 
-Replace `YOUR_GITLAB_OAUTH_APP_ID` and `YOUR_GITLAB_OAUTH_APP_SECRET` with values from a GitLab OAuth application (GitLab → Admin → Applications → New application).
-
-== Apply and verify
+== Step 3 — Verify the Deployment
 
 [source,bash,subs="attributes"]
 ----
-oc apply -f devspaces-app.yaml
 oc get pods -n openshift-devspaces
 ----
 
-== Access Dev Spaces
+You can also track progress in the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD UI^] under the `devspaces` application.
 
-Open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
+In the OpenShift Console:
+
+. Navigate to *Ecosystem → Installed Operators*
+. Select the `openshift-devspaces` project
+. Confirm **Red Hat OpenShift Dev Spaces** appears with status `Succeeded`
+
+== Step 4 — Access Dev Spaces
+
+Once all pods are running, open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
+
+Log in with your GitLab credentials — Dev Spaces will redirect you to GitLab OAuth and then open your workspace.
 
 xref:m5/trusted-artifact-signer.adoc[Next: Module 5 — Deploy Trusted Artifact Signer →]
