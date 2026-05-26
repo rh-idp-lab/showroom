@@ -13,16 +13,6 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 * **Dev Spaces** — one-click cloud IDE links (Module 4)
 * **Trusted Artifact Signer** — signed artifact verification (Module 5)
 
-== Prerequisites
-
-Récupère le token root GitLab et stocke-le dans une variable d'environnement :
-
-[source,bash,subs="attributes"]
-----
-export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
-echo "GitLab token: $GITLAB_TOKEN"
-----
-
 == The Helm Chart
 
 The ArgoCD Application points to the `redhat-developer-hub` chart in your GitLab repository.
@@ -32,11 +22,13 @@ The chart installs the Developer Hub operator (via OLM) and a `Backstage` instan
 
 == Create the ArgoCD Application
 
-Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
+Export your GitLab token, then deploy the ArgoCD Application in a single command:
 
 [source,bash,subs="attributes"]
 ----
-cat {empty}<<EOF > backstage-bootstrap-app.yaml
+export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
+
+cat pass:[<<]'EOF' | envsubst | oc apply -f -
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -74,13 +66,6 @@ spec:
     syncOptions:
       - CreateNamespace=true
 EOF
-----
-
-== Apply the Application
-
-[source,bash,subs="attributes"]
-----
-oc apply -f backstage-bootstrap-app.yaml
 ----
 
 == Verify
