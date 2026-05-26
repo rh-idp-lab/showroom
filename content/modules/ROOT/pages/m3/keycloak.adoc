@@ -13,7 +13,7 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/keycloak[{helm_repo_br
 The chart deploys:
 
 * The Red Hat Build of Keycloak operator (via OLM)
-* A `Keycloak` instance exposed at `https://sso.{openshift_cluster_ingress_domain}`
+* A `Keycloak` instance exposed at `https://sso.{openshift_cluster_ingress_domain}^`
 * A pre-configured `KeycloakRealmImport` with users, groups, and OAuth clients for the IDP
 
 == Verify the Installation
