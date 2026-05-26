@@ -21,6 +21,16 @@ tabs:
     url: 'https://console-openshift-console.${DOMAIN}'
     external: true
 
+  # Source control
+  - name: GitLab
+    url: 'https://gitlab-gitlab.${DOMAIN}'
+    external: true
+
+  # Cluster-level ArgoCD (GitOps foundation)
+  - name: ArgoCD (Cluster)
+    url: 'https://openshift-gitops-server-openshift-gitops.${DOMAIN}'
+    external: true
+
   # # Developer Hub (Red Hat Developer Hub / Backstage)
   # - name: Developer Hub
   #   url: 'https://backstage-rhdh.${DOMAIN}'
@@ -30,16 +40,6 @@ tabs:
   # - name: Dev Spaces
   #   url: 'https://devspaces.${DOMAIN}'
   #   external: true
-
-  # # Source control
-  # - name: GitLab
-  #   url: 'https://gitlab-gitlab.${DOMAIN}'
-  #   external: true
-
-  # Cluster-level ArgoCD (GitOps foundation)
-  - name: ArgoCD (Cluster)
-    url: 'https://openshift-gitops-server-openshift-gitops.${DOMAIN}'
-    external: true
 
   # # Application-level ArgoCD (RHDH dedicated instance)
   # - name: ArgoCD (Apps)
