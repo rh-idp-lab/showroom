@@ -3,6 +3,21 @@
 
 Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access — all in the browser.
 
+== Why Dev Spaces?
+
+In a traditional setup, onboarding a developer takes hours: install the right versions of `node`, `python`, `oc`, `helm`, configure git credentials, clone repositories, set up environment variables. Every developer ends up with a slightly different environment — "works on my machine" becomes a real problem.
+
+Dev Spaces eliminates this entirely:
+
+* **Zero local setup** — developers open a browser, click a link, and land in a fully configured IDE running inside the cluster. No installation required.
+* **Reproducible environments** — workspaces are defined as code (`devfile.yaml` in the repository). Every developer gets the exact same toolchain, every time.
+* **Direct cluster access** — the IDE runs inside OpenShift. No VPN, no port-forwarding, no firewall issues. The terminal has direct access to the cluster.
+* **Git integration via OAuth** — Dev Spaces authenticates to GitLab using the OAuth application configured earlier. Developers push code without managing SSH keys or tokens manually.
+* **Consistent security posture** — code stays inside the cluster. No source code on laptops, no credentials in `~/.gitconfig` on personal machines.
+* **SSO via Keycloak** — developers log in once using their platform identity. No separate Dev Spaces account.
+
+In the context of an IDP, Dev Spaces is the "cloud IDE" golden path: any developer can start contributing to any project in seconds, with the correct toolchain, access rights, and integrations already configured.
+
 == The Helm Chart
 
 The ArgoCD Application points to the `devspaces` chart in your GitLab repository.

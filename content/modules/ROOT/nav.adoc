@@ -18,7 +18,7 @@
 
 * Module 3: Identity & Access
 ** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
-** xref:m3/rbac.adoc[Configure RBAC]
+// ** xref:m3/rbac.adoc[Configure RBAC]
 
 * Module 4: Cloud IDE
 ** xref:m4/devspaces.adoc[Deploy Dev Spaces]
