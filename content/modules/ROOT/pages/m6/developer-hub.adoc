@@ -47,18 +47,40 @@ spec:
     targetRevision: {helm_repo_tag}
     helm:
       values: |
-        keycloak:
-          realm: sso
-          url: https://sso.{openshift_cluster_ingress_domain}
-          clientId: backstage
-          clientSecret: {common_password}
-        gitlab:
-          host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-          token: $GITLAB_TOKEN
-        argocd:
-          enabled: true
-        vault:
-          enabled: true
+        redhat-developer-hub-prereqs:
+          namespace: backstage
+          backstage:
+            gitlab:
+              token: $GITLAB_TOKEN
+            oauth:
+              clientId: backstage
+              clientSecret: {common_password}
+
+        redhat-developer-hub-config-template:
+          nameOverride: "backstage"
+          namespace: backstage
+          gitlab:
+            host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+            rootPassword: {common_password}
+          backstage:
+            host: backstage-rhdh.{openshift_cluster_ingress_domain}
+          keycloak:
+            host: sso.{openshift_cluster_ingress_domain}
+            realm: sso
+            clientId: backstage
+            clientSecret: {common_password}
+          gitops:
+            host: openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
+
+        redhat-developer-hub-application:
+          gitops:
+            namespace: openshift-gitops
+          helm:
+            values:
+              git:
+                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
   destination:
     server: https://kubernetes.default.svc
     namespace: backstage
