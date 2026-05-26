@@ -63,7 +63,7 @@ export GITLAB_OAUTH_SECRET=<paste Secret here>
 
 == Step 2 — Create the ArgoCD Application
 
-Use the OAuth credentials to generate and apply the Dev Spaces Application:
+Use the OAuth credentials to generate the Dev Spaces Application manifest:
 
 [source,bash,subs="attributes"]
 ----
@@ -73,6 +73,8 @@ kind: Application
 metadata:
   name: devspaces
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
 spec:
   project: default
   source:
@@ -90,11 +92,25 @@ spec:
     server: https://kubernetes.default.svc
     namespace: openshift-devspaces
   syncPolicy:
-    automated: {}
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
     syncOptions:
       - CreateNamespace=true
+      - RespectIgnoreDifferences=true
 EOF
+----
 
+Apply it:
+
+[source,bash]
+----
 oc apply -f devspaces-app.yaml
 ----
 
