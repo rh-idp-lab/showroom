@@ -15,14 +15,13 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 
 == Prerequisites
 
-Retrieve the GitLab root token and (optionally) a default service account token for OpenShift integration:
+Récupère le token root GitLab et stocke-le dans une variable d'environnement :
 
 [source,bash,subs="attributes"]
 ----
-oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d
+export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
+echo "GitLab token: $GITLAB_TOKEN"
 ----
-
-Copy the output; you will use it in the Helm values. For the default SA token, create the namespace first or use an existing service account after deployment.
 
 == The Helm Chart
 
@@ -37,12 +36,14 @@ Create the ArgoCD Application YAML for the backstage-bootstrap deployment:
 
 [source,bash,subs="attributes"]
 ----
-cat <<'EOF' > backstage-bootstrap-app.yaml
+cat <<EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: backstage-bootstrap
   namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
 spec:
   project: default
   source:
@@ -58,7 +59,7 @@ spec:
           clientSecret: {common_password}
         gitlab:
           host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
-          token: YOUR_GITLAB_TOKEN
+          token: \$GITLAB_TOKEN
         argocd:
           enabled: true
         vault:
@@ -74,8 +75,6 @@ spec:
       - CreateNamespace=true
 EOF
 ----
-
-Replace `YOUR_GITLAB_TOKEN` with your GitLab root token (retrieved above). The Keycloak client secret is `{common_password}` — pre-configured by the platform setup.
 
 == Apply the Application
 

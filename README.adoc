@@ -1,5 +1,5 @@
 = How to Create Your Internal Developer Platform in 2 Hours
- 
+
 A hands-on Red Hat Showroom lab guide built with https://antora.org[Antora].
 Participants deploy a full Internal Developer Platform (IDP) on OpenShift using Helm charts and GitOps — step by step, in a single 2-hour session.
 
