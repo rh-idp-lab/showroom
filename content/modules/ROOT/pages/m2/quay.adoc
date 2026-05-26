@@ -88,6 +88,19 @@ EOF
 oc apply -f quay-application.yaml
 ----
 
+== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to *Ecosystem → Installed Operators*
+. Select the `quay-registry` project (or *All Projects*)
+. Confirm **Red Hat Quay** appears with status `Succeeded`
+
+Then explore the deployed workloads:
+
+. Navigate to *Workloads → Topology*
+. Switch to the `quay-registry` project
+. You should see the Quay application pods (app, Clair scanner, database, Redis) coming up progressively
+
 == Monitor the deployment
 
 Quay takes a few minutes to initialise — the operator must first provision PostgreSQL, Redis, and then configure the registry against NooBaa object storage.
