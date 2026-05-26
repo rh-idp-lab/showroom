@@ -29,9 +29,9 @@ export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpa
 
 == Step 2 — Create the ArgoCD Application
 
-[source,bash,subs="attributes,macros"]
+[source,bash,subs="specialcharacters,attributes"]
 ----
-cat pass:[<<]EOF > backstage-bootstrap-app.yaml
+cat <<EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

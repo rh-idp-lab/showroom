@@ -65,9 +65,9 @@ export GITLAB_OAUTH_SECRET=<paste Secret here>
 
 Use the OAuth credentials to generate the Dev Spaces Application manifest:
 
-[source,bash,subs="attributes,macros"]
+[source,bash,subs="specialcharacters,attributes"]
 ----
-cat pass:[<<]EOF > devspaces-app.yaml
+cat <<EOF > devspaces-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
