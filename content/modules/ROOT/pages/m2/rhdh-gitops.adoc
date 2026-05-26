@@ -102,4 +102,4 @@ You deployed the CI/CD layer:
 
 == Next
 
-Continue to xref:m3/keycloak.adoc[Module 3: Deploy Keycloak (RHBK)].
+Continue to xref:m3/vault-secrets.adoc[Module 3: Identity & Access].
