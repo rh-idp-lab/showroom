@@ -21,6 +21,13 @@ In a real-world IDP, you would likely use both: GitLab CI for lightweight reposi
 * Standard CI/CD workflows: build, test, deploy
 * Tekton resources: Tasks, Pipelines, PipelineRuns, and Triggers
 
+== The Helm Chart
+
+The ArgoCD Application points to the `openshift-pipelines` chart in your GitLab repository.
+Browse it here: {helm_repo}/-/tree/{helm_repo_tag}/openshift-pipelines[{helm_repo}/openshift-pipelines^]
+
+The chart contains a single `Subscription` resource that instructs OLM (Operator Lifecycle Manager) to install the OpenShift Pipelines operator from the Red Hat catalog. ArgoCD deploys this resource; OLM takes care of the rest — downloading, installing, and keeping the operator up to date.
+
 == Create the ArgoCD Application
 
 Create the ArgoCD Application YAML that deploys the OpenShift Pipelines Operator from the Helm chart:
