@@ -128,8 +128,6 @@ Verify from the CLI:
 [source,bash,subs="attributes"]
 ----
 oc get quayregistry -n quay-registry
-podman login quay.{openshift_cluster_ingress_domain} \
-  -u quayadmin -p {common_password} --tls-verify=false
 ----
 
 == What was deployed

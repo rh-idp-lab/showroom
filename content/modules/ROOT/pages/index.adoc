@@ -59,16 +59,16 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 |Module |Duration |What You Do
 
 |*Module 1*
-|15 min
-|Explore the pre-installed foundation: ArgoCD, GitLab, Vault, NooBaa
+|20 min
+|Explore the pre-installed foundation: ArgoCD, GitLab, Vault, NooBaa, Keycloak
 
 |*Module 2*
 |30 min
 |Deploy OpenShift Pipelines, Red Hat Quay (container registry), External Secrets Operator, and a dedicated ArgoCD instance
 
 |*Module 3*
-|20 min
-|Deploy Keycloak for SSO, store secrets in Vault, configure RBAC
+|15 min
+|Store platform secrets in Vault, configure RBAC
 
 |*Module 4*
 |15 min

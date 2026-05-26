@@ -71,6 +71,7 @@ Your cluster already has:
 * **GitLab** — source code management and CI/CD host
 * **HashiCorp Vault** — centralized secrets store
 * **NooBaa** — object storage (S3-compatible)
+* **Red Hat Build of Keycloak** — SSO and identity provider for all platform services
 
 In this module, you will explore these components.
 

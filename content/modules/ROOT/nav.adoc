@@ -8,6 +8,7 @@
 ** xref:m1/explore-gitops.adoc[Explore ArgoCD]
 ** xref:m1/explore-gitlab.adoc[Explore GitLab]
 ** xref:m1/explore-vault.adoc[Explore Vault]
+** xref:m3/keycloak.adoc[Explore Keycloak (RHBK)]
 
 * Module 2: Build the CI/CD Layer
 ** xref:m2/pipelines.adoc[Deploy OpenShift Pipelines]
@@ -16,7 +17,6 @@
 ** xref:m2/rhdh-gitops.adoc[Deploy a Dedicated ArgoCD]
 
 * Module 3: Identity & Access
-** xref:m3/keycloak.adoc[Deploy Keycloak (RHBK)]
 ** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
 ** xref:m3/rbac.adoc[Configure RBAC]
 

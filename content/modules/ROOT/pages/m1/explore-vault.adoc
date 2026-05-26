@@ -40,15 +40,5 @@ Each platform component can have its own path (e.g., `kv/secrets/rhdh/backstage`
 
 In Module 3, you will store Keycloak and other secrets in Vault. External Secrets Operator (Module 2) will sync them into cluster namespaces.
 
-== Module 1 Summary
-
-You explored the pre-installed foundation:
-
-* **ArgoCD** — GitOps engine; deploys from Helm charts in Git
-* **GitLab** — source code, CI/CD, OAuth
-* **Vault** — centralized secrets; ESO will bridge to Kubernetes
-
-Next, you will deploy OpenShift Pipelines, External Secrets Operator, and a dedicated ArgoCD instance for the IDP workloads.
-
 [.text-center]
-xref:m2/pipelines.adoc[Continue to Module 2: Build the CI/CD Layer →]
+xref:m3/keycloak.adoc[Explore Keycloak (RHBK) →]
