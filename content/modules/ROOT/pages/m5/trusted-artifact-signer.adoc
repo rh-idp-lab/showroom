@@ -28,6 +28,8 @@ Traditional signing approaches (GPG keys, X.509 certificates) have well-known fr
 * **Verifiable provenance** — given any image digest, you can retrieve the full signing certificate chain and prove who built it, when, and from which Git commit.
 * **Policy enforcement** — OPA/Gatekeeper or Kyverno policies can reject any workload whose image is not present in the Rekor transparency log.
 * **SLSA compliance** — Sigstore attestations are the foundation for SLSA Level 2 and Level 3 build provenance requirements.
++
+https://slsa.dev[SLSA (Supply-chain Levels for Software Artifacts)^] is an open security framework, backed by Google and the OpenSSF, that defines four levels of build integrity guarantees. Level 1 requires a build process that generates provenance; Level 2 adds tamper-resistant provenance signed by a build service; Level 3 requires a hardened, auditable build environment. Sigstore signing + Rekor attestations fulfill the cryptographic provenance requirements at Levels 2 and 3 out of the box.
 * **Audit trail** — every signing event is immutable and timestamped in Rekor. Compliance and incident response teams get a complete artifact lifecycle history.
 
 == The Helm Chart
