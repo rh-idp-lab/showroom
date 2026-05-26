@@ -55,7 +55,7 @@ spec:
           realm: sso
           url: https://sso.{openshift_cluster_ingress_domain}
           clientId: backstage
-          clientSecret: YOUR_KEYCLOAK_CLIENT_SECRET
+          clientSecret: {common_password}
         gitlab:
           host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
           token: YOUR_GITLAB_TOKEN
@@ -75,7 +75,7 @@ spec:
 EOF
 ----
 
-Replace `YOUR_GITLAB_TOKEN` and `YOUR_KEYCLOAK_CLIENT_SECRET` with values from your environment or reference existing secrets.
+Replace `YOUR_GITLAB_TOKEN` with your GitLab root token (retrieved above). The Keycloak client secret is `{common_password}` — pre-configured by the platform setup.
 
 == Apply the Application
 
