@@ -160,7 +160,7 @@ oc get application openshift-pipelines -n openshift-gitops -o yaml | head -30
 
 Open: https://sso.{openshift_cluster_ingress_domain}[Keycloak^]
 
-* "One Keycloak realm — `backstage` — provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
+* "One Keycloak realm — `sso` — provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
 * Show the **Clients** tab — "backstage, backstage-plugin, openshift — each service is a registered OIDC client."
 * Show **Users** and **Groups** — "Groups map to RBAC: developers get access to their namespaces, platform engineers get admin."
 

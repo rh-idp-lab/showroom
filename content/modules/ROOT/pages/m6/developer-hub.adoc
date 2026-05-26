@@ -52,7 +52,7 @@ spec:
     helm:
       values: |
         keycloak:
-          realm: backstage
+          realm: sso
           url: https://sso.{openshift_cluster_ingress_domain}
           clientId: backstage
           clientSecret: YOUR_KEYCLOAK_CLIENT_SECRET

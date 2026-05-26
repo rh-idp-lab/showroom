@@ -61,7 +61,7 @@ spec:
           instance: securesign
           email: admin@example.com
           org: my-org
-          oidc: sso.{openshift_cluster_ingress_domain}/realms/backstage
+          oidc: sso.{openshift_cluster_ingress_domain}/realms/sso
   destination:
     server: https://kubernetes.default.svc
     namespace: trusted-artifact-signer

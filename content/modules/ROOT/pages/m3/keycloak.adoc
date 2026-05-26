@@ -26,7 +26,7 @@ oc get pods -n keycloak
 oc get keycloakrealmimport -n keycloak
 ----
 
-The `backstage` realm should show `Reconciled`.
+The `sso` realm should show `Reconciled`.
 
 Confirm the operator is installed in the OpenShift Console:
 
@@ -39,7 +39,7 @@ Confirm the operator is installed in the OpenShift Console:
 
 Open the Keycloak admin console: https://sso.{openshift_cluster_ingress_domain}[https://sso.{openshift_cluster_ingress_domain}^]
 
-Log in with `admin` / `{common_password}`, then navigate to the **backstage** realm and explore:
+Log in with `admin` / `{common_password}`, then navigate to the **sso** realm and explore:
 
 [cols="1,3",options="header"]
 |===
