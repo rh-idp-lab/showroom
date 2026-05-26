@@ -1,7 +1,34 @@
 = Deploy Red Hat Trusted Artifact Signer
 :navtitle: Deploy Trusted Artifact Signer
 
-Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to sign container images and verify provenance.
+Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to cryptographically sign container images and verify their provenance — ensuring that what runs in production is exactly what was built in CI.
+
+== Why Software Supply Chain Security?
+
+Modern software depends on hundreds of open-source libraries, base images, and third-party tools. Each of these is a potential attack surface. High-profile incidents like SolarWinds and Log4Shell demonstrated that attackers increasingly target the *build process* itself — injecting malicious code into artifacts before they ever reach production.
+
+Software supply chain security answers a fundamental question: **"How do I know this artifact is what I think it is, and that nothing tampered with it between build and deploy?"**
+
+== Why Sigstore / Red Hat Trusted Artifact Signer?
+
+Traditional signing approaches (GPG keys, X.509 certificates) have well-known friction problems: keys expire, get lost, are shared unsafely, and are rarely revoked when they should be. The result is that signing is optional in practice, even when it is mandatory in policy.
+
+**Sigstore** is an open-source project (co-founded by Red Hat, Google, and Purdue University) that makes signing effortless and verifiable by default:
+
+* **Keyless signing** — developers sign with their OIDC identity (Keycloak, GitHub, Google). No long-lived private keys to manage or rotate.
+* **Transparency log (Rekor)** — every signing event is recorded in an append-only, tamper-evident public log. You can prove when an artifact was signed and by whom.
+* **Fulcio CA** — a short-lived certificate authority that issues ephemeral certificates tied to the signer's identity. Certificates expire in minutes, eliminating key sprawl.
+* **Cosign** — the CLI tool that signs and verifies container images, SBOMs, attestations, and any other artifact.
+
+**Red Hat Trusted Artifact Signer** packages all of this as an enterprise-grade, self-hosted OpenShift operator — so your signing infrastructure runs on-cluster, integrated with Keycloak for identity, without any dependency on the public Sigstore infrastructure.
+
+== What This Unlocks for Your IDP
+
+* **Every image signed at build time** — Tekton pipelines call `cosign sign` after each build. No unsigned image can enter production.
+* **Verifiable provenance** — given any image digest, you can retrieve the full signing certificate chain and prove who built it, when, and from which Git commit.
+* **Policy enforcement** — OPA/Gatekeeper or Kyverno policies can reject any workload whose image is not present in the Rekor transparency log.
+* **SLSA compliance** — Sigstore attestations are the foundation for SLSA Level 2 and Level 3 build provenance requirements.
+* **Audit trail** — every signing event is immutable and timestamped in Rekor. Compliance and incident response teams get a complete artifact lifecycle history.
 
 == The Helm Chart
 
