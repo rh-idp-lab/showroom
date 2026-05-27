@@ -31,11 +31,11 @@ export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpa
 
 [source,bash,subs="specialcharacters,attributes"]
 ----
-cat <<EOF > backstage-bootstrap-app.yaml
+cat <<EOF > rhdh-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: backstage-bootstrap
+  name: rhdh-bootstrap
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
@@ -48,7 +48,7 @@ spec:
     helm:
       values: |
         redhat-developer-hub-prereqs:
-          namespace: backstage
+          namespace: rhdh
           backstage:
             gitlab:
               token: $GITLAB_TOKEN
@@ -57,8 +57,8 @@ spec:
               clientSecret: {common_password}
 
         redhat-developer-hub-config-template:
-          nameOverride: "backstage"
-          namespace: backstage
+          nameOverride: "rhdh"
+          namespace: rhdh
           gitlab:
             host: gitlab-gitlab.{openshift_cluster_ingress_domain}
             rootPassword: {common_password}
@@ -83,7 +83,7 @@ spec:
                 host: gitlab-gitlab.{openshift_cluster_ingress_domain}
   destination:
     server: https://kubernetes.default.svc
-    namespace: backstage
+    namespace: rhdh
   syncPolicy:
     automated:
       prune: true
@@ -97,14 +97,14 @@ Apply it:
 
 [source,bash]
 ----
-oc apply -f backstage-bootstrap-app.yaml
+oc apply -f rhdh-bootstrap-app.yaml
 ----
 
 == Verify
 
 [source,bash,subs="attributes"]
 ----
-oc get pods -n backstage
+oc get pods -n rhdh
 ----
 
 Wait until all pods report `Running` and `1/1` or `2/2` READY.
