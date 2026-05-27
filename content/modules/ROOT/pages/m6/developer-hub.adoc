@@ -60,7 +60,7 @@ spec:
           nameOverride: "backstage"
           namespace: backstage
           gitlab:
-            host: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
             rootPassword: {common_password}
           backstage:
             host: backstage-rhdh.{openshift_cluster_ingress_domain}

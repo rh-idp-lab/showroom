@@ -89,7 +89,7 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 
 === Prerequisites
 
-* An OpenShift 4.14+ cluster (provided)
+* An OpenShift 4.20+ cluster (provided)
 * A web browser (Chrome/Firefox recommended)
 * Basic knowledge of Kubernetes, YAML, and Helm
 

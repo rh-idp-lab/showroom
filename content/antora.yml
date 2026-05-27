@@ -17,6 +17,7 @@ asciidoc:
     openshift_cluster_ingress_domain: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
     openshift_cluster_console_url: https://console-openshift-console.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
     common_password: changeme
+    ocp_admin_password: changeme
     helm_repo: https://gitlab-gitlab.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com/idp-lab/helm.git
     helm_repo_browse: https://gitlab-gitlab.apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com/idp-lab/helm
     helm_repo_tag: main
