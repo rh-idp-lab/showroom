@@ -31,11 +31,11 @@ export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpa
 
 [source,bash,subs="specialcharacters,attributes"]
 ----
-cat <<EOF > rhdh-bootstrap-app.yaml
+cat <<EOF > backstage-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: rhdh-bootstrap
+  name: backstage-bootstrap
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
@@ -57,7 +57,7 @@ spec:
               clientSecret: {common_password}
 
         redhat-developer-hub-config-template:
-          nameOverride: "rhdh"
+          nameOverride: "backstage"
           namespace: rhdh
           gitlab:
             host: gitlab-gitlab.{openshift_cluster_ingress_domain}
@@ -97,7 +97,7 @@ Apply it:
 
 [source,bash]
 ----
-oc apply -f rhdh-bootstrap-app.yaml
+oc apply -f backstage-bootstrap-app.yaml
 ----
 
 == Verify
