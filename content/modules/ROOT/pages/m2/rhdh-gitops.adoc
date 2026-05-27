@@ -80,7 +80,7 @@ Confirm the application syncs in ArgoCD UI and check pods:
 
 [source,bash,subs="attributes"]
 ----
-oc get pods -n rhdh-gitops
+oc get pods -n rhdh-gitops -w
 ----
 
 == Access the new ArgoCD

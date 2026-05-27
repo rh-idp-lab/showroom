@@ -127,7 +127,8 @@ Verify from the CLI:
 
 [source,bash,subs="attributes"]
 ----
-oc get quayregistry -n quay-registry
+oc get pods -n quay-registry -w
+oc get quayregistry -n quay-registry -w
 ----
 
 == What was deployed

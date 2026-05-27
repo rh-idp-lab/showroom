@@ -95,8 +95,8 @@ Then explore the deployed workloads:
 
 [source,bash,subs="attributes"]
 ----
-oc get tektonconfig
-oc get pods -n openshift-pipelines
+oc get pods -n openshift-pipelines -w
+oc get tektonconfig -w
 ----
 
 Expect the TektonConfig to be ready and pipeline controller pods running in `openshift-pipelines`.
