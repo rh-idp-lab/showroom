@@ -10,7 +10,7 @@ GitLab is pre-installed and will serve as source code management, CI/CD pipeline
 
 == Navigate the GitLab UI
 
-* **Groups** — organize projects (e.g., `opencodequest`)
+* **Groups** — organize projects (e.g., `idp-lab`, `rhdh`)
 * **Projects** — repositories for applications and platform configs
 * **CI/CD → Pipelines** — view and run pipelines (once configured)
 * **Settings** — OAuth applications, integrations

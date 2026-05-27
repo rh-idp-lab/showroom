@@ -5,17 +5,6 @@ Red Hat Build of Keycloak provides **single sign-on (SSO)** for the entire platf
 
 Keycloak is already deployed and configured in your cluster as part of the pre-installed foundation.
 
-== Helm Chart Reference
-
-The Keycloak deployment was provisioned from the `keycloak` chart in your GitLab repository.
-Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/keycloak[{helm_repo_browse}/-/tree/{helm_repo_tag}/keycloak^]
-
-The chart deploys:
-
-* The Red Hat Build of Keycloak operator (via OLM)
-* A `Keycloak` instance exposed at https://sso.{openshift_cluster_ingress_domain}[https://sso.{openshift_cluster_ingress_domain}^]
-* A pre-configured `KeycloakRealmImport` with users, groups, and OAuth clients for the IDP
-
 == Verify the Installation
 
 Check that Keycloak pods are running and the realm import completed:
@@ -49,10 +38,10 @@ Log in with `admin` / `{common_password}`, then navigate to the **sso** realm an
 |`backstage`, `backstage-plugin`, and `openshift` — OAuth clients pre-configured for Developer Hub and Dev Spaces
 
 |*Users*
-|Platform users pre-created by the realm import (e.g., `pe1`, `dev1`)
+|Platform users pre-created by the realm import (e.g., `user1`, `user2`)
 
 |*Groups*
-|RBAC groups: `developers`, `platformengineers`, `rhdh`, `infrastructure`
+|RBAC groups: `admins`, `users`
 
 |*Realm settings → Identity Providers*
 |OpenShift identity provider — allows users to log in with their OCP credentials
