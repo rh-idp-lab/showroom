@@ -71,6 +71,8 @@ spec:
             clientSecret: {common_password}
           gitops:
             host: openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
+          kubernetes:
+            api: https://kubernetes.default.svc
           cluster:
             subdomain: {openshift_cluster_ingress_domain}
 
