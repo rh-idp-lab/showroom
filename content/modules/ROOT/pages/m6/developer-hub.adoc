@@ -20,11 +20,27 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{
 
 The chart installs the Developer Hub operator (via OLM) and a `Backstage` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
 
-== Step 1 — Retrieve the GitLab token
+== Step 1 — Retrieve required credentials
 
-[source,bash]
+[source,bash,subs="attributes"]
 ----
 export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
+
+# Retrieve the Keycloak client secret for the 'backstage' client
+export KEYCLOAK_TOKEN=$(curl -sk -X POST \
+  "https://sso.{openshift_cluster_ingress_domain}/realms/master/protocol/openid-connect/token" \
+  -d "client_id=admin-cli&username=admin&password={common_password}&grant_type=password" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+
+export CLIENT_UUID=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients?clientId=backstage" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)[0]['id'])")
+
+export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients/$CLIENT_UUID/client-secret" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
 ----
 
 == Step 2 — Create the ArgoCD Application
@@ -54,7 +70,7 @@ spec:
               token: $GITLAB_TOKEN
             oauth:
               clientId: backstage
-              clientSecret: {common_password}
+              clientSecret: $KEYCLOAK_CLIENT_SECRET
 
         redhat-developer-hub-config-template:
           nameOverride: "backstage"
@@ -68,7 +84,7 @@ spec:
             host: sso.{openshift_cluster_ingress_domain}
             realm: sso
             clientId: backstage
-            clientSecret: {common_password}
+            clientSecret: $KEYCLOAK_CLIENT_SECRET
           gitops:
             host: openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
           kubernetes:
