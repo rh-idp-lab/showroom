@@ -46,6 +46,8 @@ Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No ma
 * ArgoCD pulls the chart from Git and deploys it
 * Changes to Git are automatically reconciled (or manually synced)
 
+TIP: See xref:architecture-diagrams.adoc#_gitops_deployment_flow[GitOps Deployment Flow] diagram for a visual representation of this process.
+
 == Helm Chart Repository
 
 All platform components come from a single Helm chart repository:

@@ -75,6 +75,8 @@ Show this architecture table (you can draw it on a whiteboard or display it):
 |**Red Hat Developer Hub (Backstage)**
 |===
 
+TIP: For a polished presentation, display the xref:architecture-diagrams.adoc#_platform_overview_visual[Platform Architecture Diagram] on screen while explaining the layers.
+
 ---
 
 == Act 2: The Developer Experience [7 min]

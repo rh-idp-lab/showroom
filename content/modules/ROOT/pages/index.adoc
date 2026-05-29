@@ -52,6 +52,8 @@ An Internal Developer Platform is a self-service layer built on top of your infr
 |Red Hat Trusted Artifact Signer (Sigstore)
 |===
 
+TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual representations of the platform architecture, deployment flow, and component interactions.
+
 === Lab Structure
 
 [cols="1,1,3",options="header"]

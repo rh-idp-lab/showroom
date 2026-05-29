@@ -37,6 +37,60 @@ Participants deploy a full Internal Developer Platform (IDP) on OpenShift using 
 |Red Hat Trusted Artifact Signer
 |===
 
+=== Platform Architecture Overview
+
+[source]
+----
+┌─────────────────────────────────────────────────────────────┐
+│                     Developers (Browser)                     │
+│                  ↓ HTTPS (SSO via Keycloak)                  │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │         Red Hat Developer Hub (Backstage)            │    │
+│  │  • Service Catalog  • Software Templates             │    │
+│  │  • ArgoCD Plugin    • Tekton Plugin                  │    │
+│  └──────────────┬──────────────────┬────────────────────┘    │
+│                 │                  │                          │
+│     ┌───────────┴──────┐    ┌─────┴──────────┐              │
+│     │   Dev Spaces     │    │     GitLab     │              │
+│     │   (Cloud IDE)    │    │  (SCM + OAuth) │              │
+│     └──────────────────┘    └────────┬───────┘              │
+│                                       │                      │
+│                              ┌────────┴──────────┐           │
+│                              │ OpenShift Pipelines│           │
+│                              │     (Tekton)       │           │
+│                              │ Build → Test → Sign│           │
+│                              └┬──────┬────────┬──┘           │
+│                               │      │        │              │
+│              ┌────────────────┘      │        └───────────┐  │
+│              ↓                       ↓                    ↓  │
+│     ┌────────────────┐    ┌─────────────────┐   ┌─────────┐ │
+│     │  Red Hat Quay  │    │     Vault       │   │ OpenShift│ │
+│     │  (Registry)    │    │   (Secrets)     │   │ (Runtime)│ │
+│     └────────────────┘    └─────────────────┘   └─────────┘ │
+│                                     ↑                         │
+│                      ┌──────────────┴────────────┐           │
+│                      │ External Secrets Operator │           │
+│                      │ (Vault → K8s Secrets)     │           │
+│                      └───────────────────────────┘           │
+│                                                               │
+│  ════════════════════════════════════════════════════════    │
+│             Platform Foundation & Security                   │
+│  ════════════════════════════════════════════════════════    │
+│                                                               │
+│  • OpenShift GitOps (ArgoCD) - Deploys all components        │
+│  • Keycloak (RHBK) - SSO for entire platform                 │
+│  • Trusted Artifact Signer - Image signing (Sigstore)        │
+│  • NooBaa - S3-compatible object storage                     │
+│                                                               │
+└───────────────────────────────────────────────────────────────┘
+
+GitOps Flow: Git (Helm Charts) → ArgoCD → OpenShift Cluster
+Developer Flow: Template → GitLab Repo → Pipeline → Deployment
+----
+
+For detailed architecture diagrams, see link:content/modules/ROOT/pages/architecture-diagrams.adoc[Architecture Diagrams].
+
 == Quick Start (local preview)
 
 [source,sh]
