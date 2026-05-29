@@ -1,5 +1,17 @@
 = Platform Overview
 :navtitle: Platform Overview
+:m1-status: ⏳
+:m2-status: ⚪
+:m3-status: ⚪
+:m4-status: ⚪
+:m5-status: ⚪
+:m6-status: ⚪
+:m7-status: ⚪
+:overall-progress: 15
+:time-spent: 20
+:time-remaining: 110
+
+include::partial$progress-bar.adoc[]
 
 An **Internal Developer Platform (IDP)** is a self-service layer that reduces cognitive load for developers. Platform engineering teams build golden paths and automation so developers can focus on writing code, not configuring infrastructure.
 
@@ -76,6 +88,16 @@ Your cluster already has:
 * **Red Hat Build of Keycloak** — SSO and identity provider for all platform services
 
 In this module, you will explore these components.
+
+TIP: 💡 **Want to verify all components are healthy?** +
+At any point in this lab, you can run the platform health check script:
++
+[source,bash]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
++
+This script checks all IDP components and reports their status with a health percentage.
 
 [.text-center]
 xref:m1/explore-gitops.adoc[Explore ArgoCD (GitOps) →]

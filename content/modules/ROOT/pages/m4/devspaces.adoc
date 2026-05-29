@@ -1,5 +1,17 @@
 = Deploy Red Hat OpenShift Dev Spaces
 :navtitle: Deploy Dev Spaces
+:m1-status: ✅
+:m2-status: ✅
+:m3-status: ✅
+:m4-status: ⏳
+:m5-status: ⚪
+:m6-status: ⚪
+:m7-status: ⚪
+:overall-progress: 70
+:time-spent: 85
+:time-remaining: 45
+
+include::partial$progress-bar.adoc[]
 
 Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access — all in the browser.
 
@@ -116,23 +128,48 @@ oc apply -f devspaces-app.yaml
 
 == Step 3 — Verify the Deployment
 
+=== Verify in ArgoCD UI
+
+Open the ArgoCD UI and confirm the `devspaces` application syncs successfully and shows **Healthy** status.
+
+ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/devspaces[Dev Spaces Application in ArgoCD^]
+
+=== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to *Operators → Installed Operators*
+. Select the `openshift-devspaces` project from the dropdown
+. Confirm **Red Hat OpenShift Dev Spaces** appears with status `Succeeded`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-devspaces/operators.coreos.com~v1alpha1~ClusterServiceVersion[Installed Operators (openshift-devspaces)^]
+
+. Navigate to *Workloads → Pods*
+. Ensure you're in the `openshift-devspaces` project
+. Verify the Dev Spaces server pods are `Running`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-devspaces/core~v1~Pod[Pods (openshift-devspaces)^]
+
+=== Verify with CLI
+
 [source,bash,subs="attributes"]
 ----
-oc get pods -n openshift-devspaces
+oc get pods -n openshift-devspaces -w
 ----
 
-You can also track progress in the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD UI^] under the `devspaces` application.
-
-In the OpenShift Console:
-
-. Navigate to *Ecosystem → Installed Operators*
-. Select the `openshift-devspaces` project
-. Confirm **Red Hat OpenShift Dev Spaces** appears with status `Succeeded`
+TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods show `Running` and `1/1` or `2/2` READY.
 
 == Step 4 — Access Dev Spaces
 
 Once all pods are running, open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
 
 Log in with your GitLab credentials — Dev Spaces will redirect you to GitLab OAuth and then open your workspace.
+
+TIP: 💡 **Platform health check** +
+Verify all components are healthy:
++
+[source,bash]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
 
 xref:m5/trusted-artifact-signer.adoc[Next: Module 5 — Deploy Trusted Artifact Signer →]

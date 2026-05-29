@@ -31,6 +31,9 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/quay[{helm_repo_browse
 
 The chart installs both the Quay Operator (via an OLM `Subscription`) and a `QuayRegistry` instance in one shot.
 
+TIP: 💨 **Already familiar with the GitOps pattern?** +
+You deployed Pipelines in the previous section using the same create-apply-verify workflow. If you're comfortable with it, you can fast-track this deployment by skipping ahead to xref:m2/quay.adoc#_apply_the_application[Apply the Application], or continue below for the full walkthrough.
+
 == Create the ArgoCD Application
 
 [source,bash,subs="attributes"]
@@ -91,15 +94,19 @@ oc apply -f quay-application.yaml
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Ecosystem → Installed Operators*
-. Select the `quay-registry` project (or *All Projects*)
+. Navigate to *Operators → Installed Operators*
+. Select the `quay-registry` project from the dropdown
 . Confirm **Red Hat Quay** appears with status `Succeeded`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/quay-registry/operators.coreos.com~v1alpha1~ClusterServiceVersion[Installed Operators (quay-registry)^]
 
 Then explore the deployed workloads:
 
-. Navigate to *Workloads → Topology*
-. Switch to the `quay-registry` project
+. Navigate to *Workloads → Pods*
+. Ensure you're in the `quay-registry` project
 . You should see the Quay application pods (app, Clair scanner, database, Redis) coming up progressively
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/quay-registry/core~v1~Pod[Pods (quay-registry)^]
 
 == Monitor the deployment
 
@@ -110,7 +117,11 @@ Quay takes a few minutes to initialise — the operator must first provision Pos
 oc get pods -n quay-registry -w
 ----
 
+TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods show `Running` and `1/1` or `2/2` READY.
+
 You can also track progress in the ArgoCD UI under the `quay` application. All resources should reach *Synced / Healthy* status before moving on.
+
+ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/quay[Quay Application in ArgoCD^]
 
 == Verify Quay is accessible
 
@@ -123,13 +134,21 @@ Log in with:
 * *Username:* `quayadmin`
 * *Password:* `{common_password}`
 
-Verify from the CLI:
+Verify from the CLI that all pods are running:
 
 [source,bash,subs="attributes"]
 ----
-oc get pods -n quay-registry -w
+oc get pods -n quay-registry
+----
+
+Then check the QuayRegistry status:
+
+[source,bash,subs="attributes"]
+----
 oc get quayregistry -n quay-registry -w
 ----
+
+TIP: Press **Ctrl+C** once you see `REGISTRY ENDPOINT` populated and `AVAILABLE: true`.
 
 == What was deployed
 

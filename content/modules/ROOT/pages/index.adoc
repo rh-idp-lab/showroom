@@ -1,6 +1,18 @@
 = How to Create Your Internal Developer Platform in 2 Hours
 :page-layout: home
 :!sectids:
+:m1-status: ⚪
+:m2-status: ⚪
+:m3-status: ⚪
+:m4-status: ⚪
+:m5-status: ⚪
+:m6-status: ⚪
+:m7-status: ⚪
+:overall-progress: 0
+:time-spent: 0
+:time-remaining: 130
+
+include::partial$progress-bar.adoc[]
 
 == Welcome!
 

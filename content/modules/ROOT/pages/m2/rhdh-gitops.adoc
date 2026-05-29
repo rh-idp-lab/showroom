@@ -74,14 +74,29 @@ EOF
 oc apply -f rhdh-gitops-application.yaml
 ----
 
-== Verify
+== Verify in ArgoCD UI
 
-Confirm the application syncs in ArgoCD UI and check pods:
+Open the ArgoCD UI and confirm the `rhdh-gitops` application syncs successfully and shows **Healthy** status.
+
+ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/rhdh-gitops[RHDH GitOps Application in ArgoCD^]
+
+== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to *Workloads → Pods*
+. Select the `rhdh-gitops` project from the dropdown
+. Verify the ArgoCD server, repo-server, and application-controller pods are `Running`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/rhdh-gitops/core~v1~Pod[Pods (rhdh-gitops)^]
+
+== Verify with CLI
 
 [source,bash,subs="attributes"]
 ----
 oc get pods -n rhdh-gitops -w
 ----
+
+TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods show `Running` and `1/1` or `2/2` READY.
 
 == Access the new ArgoCD
 
