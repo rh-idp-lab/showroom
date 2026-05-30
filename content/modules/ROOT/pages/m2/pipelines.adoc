@@ -97,7 +97,7 @@ Open the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ing
 . Select the `openshift-operators` project from the dropdown
 . Confirm **Red Hat OpenShift Pipelines** appears with status `Succeeded`
 
-Direct link: link:++https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/all-namespaces/operators.coreos.com~v1alpha1~ClusterServiceVersion++[Installed Operators^]
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/all-namespaces/operators.coreos.com%7Ev1alpha1%7EClusterServiceVersion[Installed Operators^]
 
 Then explore the deployed workloads:
 
