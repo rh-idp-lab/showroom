@@ -101,11 +101,10 @@ Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain
 
 Then explore the deployed workloads:
 
-. In the Console, navigate to *Workloads → Pods*
-. Switch to the `openshift-pipelines` project from the dropdown
+. Navigate to the *Topology* view in the `openshift-pipelines` project
 . You should see the Pipelines controller, webhook, and trigger components with `Running` status
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-pipelines/core~v1~Pod[Pods (openshift-pipelines)^]
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/openshift-pipelines?view=graph[Topology (openshift-pipelines)^]
 
 == Verify with CLI
 

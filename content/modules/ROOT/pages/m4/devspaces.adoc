@@ -143,11 +143,12 @@ ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster
 
 Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-devspaces/operators.coreos.com~v1alpha1~ClusterServiceVersion[Installed Operators (openshift-devspaces)^]
 
-. Navigate to *Workloads → Pods*
-. Ensure you're in the `openshift-devspaces` project
+Then explore the deployed workloads:
+
+. Navigate to the *Topology* view in the `openshift-devspaces` project
 . Verify the Dev Spaces server pods are `Running`
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-devspaces/core~v1~Pod[Pods (openshift-devspaces)^]
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/openshift-devspaces?view=graph[Topology (openshift-devspaces)^]
 
 === Verify with CLI
 

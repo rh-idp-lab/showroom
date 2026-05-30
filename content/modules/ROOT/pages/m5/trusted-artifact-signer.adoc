@@ -102,15 +102,16 @@ oc apply -f trusted-artifact-signer-app.yaml
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Ecosystem → Installed Operators*
+. Navigate to *Operators → Installed Operators*
 . Select the `trusted-artifact-signer` project
 . Confirm **Red Hat Trusted Artifact Signer** appears with status `Succeeded`
 
 Then explore the deployed workloads:
 
-. Navigate to *Workloads → Topology*
-. Switch to the `trusted-artifact-signer` project
+. Navigate to the *Topology* view in the `trusted-artifact-signer` project
 . You should see the Fulcio, Rekor, Trillian, TUF, and TSA components coming up
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/trusted-artifact-signer?view=graph[Topology (trusted-artifact-signer)^]
 
 == Verify with CLI
 

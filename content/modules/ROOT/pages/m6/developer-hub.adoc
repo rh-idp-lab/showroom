@@ -141,11 +141,10 @@ ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster
 === Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Workloads → Pods*
-. Select the `rhdh` project from the dropdown
+. Navigate to the *Topology* view in the `rhdh` project
 . Verify all Developer Hub pods are `Running`
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/rhdh/core~v1~Pod[Pods (rhdh)^]
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/rhdh?view=graph[Topology (rhdh)^]
 
 === Verify with CLI
 

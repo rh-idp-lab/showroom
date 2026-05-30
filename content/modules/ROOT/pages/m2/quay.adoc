@@ -102,11 +102,10 @@ Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain
 
 Then explore the deployed workloads:
 
-. Navigate to *Workloads → Pods*
-. Ensure you're in the `quay-registry` project
+. Navigate to the *Topology* view in the `quay-registry` project
 . You should see the Quay application pods (app, Clair scanner, database, Redis) coming up progressively
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/quay-registry/core~v1~Pod[Pods (quay-registry)^]
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/quay-registry?view=graph[Topology (quay-registry)^]
 
 == Monitor the deployment
 
