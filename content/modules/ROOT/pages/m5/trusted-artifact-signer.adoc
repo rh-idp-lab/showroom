@@ -117,8 +117,8 @@ Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain
 
 [source,bash,subs="attributes"]
 ----
+oc get pods -n trusted-artifact-signer -w
 oc get securesign -n trusted-artifact-signer
-oc get pods -n trusted-artifact-signer
 ----
 
 Expect the `SecureSign` instance to reach `Ready` status and all pods to show `Running`.
