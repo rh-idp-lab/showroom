@@ -98,7 +98,7 @@ oc apply -f quay-application.yaml
 . Select the `quay-registry` project from the dropdown
 . Confirm **Red Hat Quay** appears with status `Succeeded`
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/quay-registry/operators.coreos.com~v1alpha1~ClusterServiceVersion[Installed Operators (quay-registry)^]
+Direct link: link:++https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/all-namespaces/operators.coreos.com~v1alpha1~ClusterServiceVersion++[Installed Operators^]
 
 Then explore the deployed workloads:
 

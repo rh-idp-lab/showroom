@@ -141,7 +141,7 @@ ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster
 . Select the `openshift-devspaces` project from the dropdown
 . Confirm **Red Hat OpenShift Dev Spaces** appears with status `Succeeded`
 
-Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/ns/openshift-devspaces/operators.coreos.com~v1alpha1~ClusterServiceVersion[Installed Operators (openshift-devspaces)^]
+Direct link: link:++https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/all-namespaces/operators.coreos.com~v1alpha1~ClusterServiceVersion++[Installed Operators^]
 
 Then explore the deployed workloads:
 
