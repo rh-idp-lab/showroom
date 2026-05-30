@@ -129,7 +129,7 @@ TAS integrates with OpenShift Pipelines so that Tekton tasks can sign container 
 TIP: 💡 **Platform health check** +
 Verify all components are healthy:
 +
-[source,bash]
+[source,bash,subs="attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----

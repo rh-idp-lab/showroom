@@ -132,7 +132,7 @@ TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in
 TIP: 💡 **Platform health check** +
 You can check all platform components at any time with:
 +
-[source,bash]
+[source,bash,subs="attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----

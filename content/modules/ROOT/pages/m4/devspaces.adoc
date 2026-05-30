@@ -167,7 +167,7 @@ Log in with your GitLab credentials — Dev Spaces will redirect you to GitLab O
 TIP: 💡 **Platform health check** +
 Verify all components are healthy:
 +
-[source,bash]
+[source,bash,subs="attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----

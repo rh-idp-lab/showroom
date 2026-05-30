@@ -92,7 +92,7 @@ In this module, you will explore these components.
 TIP: 💡 **Want to verify all components are healthy?** +
 At any point in this lab, you can run the platform health check script:
 +
-[source,bash]
+[source,bash,subs="attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
