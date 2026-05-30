@@ -89,14 +89,11 @@ Your cluster already has:
 
 In this module, you will explore these components.
 
-TIP: 💡 **Want to verify all components are healthy?** At any point in this lab, you can run this command to check all IDP components:
-+
+TIP: 💡 **Want to verify all components are healthy?** At any point in this lab, you can run the platform health check script below. This script checks all IDP components and reports their status with a health percentage.
+
 [source,bash,subs="attributes"]
 ----
-for ns in openshift-gitops gitlab vault openshift-storage sso openshift-pipelines quay-registry external-secrets rhdh-gitops openshift-devspaces trusted-artifact-signer rhdh; do
-  echo -n "$(echo $ns | awk '{print toupper(substr($0,1,1)) substr($0,2)}' | sed 's/-/ /g'): "
-  oc get pods -n $ns --no-headers 2>/dev/null | awk '{if ($3=="Running" && $2~/\//){split($2,a,"/"); if(a[1]==a[2]) r++} t++} END {if(t>0) print r"/"t" ready"; else print "not deployed"}'
-done
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
 
 [.text-center]
