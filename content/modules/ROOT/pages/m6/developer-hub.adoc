@@ -160,15 +160,11 @@ TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop wa
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 
-[TIP,subs="attributes+"]
-====
-💡 **Platform health check** +
-Verify all components are healthy:
+TIP: 💡 **Platform health check** — Verify all components are healthy with the script below.
 
-[source,bash]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-====
 
 xref:m6/configure-rhdh.adoc[Next: Configure the Developer Hub portal →]

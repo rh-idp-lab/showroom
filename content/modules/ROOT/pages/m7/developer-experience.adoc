@@ -40,15 +40,11 @@ Switch perspective: use the IDP you built as a developer would — from template
 
 If Trusted Artifact Signer is integrated with your pipeline, confirm that the built image is signed and verifiable.
 
-[TIP,subs="attributes+"]
-====
-💡 **Platform health check** +
-Verify all components are healthy:
+TIP: 💡 **Platform health check** — Verify all components are healthy with the script below.
 
-[source,bash]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-====
 
 xref:m7/conclusion.adoc[Next: Conclusion & Next Steps →]

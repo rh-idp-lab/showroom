@@ -129,16 +129,12 @@ Press **Ctrl+C** once the TektonConfig shows `Ready=True`.
 
 TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in action: ArgoCD Application → Helm chart → reconciled resources. Every subsequent deployment follows this same pattern. This is the foundation of your IDP — version-controlled infrastructure as code.
 
-[TIP,subs="attributes+"]
-====
-💡 **Platform health check** +
-You can check all platform components at any time with:
+TIP: 💡 **Platform health check** — You can check all platform components at any time with the script below.
 
-[source,bash]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-====
 
 == Next
 

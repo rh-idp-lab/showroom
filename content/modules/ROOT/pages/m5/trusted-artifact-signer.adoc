@@ -126,15 +126,11 @@ Expect the `SecureSign` instance to reach `Ready` status and all pods to show `R
 
 TAS integrates with OpenShift Pipelines so that Tekton tasks can sign container images automatically. Configure your pipeline tasks to use the Sigstore signing service; signed artifacts are then verifiable for supply chain compliance.
 
-[TIP,subs="attributes+"]
-====
-💡 **Platform health check** +
-Verify all components are healthy:
+TIP: 💡 **Platform health check** — Verify all components are healthy with the script below.
 
-[source,bash]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-====
 
 xref:m6/developer-hub.adoc[Next: Module 6 — Deploy Red Hat Developer Hub →]

@@ -89,18 +89,12 @@ Your cluster already has:
 
 In this module, you will explore these components.
 
-[TIP,subs="attributes+"]
-====
-💡 **Want to verify all components are healthy?** +
-At any point in this lab, you can run the platform health check script:
+TIP: 💡 **Want to verify all components are healthy?** At any point in this lab, you can run the platform health check script below. This script checks all IDP components and reports their status with a health percentage.
 
-[source,bash]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-
-This script checks all IDP components and reports their status with a health percentage.
-====
 
 [.text-center]
 xref:m1/explore-gitops.adoc[Explore ArgoCD (GitOps) →]
