@@ -164,12 +164,15 @@ Once all pods are running, open: https://devspaces.{openshift_cluster_ingress_do
 
 Log in with your GitLab credentials — Dev Spaces will redirect you to GitLab OAuth and then open your workspace.
 
-TIP: 💡 **Platform health check** +
+[TIP,subs="attributes+"]
+====
+💡 **Platform health check** +
 Verify all components are healthy:
-+
-[source,bash,subs="attributes"]
+
+[source,bash]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/platform/helm-charts/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
+====
 
 xref:m5/trusted-artifact-signer.adoc[Next: Module 5 — Deploy Trusted Artifact Signer →]
