@@ -1,5 +1,17 @@
 = Deploy OpenShift Pipelines
 :navtitle: Deploy OpenShift Pipelines
+:m1-status: ✅
+:m2-status: ⏳
+:m3-status: ⚪
+:m4-status: ⚪
+:m5-status: ⚪
+:m6-status: ⚪
+:m7-status: ⚪
+:overall-progress: 25
+:time-spent: 30
+:time-remaining: 100
+
+include::partial$progress-bar.adoc[]
 
 == Why OpenShift Pipelines?
 
@@ -81,25 +93,47 @@ Open the https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ing
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Ecosystem → Installed Operators*
-. Select the `openshift-operators` project (or *All Projects*)
+. Navigate to *Operators → Installed Operators*
+. Select the `openshift-operators` project from the dropdown
 . Confirm **Red Hat OpenShift Pipelines** appears with status `Succeeded`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/k8s/all-namespaces/operators.coreos.com%7Ev1alpha1%7EClusterServiceVersion[Installed Operators^]
 
 Then explore the deployed workloads:
 
-. In the Console, navigate to *Workloads → Topology*
-. Switch to the `openshift-pipelines` project
-. You should see the Pipelines controller, webhook, and trigger components as running pods
+. Navigate to the *Topology* view in the `openshift-pipelines` project
+. You should see the Pipelines controller, webhook, and trigger components with `Running` status
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/openshift-pipelines?view=graph[Topology (openshift-pipelines)^]
 
 == Verify with CLI
 
 [source,bash,subs="attributes"]
 ----
 oc get pods -n openshift-pipelines -w
+----
+
+TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching.
+
+Expect pipeline controller pods to show `Running` status and `1/1` or `2/2` READY.
+
+Then verify the TektonConfig:
+
+[source,bash,subs="attributes"]
+----
 oc get tektonconfig -w
 ----
 
-Expect the TektonConfig to be ready and pipeline controller pods running in `openshift-pipelines`.
+Press **Ctrl+C** once the TektonConfig shows `Ready=True`.
+
+TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in action: ArgoCD Application → Helm chart → reconciled resources. Every subsequent deployment follows this same pattern. This is the foundation of your IDP — version-controlled infrastructure as code.
+
+TIP: 💡 **Platform health check** — You can check all platform components at any time.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
 
 == Next
 

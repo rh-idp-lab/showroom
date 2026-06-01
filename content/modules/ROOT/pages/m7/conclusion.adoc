@@ -1,5 +1,19 @@
 = Conclusion and Next Steps
 :navtitle: Conclusion & Next Steps
+:m1-status: ✅
+:m2-status: ✅
+:m3-status: ✅
+:m4-status: ✅
+:m5-status: ✅
+:m6-status: ✅
+:m7-status: ✅
+:overall-progress: 100
+:time-spent: 130
+:time-remaining: 0
+
+include::partial$progress-bar.adoc[]
+
+TIP: 🎉 **Congratulations!** You've completed the entire IDP lab. You successfully deployed a production-ready Internal Developer Platform using GitOps principles. Every component you deployed — from Pipelines to Developer Hub — is now part of a cohesive platform that empowers developers to ship faster with golden paths, self-service, and built-in security.
 
 == What You Built
 

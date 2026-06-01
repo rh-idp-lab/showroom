@@ -1,0 +1,21 @@
+// Progress bar partial - include in each module
+
+[discrete]
+== Your Progress
+
+[cols="7*",frame=none,grid=none]
+|===
+| Module 1 | Module 2 | Module 3 | Module 4 | Module 5 | Module 6 | Module 7
+
+a| {m1-status}
+a| {m2-status}
+a| {m3-status}
+a| {m4-status}
+a| {m5-status}
+a| {m6-status}
+a| {m7-status}
+|===
+
+*Overall Progress*: {overall-progress}% • *Time Spent*: ~{time-spent} min • *Estimated Remaining*: ~{time-remaining} min
+
+---

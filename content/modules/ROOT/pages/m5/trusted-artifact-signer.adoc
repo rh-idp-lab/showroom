@@ -1,5 +1,17 @@
 = Deploy Red Hat Trusted Artifact Signer
 :navtitle: Deploy Trusted Artifact Signer
+:m1-status: ✅
+:m2-status: ✅
+:m3-status: ✅
+:m4-status: ✅
+:m5-status: ⏳
+:m6-status: ⚪
+:m7-status: ⚪
+:overall-progress: 80
+:time-spent: 95
+:time-remaining: 35
+
+include::partial$progress-bar.adoc[]
 
 Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to cryptographically sign container images and verify their provenance — ensuring that what runs in production is exactly what was built in CI.
 
@@ -90,22 +102,23 @@ oc apply -f trusted-artifact-signer-app.yaml
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Ecosystem → Installed Operators*
+. Navigate to *Operators → Installed Operators*
 . Select the `trusted-artifact-signer` project
 . Confirm **Red Hat Trusted Artifact Signer** appears with status `Succeeded`
 
 Then explore the deployed workloads:
 
-. Navigate to *Workloads → Topology*
-. Switch to the `trusted-artifact-signer` project
+. Navigate to the *Topology* view in the `trusted-artifact-signer` project
 . You should see the Fulcio, Rekor, Trillian, TUF, and TSA components coming up
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/trusted-artifact-signer?view=graph[Topology (trusted-artifact-signer)^]
 
 == Verify with CLI
 
 [source,bash,subs="attributes"]
 ----
+oc get pods -n trusted-artifact-signer -w
 oc get securesign -n trusted-artifact-signer
-oc get pods -n trusted-artifact-signer
 ----
 
 Expect the `SecureSign` instance to reach `Ready` status and all pods to show `Running`.
@@ -113,5 +126,12 @@ Expect the `SecureSign` instance to reach `Ready` status and all pods to show `R
 == Integration with Tekton pipelines
 
 TAS integrates with OpenShift Pipelines so that Tekton tasks can sign container images automatically. Configure your pipeline tasks to use the Sigstore signing service; signed artifacts are then verifiable for supply chain compliance.
+
+TIP: 💡 **Platform health check** — Verify all components are healthy.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
 
 xref:m6/developer-hub.adoc[Next: Module 6 — Deploy Red Hat Developer Hub →]
