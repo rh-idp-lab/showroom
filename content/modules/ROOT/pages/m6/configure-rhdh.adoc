@@ -11,17 +11,17 @@ Developer Hub is already deployed and configured via GitOps. In this section, yo
 
 == Configuration as Code
 
-The entire Developer Hub configuration — plugins, integrations, catalog sources, theme — is managed as code in a dedicated GitLab repository:
+The entire Developer Hub configuration is managed as code in a dedicated GitLab repository:
 
 https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]
 
-This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
+This repository contains the `values.yaml` that configures the Red Hat Developer Hub Helm chart. This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
 
-Browse the repository to see:
+Browse the `values.yaml` to see:
 
-* `app-config.yaml` — Main Backstage configuration (integrations, auth, catalog)
-* Plugin configurations — Which plugins are enabled and how they connect to platform services
-* Catalog locations — Where Developer Hub discovers components, APIs, and templates
+* **RHDH configuration** — Authentication (Keycloak OIDC), integrations (GitLab, ArgoCD), base URL, and theme
+* **Plugin configuration** — Which dynamic plugins are enabled (Tekton, ArgoCD, Kubernetes, Keycloak, Quay, etc.) and their settings
+* **Catalog configuration** — Catalog locations, rules, and providers that define where Developer Hub discovers components, APIs, users, groups, and templates
 
 == Explore the Catalog
 
