@@ -1,5 +1,17 @@
 = Deploy Red Hat Developer Hub
 :navtitle: Deploy Red Hat Developer Hub
+:m1-status: ✅
+:m2-status: ✅
+:m3-status: ✅
+:m4-status: ✅
+:m5-status: ✅
+:m6-status: ⏳
+:m7-status: ⚪
+:overall-progress: 90
+:time-spent: 110
+:time-remaining: 20
+
+include::partial$progress-bar.adoc[]
 
 You have deployed all the platform services: GitOps, CI/CD pipelines, secrets management, SSO, a cloud IDE, and supply chain signing. Now it is time to tie them all together with a **developer portal**.
 
@@ -120,15 +132,38 @@ oc apply -f backstage-bootstrap-app.yaml
 
 == Verify
 
+=== Verify in ArgoCD UI
+
+Open the ArgoCD UI and confirm the `backstage-bootstrap` application syncs successfully and shows **Healthy** status.
+
+ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/backstage-bootstrap[Backstage Bootstrap Application in ArgoCD^]
+
+=== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to the *Topology* view in the `rhdh` project
+. Verify all Developer Hub pods are `Running`
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/rhdh?view=graph[Topology (rhdh)^]
+
+=== Verify with CLI
+
 [source,bash,subs="attributes"]
 ----
-oc get pods -n rhdh
+oc get pods -n rhdh -w
 ----
 
-Wait until all pods report `Running` and `1/1` or `2/2` READY.
+TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods report `Running` and `1/1` or `2/2` READY.
 
 == Access Developer Hub
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
+
+TIP: 💡 **Platform health check** — Verify all components are healthy.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
 
 xref:m6/configure-rhdh.adoc[Next: Configure the Developer Hub portal →]
