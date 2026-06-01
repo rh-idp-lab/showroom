@@ -1,4 +1,4 @@
-* xref:demo/guide.adoc[Demo Guide (30 min)]
+* xref:demo/guide.adoc[Demo Guide (45 min)]
 
 * xref:index.adoc[Introduction]
 * xref:architecture-diagrams.adoc[Architecture Diagrams]
