@@ -13,7 +13,7 @@ Developer Hub is already deployed and configured via GitOps. In this section, yo
 
 The entire Developer Hub configuration — plugins, integrations, catalog sources, theme — is managed as code in a dedicated GitLab repository:
 
-{helm_repo_browse}/../developer-hub-config[Developer Hub Config Repository^]
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]
 
 This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
 
@@ -98,6 +98,6 @@ Developer Hub extends Backstage with a curated set of plugins:
 |Technology assessment and adoption status
 |===
 
-TIP: The list of enabled plugins and their configuration is in the {helm_repo_browse}/../developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git — ArgoCD handles the rest.
+TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git — ArgoCD handles the rest.
 
 xref:m6/templates.adoc[Next: Create Software Templates →]
