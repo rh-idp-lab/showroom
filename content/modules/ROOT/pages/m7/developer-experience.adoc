@@ -13,6 +13,13 @@
 
 include::partial$progress-bar.adoc[]
 
+[NOTE]
+====
+*Challenge #9: "Great, you built a platform. Now show me a developer can ship code without your help."*
+
+The CTO is watching. You've built the platform — now prove it works. Switch perspective: you're no longer the Platform Engineer. You're a GlobeX developer who just needs to ship a feature. No Helm, no ArgoCD, no Vault — just the portal, a template, and your code.
+====
+
 Switch perspective: use the IDP you built as a developer would — from template selection to deployment.
 
 == Run a Software Template

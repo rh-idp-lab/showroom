@@ -13,6 +13,13 @@
 
 include::partial$progress-bar.adoc[]
 
+[NOTE]
+====
+*Challenge #8: "Developers need 6 different logins. They can't find anything."*
+
+You've built all the pieces: pipelines, registry, secrets, IDE, signing. But GlobeX developers still have to know about ArgoCD, Tekton, Quay, Vault, Dev Spaces — and log into each one separately. The CTO's vision was _one place_ for everything. Time to build that front door.
+====
+
 You have deployed all the platform services: GitOps, CI/CD pipelines, secrets management, SSO, a cloud IDE, and supply chain signing. Now it is time to tie them all together with a **developer portal**.
 
 Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. It acts as the **single gateway** to your entire Internal Developer Platform — the one place where developers discover services, browse APIs, read documentation, and instantiate golden-path templates. It integrates with every service you have deployed so far:

@@ -1,7 +1,7 @@
 = Create Software Templates (Golden Paths)
 :navtitle: Create Software Templates
 
-Software Templates are opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths.
+The portal is live, the catalog is populated, but developers still can't create new projects without your help. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths — the ultimate self-service experience.
 
 == Template structure
 

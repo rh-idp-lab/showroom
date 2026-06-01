@@ -13,6 +13,13 @@
 
 include::partial$progress-bar.adoc[]
 
+[NOTE]
+====
+*Challenge #2: "Works on Alice's machine, fails on Bob's. Every developer runs builds differently."*
+
+GlobeX's developers each have their own build scripts, their own local toolchains, and their own "it works for me" stories. You need a single, reproducible CI/CD system that runs builds the same way every time — inside containers, on the cluster.
+====
+
 == Why OpenShift Pipelines?
 
 For CI/CD pipelines in this IDP, we chose **OpenShift Pipelines** (based on Tekton) rather than GitLab CI. Both are valid options — GitLab CI is already available in this cluster and perfectly capable of running pipelines. However, OpenShift Pipelines offers a compelling advantage for a platform engineering context:

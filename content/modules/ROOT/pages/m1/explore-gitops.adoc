@@ -1,7 +1,7 @@
 = Explore ArgoCD (OpenShift GitOps)
 :navtitle: Explore ArgoCD
 
-ArgoCD is the GitOps engine. It watches Git repositories and keeps your cluster in sync with the desired state defined in Git.
+Your first discovery: the cluster has a GitOps engine already running. ArgoCD watches Git repositories and keeps the cluster in sync with the desired state defined in Git. This will be the backbone of everything you build — every platform component you deploy will go through ArgoCD.
 
 == Open the ArgoCD UI
 

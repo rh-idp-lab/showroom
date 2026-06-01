@@ -1,7 +1,7 @@
 = Explore Red Hat Build of Keycloak
 :navtitle: Explore Keycloak (RHBK)
 
-Red Hat Build of Keycloak provides **single sign-on (SSO)** for the entire platform. Developer Hub, Dev Spaces, and ArgoCD all authenticate users through Keycloak, eliminating separate logins and centralizing identity management.
+Last piece of the foundation: identity. The CTO mentioned that developers need 6 different logins — that ends here. Red Hat Build of Keycloak provides **single sign-on (SSO)** for the entire platform. Developer Hub, Dev Spaces, and ArgoCD will all authenticate users through Keycloak, eliminating separate logins and centralizing identity management.
 
 Keycloak is already deployed and configured in your cluster as part of the pre-installed foundation.
 
@@ -47,16 +47,16 @@ Log in with `admin` / `{common_password}`, then navigate to the **sso** realm an
 |OpenShift identity provider — allows users to log in with their OCP credentials
 |===
 
-== Module 1 Summary
+== Challenge #1 Complete
 
-You have explored the complete pre-installed foundation:
+You've mapped out GlobeX Corp's existing foundation. Now you know what's in place:
 
 * **ArgoCD** — GitOps engine; deploys from Helm charts in Git
 * **GitLab** — source code, CI/CD, OAuth provider
 * **Vault** — centralized secrets; ESO will bridge to Kubernetes
 * **Keycloak** — SSO and identity federation for all platform services
 
-Next, you will deploy the CI/CD layer.
+These are your building blocks. Next challenge: the CTO reports that _"Works on Alice's machine, fails on Bob's"_ — it's time to fix GlobeX's inconsistent build process.
 
 [.text-center]
 xref:m2/pipelines.adoc[Continue to Module 2: Build the CI/CD Layer →]

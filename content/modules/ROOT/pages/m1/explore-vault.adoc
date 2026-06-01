@@ -1,7 +1,7 @@
 = Explore Vault
 :navtitle: Explore Vault
 
-HashiCorp Vault provides **centralized secrets management** for the IDP. Application secrets (API keys, passwords, certificates) are stored in Vault and injected into Kubernetes via External Secrets Operator (deployed in Module 2).
+You found a secrets vault! HashiCorp Vault provides **centralized secrets management** for the IDP. This is critical — later you'll discover that GlobeX developers currently share secrets via Slack DMs. Vault is the solution, but it needs to be wired into the platform. For now, let's see what's there.
 
 == Vault's Role in the IDP
 

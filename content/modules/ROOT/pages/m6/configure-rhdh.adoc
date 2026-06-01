@@ -1,7 +1,7 @@
 = Explore the Developer Hub Portal
 :navtitle: Explore the Portal
 
-Developer Hub is already deployed and configured via GitOps. In this section, you explore what was deployed, how it's configured, and what integrations are active.
+Developer Hub is deployed and configured via GitOps. Now step into a developer's shoes for the first time: open the portal, see what's discoverable, and understand how the configuration-as-code approach keeps everything version-controlled.
 
 == Sign in with SSO
 
