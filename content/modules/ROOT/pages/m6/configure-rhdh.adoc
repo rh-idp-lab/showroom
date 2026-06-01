@@ -1,5 +1,7 @@
-= Configure the Developer Hub Portal
-:navtitle: Configure the Portal
+= Explore the Developer Hub Portal
+:navtitle: Explore the Portal
+
+Developer Hub is already deployed and configured via GitOps. In this section, you explore what was deployed, how it's configured, and what integrations are active.
 
 == Sign in with SSO
 
@@ -7,32 +9,95 @@
 . Click **Sign in with SSO**.
 . Authenticate via Keycloak using your lab credentials.
 
-== Explore the Backstage UI
+== Configuration as Code
 
-* **Catalog** — Browse components, APIs, and documentation.
-* **APIs** — View API definitions registered in the catalog.
-* **Docs** — Technical documentation.
-* **Tech Radar** — Assess technologies and tools.
+The entire Developer Hub configuration — plugins, integrations, catalog sources, theme — is managed as code in a dedicated GitLab repository:
 
-== Verify integrations
+{helm_repo_browse}/../developer-hub-config[Developer Hub Config Repository^]
 
-=== GitLab integration
+This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
 
-. Go to **Integrations** or a component backed by GitLab.
-. Confirm that repositories from your GitLab instance are discovered.
+Browse the repository to see:
 
-=== ArgoCD integration
+* `app-config.yaml` — Main Backstage configuration (integrations, auth, catalog)
+* Plugin configurations — Which plugins are enabled and how they connect to platform services
+* Catalog locations — Where Developer Hub discovers components, APIs, and templates
 
-. Open the ArgoCD plugin view.
-. Confirm that ArgoCD applications are listed and their sync status is visible.
+== Explore the Catalog
 
-== Plugin ecosystem
+The Catalog is the heart of Developer Hub. Navigate to **Catalog** in the left menu.
 
-Developer Hub extends Backstage with plugins for:
+=== Users & Groups
 
-* **Kubernetes** — View cluster resources.
-* **Tekton** — Inspect pipelines and runs.
-* **ArgoCD** — Manage GitOps applications.
-* **Keycloak** — SSO and user synchronization.
+. Click on **Kind** filter and select **User**
+. You should see the users synced from Keycloak — "These are your platform users, imported automatically from the SSO realm."
+. Switch to **Group** — "Teams and roles from Keycloak map to ownership in Developer Hub."
+
+This sync is handled by the **Keycloak Org Entity Provider** plugin. Every user and group in the `sso` realm is automatically reflected in the catalog.
+
+=== Components
+
+. Switch the **Kind** filter to **Component**
+. Browse the registered components — each one represents a service, library, or application
+. Click on a component to see its detail page:
+** **Overview** — Owner, lifecycle, system, description
+** **CI/CD** — Tekton pipeline runs (via the Tekton plugin)
+** **Dependencies** — Upstream and downstream service relationships
+** **Docs** — Technical documentation (TechDocs)
+
+=== APIs
+
+. Switch to **Kind → API**
+. If APIs are registered, you can browse their definitions (OpenAPI, gRPC, AsyncAPI)
+. "APIs are first-class citizens in the catalog — discoverable, documented, and linked to their owning component."
+
+== Verify Integrations
+
+=== GitLab
+
+. Navigate to a component backed by GitLab
+. Confirm that the source code link points to your GitLab instance
+. "Developer Hub discovers repositories from GitLab automatically via the GitLab integration."
+
+=== ArgoCD
+
+. Open a component that has an ArgoCD Application
+. Check the **ArgoCD** tab — you should see the sync status and health
+. "Real-time deployment status, without leaving the portal."
+
+=== Tekton
+
+. Check the **CI/CD** tab on a component
+. Pipeline runs are listed with their status, duration, and logs
+. "Developers see their build history without switching to the OpenShift Console."
+
+== Plugin Ecosystem
+
+Developer Hub extends Backstage with a curated set of plugins:
+
+[cols="1,3",options="header"]
+|===
+|Plugin |What It Provides
+
+|**Kubernetes**
+|View cluster resources (pods, deployments) for a component
+
+|**Tekton**
+|Pipeline runs, logs, and build status
+
+|**ArgoCD**
+|GitOps sync status and application health
+
+|**Keycloak**
+|SSO authentication and user/group sync into the catalog
+
+|**Quay**
+|Container image details and vulnerability scan results
+
+|**Tech Radar**
+|Technology assessment and adoption status
+|===
+
+TIP: The list of enabled plugins and their configuration is in the {helm_repo_browse}/../developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git — ArgoCD handles the rest.
 
 xref:m6/templates.adoc[Next: Create Software Templates →]

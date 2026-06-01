@@ -29,7 +29,7 @@
 
 * Module 6: The Developer Portal
 ** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
-** xref:m6/configure-rhdh.adoc[Configure the Portal]
+** xref:m6/configure-rhdh.adoc[Explore the Portal]
 ** xref:m6/templates.adoc[Create Software Templates]
 
 * Module 7: Developer Test Drive
