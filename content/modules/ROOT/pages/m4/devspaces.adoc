@@ -48,9 +48,9 @@ The chart installs the Dev Spaces operator (via OLM) and a `CheCluster` instance
 
 Dev Spaces needs a GitLab OAuth application to authenticate developers and allow them to clone and push to repositories.
 
-. Open https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] and log in as `root` / `{common_password}`
-. Navigate to *Admin Area* (wrench icon, top right) → *Applications*
-. Click *New application* and fill in:
+. Open https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] and log in as `user1` / `{common_password}`
+. Click on your avatar (top right) → *Edit profile* → *Applications* (left sidebar)
+. Click *Add new application* and fill in:
 +
 [cols="1,3",options="header"]
 |===
@@ -64,9 +64,6 @@ Dev Spaces needs a GitLab OAuth application to authenticate developers and allow
 
 |*Scopes*
 |`api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
-
-|*Trusted*
-|✓ Check this box
 |===
 
 . Click *Save application*
