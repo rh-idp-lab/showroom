@@ -7,7 +7,7 @@ Your first discovery: the cluster has a GitOps engine already running. ArgoCD wa
 
 . Open: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
 . Click **LOG IN VIA OPENSHIFT**
-. Log in with `admin` / `{ocp_admin_password}`
+. Log in with `user1` / `{common_password}`
 
 == Navigate the ArgoCD UI
 

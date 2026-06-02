@@ -112,7 +112,7 @@ Once deployed, the dedicated ArgoCD UI is available at:
 
 link:https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}[RHDH GitOps^]
 
-Click **LOG IN VIA OPENSHIFT** and log in with `admin` / `{ocp_admin_password}`.
+Click **LOG IN VIA OPENSHIFT** and log in with `user1` / `{common_password}`.
 
 == Challenges #2–5 Complete
 
