@@ -13,11 +13,11 @@
 
 include::partial$progress-bar.adoc[]
 
-TIP: 🎉 **Congratulations!** You've completed the entire IDP lab. You successfully deployed a production-ready Internal Developer Platform using GitOps principles. Every component you deployed — from Pipelines to Developer Hub — is now part of a cohesive platform that empowers developers to ship faster with golden paths, self-service, and built-in security.
+TIP: 🎉 **Mission accomplished!** The CTO's mandate is fulfilled. GlobeX Corp's developers can now go from idea to production without touching infrastructure. You solved 9 real challenges — from inconsistent builds to supply chain security — and assembled a complete Internal Developer Platform using only Helm charts and GitOps.
 
-== What You Built
+== What You Built at GlobeX
 
-You assembled a complete Internal Developer Platform with:
+You assembled a complete Internal Developer Platform that solves every challenge the CTO threw at you:
 
 * **GitOps** — ArgoCD Applications reconcile Helm charts from Git.
 * **SSO** — Keycloak provides unified authentication.

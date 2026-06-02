@@ -1,5 +1,5 @@
-= Platform Overview
-:navtitle: Platform Overview
+= Day 1 at GlobeX — Discover the Foundation
+:navtitle: Discover the Foundation
 :m1-status: ⏳
 :m2-status: ⚪
 :m3-status: ⚪
@@ -12,6 +12,13 @@
 :time-remaining: 110
 
 include::partial$progress-bar.adoc[]
+
+[NOTE]
+====
+*Challenge #1: "We have tools installed but nobody knows what's there or how they connect."*
+
+It's your first day as Platform Engineer at GlobeX Corp. The previous infrastructure team installed several tools on the OpenShift cluster, but left no documentation. Before you can build anything, you need to understand what's already in place and how these pieces fit together.
+====
 
 An **Internal Developer Platform (IDP)** is a self-service layer that reduces cognitive load for developers. Platform engineering teams build golden paths and automation so developers can focus on writing code, not configuring infrastructure.
 

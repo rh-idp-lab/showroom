@@ -14,21 +14,61 @@
 
 include::partial$progress-bar.adoc[]
 
-== Welcome!
+== Welcome to GlobeX Corp!
+
+[NOTE]
+====
+*Your mission:* You've just been hired as the **Platform Engineer** at GlobeX Corp, a fast-growing company. The CTO has given you a clear mandate:
+
+_"Our developers are drowning in tooling complexity. They spend 40% of their time fighting with infrastructure instead of shipping features. We're losing competitive advantage. I need you to build an Internal Developer Platform that gets them back to writing code — and I need it done today."_
+====
 
 In this hands-on lab, you will build a fully functional **Internal Developer Platform (IDP)** on Red Hat OpenShift — step by step, using only **Helm charts** and **GitOps**.
 
-By the end of this 2-hour session, you will have assembled a platform that enables developers to self-service their way from idea to production, with built-in security, observability, and golden paths.
+Each module presents a **real-world challenge** that GlobeX Corp is facing. You'll solve them one by one, and by the end of this 2-hour session, you'll have assembled a complete platform that enables developers to self-service their way from idea to production.
 
-=== What is an Internal Developer Platform?
+=== The Challenges You'll Solve
 
-An Internal Developer Platform is a self-service layer built on top of your infrastructure that reduces cognitive load for developers. It provides:
+[cols="1,2,3",options="header"]
+|===
+|Challenge |The Problem at GlobeX |Your Solution
 
-* **A developer portal** — a single pane of glass to discover services, APIs, and documentation
-* **Golden paths** — opinionated, pre-built templates that encode best practices
-* **Automated CI/CD** — pipelines triggered from code to production
-* **Secrets management** — secure, automated secret injection
-* **Identity and access control** — SSO across all platform services
+|*1. Discover the Foundation*
+|"We have tools installed but nobody knows what's there or how they connect."
+|Explore ArgoCD, GitLab, Vault, and Keycloak — the foundation already in place.
+
+|*2. Inconsistent Builds*
+|"Works on Alice's machine, fails on Bob's. Every developer runs builds differently."
+|Deploy OpenShift Pipelines (Tekton) for reproducible, containerized builds.
+
+|*3. Where Are Our Images?*
+|"Teams push images to random registries. No scanning, no audit trail."
+|Deploy Red Hat Quay as the single source of truth for all container images.
+
+|*4. Secrets Are in Slack!*
+|"Database passwords shared in DMs. API keys committed in Git. Security is panicking."
+|Deploy External Secrets Operator + store secrets in Vault.
+
+|*5. Deployment Chaos*
+|"Each team deploys differently. No visibility, no consistency, no rollback."
+|Deploy a dedicated ArgoCD instance for application deployments.
+
+|*6. Onboarding Takes a Week*
+|"New developers spend 3 days installing tools before writing a single line of code."
+|Deploy Dev Spaces — a cloud IDE with zero local setup.
+
+|*7. Supply Chain Risk*
+|"How do we know the image in production is what we actually built?"
+|Deploy Trusted Artifact Signer for cryptographic signing of every build.
+
+|*8. Too Many Doors*
+|"Developers need 6 different logins. They can't find anything."
+|Deploy Developer Hub — one portal to rule them all, with SSO.
+
+|*9. Prove It Works*
+|"Great, you built a platform. Now show me a developer can ship code without your help."
+|Use the platform as a developer: template → code → pipeline → deploy.
+|===
 
 === What You Will Build
 

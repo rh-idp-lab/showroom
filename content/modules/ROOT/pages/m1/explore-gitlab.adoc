@@ -1,7 +1,7 @@
 = Explore GitLab
 :navtitle: Explore GitLab
 
-GitLab is pre-installed and will serve as source code management, CI/CD pipeline host, and OAuth provider for Dev Spaces.
+Good news — GlobeX already has a source code management platform. GitLab is pre-installed and will serve as source code management, CI/CD pipeline host, and OAuth provider for Dev Spaces.
 
 == Open GitLab
 

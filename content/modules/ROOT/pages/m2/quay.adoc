@@ -1,6 +1,13 @@
 = Deploy Red Hat Quay
 :navtitle: Deploy Red Hat Quay
 
+[NOTE]
+====
+*Challenge #3: "Teams push images to random registries. No scanning, no audit trail."*
+
+GlobeX's teams use Docker Hub, GitHub Packages, even personal registries. Nobody knows which images are in production or whether they've been scanned. You need a single, private container registry as the source of truth for all images.
+====
+
 == What Red Hat Quay provides
 
 Red Hat Quay is an enterprise container image registry that gives your platform a secure, private place to store and distribute container images. As part of your IDP it provides:

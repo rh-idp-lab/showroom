@@ -13,6 +13,13 @@
 
 include::partial$progress-bar.adoc[]
 
+[NOTE]
+====
+*Challenge #7: "How do we know the image in production is what we actually built?"*
+
+GlobeX's security auditor just asked a simple question: _"Can you prove that the container running in production right now was built from that specific commit in Git?"_ Nobody could answer. You need cryptographic signing for every build — automated, keyless, and verifiable.
+====
+
 Red Hat Trusted Artifact Signer (RHTAS) provides Sigstore-based artifact signing for supply chain security. It enables developers to cryptographically sign container images and verify their provenance — ensuring that what runs in production is exactly what was built in CI.
 
 == Why Software Supply Chain Security?

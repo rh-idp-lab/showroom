@@ -1,37 +1,37 @@
 * xref:demo/guide.adoc[Demo Guide (45 min)]
 
-* xref:index.adoc[Introduction]
+* xref:index.adoc[Welcome to GlobeX Corp]
 * xref:architecture-diagrams.adoc[Architecture Diagrams]
 * xref:env.adoc[Your Environment]
 
-* Module 1: Explore the Foundation
-** xref:m1/intro.adoc[Platform Overview]
+* Challenge #1: Discover the Foundation
+** xref:m1/intro.adoc[Discover the Foundation]
 ** xref:m1/explore-gitops.adoc[Explore ArgoCD]
 ** xref:m1/explore-gitlab.adoc[Explore GitLab]
 ** xref:m1/explore-vault.adoc[Explore Vault]
 ** xref:m1/keycloak.adoc[Explore Keycloak (RHBK)]
 
-* Module 2: Build the CI/CD Layer
-** xref:m2/pipelines.adoc[Deploy OpenShift Pipelines]
-** xref:m2/quay.adoc[Deploy Red Hat Quay]
-** xref:m2/external-secrets.adoc[Deploy External Secrets]
-** xref:m2/rhdh-gitops.adoc[Deploy a Dedicated ArgoCD]
+* Challenges #2–5: Build the CI/CD Layer
+** xref:m2/pipelines.adoc[Fix Inconsistent Builds]
+** xref:m2/quay.adoc[Centralize Container Images]
+** xref:m2/external-secrets.adoc[End Secrets in Slack]
+** xref:m2/rhdh-gitops.adoc[Tame Deployment Chaos]
 
-* Module 3: Identity & Access
+* Secure the Platform
 ** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
 // ** xref:m3/rbac.adoc[Configure RBAC]
 
-* Module 4: Cloud IDE
+* Challenge #6: Fix Onboarding
 ** xref:m4/devspaces.adoc[Deploy Dev Spaces]
 
-* Module 5: Secure Supply Chain
+* Challenge #7: Prove the Supply Chain
 ** xref:m5/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
 
-* Module 6: The Developer Portal
+* Challenge #8: One Portal to Rule Them All
 ** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
 ** xref:m6/configure-rhdh.adoc[Explore the Portal]
-** xref:m6/templates.adoc[Create Software Templates]
+** xref:m6/templates.adoc[Create Golden Paths]
 
-* Module 7: Developer Test Drive
-** xref:m7/developer-experience.adoc[Use the Platform as a Developer]
-** xref:m7/conclusion.adoc[Conclusion & Next Steps]
+* Challenge #9: Prove It Works
+** xref:m7/developer-experience.adoc[Ship Code Without Help]
+** xref:m7/conclusion.adoc[Mission Accomplished]
