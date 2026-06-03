@@ -47,11 +47,30 @@ This sync is handled by the **Keycloak Org Entity Provider** plugin. Every user 
 ** **Dependencies** — Upstream and downstream service relationships
 ** **Docs** — Technical documentation (TechDocs)
 
-=== APIs
+=== Domain & System
 
-. Switch to **Kind → API**
-. If APIs are registered, you can browse their definitions (OpenAPI, gRPC, AsyncAPI)
-. "APIs are first-class citizens in the catalog — discoverable, documented, and linked to their owning component."
+The catalog organizes software entities into a two-level hierarchy that mirrors your organizational structure.
+
+A **Domain** groups related systems under a business area. A **System** groups related components and APIs into a coherent product or service boundary. Components created by developers will declare which System they belong to.
+
+For this lab, one Domain and one System are pre-registered from the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodequest-templates/-/blob/main/entities.yaml[entities.yaml^] file:
+
+[cols="1,1,3",options="header"]
+|===
+|Kind |Name |Description
+
+|Domain
+|`opencodequest`
+|Top-level business domain grouping all OpenCodeQuest workshop assets
+
+|System
+|`opencodequest`
+|The workshop system — components you create in the templates will reference this system
+|===
+
+. Switch the **Kind** filter to **Domain** — you should see `opencodequest`
+. Switch to **System** — you should see `opencodequest` linked to the domain above
+. When creating a new component with a Software Template, select `opencodequest` in the *System* field to attach your service to this shared context
 
 == Verify Integrations
 
