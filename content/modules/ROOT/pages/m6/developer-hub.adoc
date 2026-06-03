@@ -115,6 +115,10 @@ spec:
             api: https://kubernetes.default.svc
           cluster:
             subdomain: {openshift_cluster_ingress_domain}
+          quay:
+            project: quayadmin
+          stackrox:
+            endpoint: central.stackrox.svc.cluster.local:443
 
         redhat-developer-hub-application:
           gitops:
