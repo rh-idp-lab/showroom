@@ -102,36 +102,4 @@ Developer Hub extends Backstage with a curated set of plugins:
 
 TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git — ArgoCD handles the rest.
 
-== Import Software Templates
-
-Software templates are the golden paths that developers use to create new services, components, and applications. You will now register a pre-built collection of templates from your GitLab repository into the Developer Hub catalog.
-
-=== The templates Location file
-
-The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml[opencodequest-templates.yaml^] is a Backstage `Location` entity that references four ready-to-use scaffolder templates:
-
-* *fight-ui* — Quarkus + web UI frontend service
-* *quarkus-postgresql* — Quarkus CRUD microservice with a PostgreSQL database
-* *quarkus-with-spring-postgresql* — Full pipeline with Tekton manifests
-* *quarkus-ai* — AI-enabled Quarkus application
-
-=== Register the templates
-
-. In Developer Hub, click **Self Service** in the left menu.
-. Click **Import an existing Git repository**.
-. Paste the following URL in the *Repository URL* field:
-+
-[source,subs="attributes"]
-----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml
-----
-. Click **Analyze**, then **Import**.
-
-Developer Hub will register the `Location` entity and automatically discover all four templates referenced by it.
-
-=== Verify
-
-. Navigate to **Self Service** in the left menu.
-. You should now see the four OpenCodeQuest templates available for use.
-
-xref:m6/templates.adoc[Next: Create Software Templates →]
+xref:m6/templates.adoc[Next: Import Software Templates →]

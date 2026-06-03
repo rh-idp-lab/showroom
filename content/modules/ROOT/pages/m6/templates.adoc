@@ -1,72 +1,36 @@
-= Create Software Templates (Golden Paths)
-:navtitle: Create Software Templates
+= Import Software Templates (Golden Paths)
+:navtitle: Import Software Templates
 
-The portal is live, the catalog is populated, but developers still can't create new projects without your help. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths — the ultimate self-service experience.
+The portal is live and the catalog is populated. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths — the ultimate self-service experience.
 
-== Template structure
+You will now register a pre-built collection of templates from your GitLab repository into the Developer Hub catalog.
 
-A Backstage Template is a catalog entity with this structure:
+== The templates Location file
 
-[source,yaml]
+The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml[opencodequest-templates.yaml^] is a Backstage `Location` entity that references four ready-to-use scaffolder templates:
+
+* *fight-ui* — Quarkus + web UI frontend service
+* *quarkus-postgresql* — Quarkus CRUD microservice with a PostgreSQL database
+* *quarkus-with-spring-postgresql* — Full pipeline with Tekton manifests
+* *quarkus-ai* — AI-enabled Quarkus application
+
+== Register the templates
+
+. In Developer Hub, click **Self Service** in the left menu.
+. Click **Import an existing Git repository**.
+. Paste the following URL in the *Repository URL* field:
++
+[source,subs="attributes"]
 ----
-apiVersion: scaffolder.backstage.io/v1beta3
-kind: Template
-metadata:
-  name: quarkus-app
-  title: Quarkus Application
-  description: Create a new Quarkus microservice
-  tags:
-    - quarkus
-    - java
-spec:
-  parameters:
-    - title: Component details
-      properties:
-        name:
-          title: Component name
-          type: string
-        owner:
-          title: Owner (team or user)
-          type: string
-  steps:
-    - id: fetch
-      name: Fetch skeleton
-      action: fetch:template
-      input:
-        url: ./skeleton
-    - id: publish
-      name: Publish to GitLab
-      action: publish:gitlab
-      input:
-        repoUrl: gitlab.com/yourgroup/${{ parameters.name }}
-    - id: register
-      name: Register in catalog
-      action: catalog:register
-      input:
-        repoContentsUrl: ${{ steps.publish.output.repoContentsUrl }}
-    - id: argocd
-      name: Create ArgoCD Application
-      action: ...
-  output:
-    links:
-      - title: Repository
-        url: ${{ steps.publish.output.remoteUrl }}
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml
 ----
+. Click **Analyze**, then **Import**.
 
-== Create a simple template
+Developer Hub will register the `Location` entity and automatically discover all four templates referenced by it.
 
-A template that scaffolds a Quarkus app, publishes to GitLab, creates an ArgoCD Application, and registers in the catalog typically includes:
+== Verify
 
-* **Parameters** — `component name`, `owner`, and optional `description`.
-* **Steps** — fetch skeleton → publish to GitLab → create ArgoCD Application → register in catalog.
-
-Create your template YAML file and add it to a Git repository that Developer Hub catalogs (e.g., a `templates` repo).
-
-== Register the template in Developer Hub
-
-. In Developer Hub, go to **Create**.
-. Click **Register existing component**.
-. Enter the URL to your template YAML (or the catalog location that points to it).
-. The template appears in the **Create** page for developers to use.
+. Navigate to **Self Service** in the left menu.
+. You should now see the four OpenCodeQuest templates available for use.
 
 xref:m7/developer-experience.adoc[Next: Module 7 — Use the Platform as a Developer →]
