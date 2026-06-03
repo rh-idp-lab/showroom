@@ -37,7 +37,7 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 The ArgoCD Application points to the `redhat-developer-hub` chart in your GitLab repository.
 Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub^]
 
-The chart installs the Developer Hub operator (via OLM) and a `Backstage` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
+The chart installs the Developer Hub operator (via OLM) and a `Red Hat Developer Hub` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
 
 == Step 1 — Retrieve required credentials
 
@@ -105,7 +105,7 @@ spec:
             clientId: backstage
             clientSecret: $KEYCLOAK_CLIENT_SECRET
           gitops:
-            host: openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
+            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
           kubernetes:
             api: https://kubernetes.default.svc
           cluster:
@@ -161,6 +161,11 @@ oc get pods -n rhdh -w
 ----
 
 TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods report `Running` and `1/1` or `2/2` READY.
+
+[NOTE]
+====
+*First startup takes a few minutes.* Developer Hub installs its dynamic plugins on the first boot, which requires downloading and initializing each plugin before the interface becomes available. Subsequent restarts will be significantly faster as plugins are already in place.
+====
 
 == Access Developer Hub
 

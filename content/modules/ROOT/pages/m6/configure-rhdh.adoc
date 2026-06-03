@@ -7,7 +7,9 @@ Developer Hub is deployed and configured via GitOps. Now step into a developer's
 
 . Open https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^].
 . Click **Sign in with SSO**.
-. Authenticate via Keycloak using your lab credentials.
+. Authenticate via Keycloak using your lab credentials:
+** *Username*: `user1`
+** *Password*: `{common_password}`
 
 == Configuration as Code
 
