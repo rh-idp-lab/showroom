@@ -7,7 +7,7 @@ You will now register a pre-built collection of templates from your GitLab repos
 
 == The templates Location file
 
-The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml[opencodequest-templates.yaml^] is a Backstage `Location` entity that references four ready-to-use scaffolder templates:
+The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodequest-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml[opencodequest-templates.yaml^] is a Backstage `Location` entity that references four ready-to-use scaffolder templates:
 
 * *fight-ui* — Quarkus + web UI frontend service
 * *quarkus-postgresql* — Quarkus CRUD microservice with a PostgreSQL database
@@ -22,7 +22,7 @@ The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-temp
 +
 [source,subs="attributes"]
 ----
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/rhdh-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodequest-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml
 ----
 . Click **Analyze**, then **Import**.
 
