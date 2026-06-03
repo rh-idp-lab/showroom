@@ -6,7 +6,7 @@ Good news — GlobeX already has a source code management platform. GitLab is pr
 == Open GitLab
 
 . Open: https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^]
-. Log in as `root` / `{common_password}`
+. Log in as `user1` / `{common_password}`
 
 == Navigate the GitLab UI
 
