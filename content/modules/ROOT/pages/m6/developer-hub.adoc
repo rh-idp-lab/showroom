@@ -45,6 +45,9 @@ The chart installs the Developer Hub operator (via OLM) and a `Red Hat Developer
 ----
 export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab -o jsonpath='{.data.token}' | base64 -d)
 
+# ArgoCD admin password (set during rhdh-gitops deployment in Module 2)
+export ARGOCD_PASSWORD="{common_password}"
+
 # Retrieve the Keycloak client secret for the 'backstage' client
 export KEYCLOAK_TOKEN=$(curl -sk -X POST \
   "https://sso.{openshift_cluster_ingress_domain}/realms/master/protocol/openid-connect/token" \
@@ -85,6 +88,8 @@ spec:
         redhat-developer-hub-prereqs:
           namespace: rhdh
           backstage:
+            argocd:
+              password: $ARGOCD_PASSWORD
             gitlab:
               token: $GITLAB_TOKEN
             oauth:
