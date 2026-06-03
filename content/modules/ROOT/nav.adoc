@@ -30,7 +30,7 @@
 * Challenge #8: One Portal to Rule Them All
 ** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
 ** xref:m6/configure-rhdh.adoc[Explore the Portal]
-** xref:m6/templates.adoc[Create Golden Paths]
+** xref:m6/templates.adoc[Import Software Templates]
 
 * Challenge #9: Prove It Works
 ** xref:m7/developer-experience.adoc[Ship Code Without Help]
