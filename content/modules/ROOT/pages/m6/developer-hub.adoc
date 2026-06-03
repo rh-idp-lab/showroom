@@ -118,7 +118,7 @@ spec:
           quay:
             project: quayadmin
           stackrox:
-            endpoint: central.stackrox.svc.cluster.local:443
+            endpoint: central-stackrox.apps.cluster-m4mqn.dynamic2.redhatworkshops.io:443
 
         redhat-developer-hub-application:
           gitops:
