@@ -33,4 +33,5 @@
 
 * Challenge #9: Prove It Works
 ** xref:m7/developer-experience.adoc[Ship Code Without Help]
-** xref:m7/conclusion.adoc[Mission Accomplished]
+
+* xref:m7/conclusion.adoc[Mission Accomplished]
