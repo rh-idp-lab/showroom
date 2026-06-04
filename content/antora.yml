@@ -27,7 +27,9 @@ asciidoc:
       text: GitLab
     - url: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}
       text: ArgoCD (Cluster)
-    # - url: https://backstage-rhdh.{openshift_cluster_ingress_domain}
-    #   text: Developer Hub
+    - url: https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+      text: ArgoCD (Apps)
+    - url: https://backstage-rhdh.{openshift_cluster_ingress_domain}
+      text: Developer Hub
     environment_variables:
       DOMAIN: apps.cluster-xxxxx.xxxxx.sandboxNNN.opentlc.com
