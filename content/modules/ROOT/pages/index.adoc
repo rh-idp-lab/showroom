@@ -20,10 +20,10 @@ include::partial$progress-bar.adoc[]
 ====
 *Your mission:* You've just been hired as the **Platform Engineer** at Golden Path Inc., a fast-growing company. The CTO has given you a clear mandate:
 
-_"Our developers are drowning in tooling complexity. They spend 40% of their time fighting with infrastructure instead of shipping features. We're losing competitive advantage. I need you to build an Internal Developer Platform that gets them back to writing code — and I need it done today."_
+_"Our developers are drowning in tooling complexity. They spend 40% of their time fighting with infrastructure instead of shipping features. We're losing competitive advantage. I need you to build an Internal Developer Platform that gets them back to writing code: and I need it done today."_
 ====
 
-In this hands-on lab, you will build a fully functional **Internal Developer Platform (IDP)** on Red Hat OpenShift — step by step, using only **Helm charts** and **GitOps**.
+In this hands-on lab, you will build a fully functional **Internal Developer Platform (IDP)** on Red Hat OpenShift: step by step, using only **Helm charts** and **GitOps**.
 
 Each module presents a **real-world challenge** that Golden Path Inc. is facing. You'll solve them one by one, and by the end of this 2-hour session, you'll have assembled a complete platform that enables developers to self-service their way from idea to production.
 
@@ -31,11 +31,11 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 
 [cols="1,2,3",options="header"]
 |===
-|Challenge |The Problem at GlobeX |Your Solution
+|Challenge |The Problem at Golden Path Inc. |Your Solution
 
 |*1. Discover the Foundation*
 |"We have tools installed but nobody knows what's there or how they connect."
-|Explore ArgoCD, GitLab, Vault, and Keycloak — the foundation already in place.
+|Explore ArgoCD, GitLab, Vault, and Keycloak: the foundation already in place.
 
 |*2. Inconsistent Builds*
 |"Works on Alice's machine, fails on Bob's. Every developer runs builds differently."
@@ -55,7 +55,7 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 
 |*6. Onboarding Takes a Week*
 |"New developers spend 3 days installing tools before writing a single line of code."
-|Deploy Dev Spaces — a cloud IDE with zero local setup.
+|Deploy Dev Spaces: a cloud IDE with zero local setup.
 
 |*7. Supply Chain Risk*
 |"How do we know the image in production is what we actually built?"
@@ -63,7 +63,7 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 
 |*8. Too Many Doors*
 |"Developers need 6 different logins. They can't find anything."
-|Deploy Developer Hub — one portal to rule them all, with SSO.
+|Deploy Developer Hub: one portal to rule them all, with SSO.
 
 |*9. Prove It Works*
 |"Great, you built a platform. Now show me a developer can ship code without your help."
@@ -77,10 +77,10 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 |Layer |Components
 
 |*GitOps Foundation*
-|OpenShift GitOps (ArgoCD) — already installed
+|OpenShift GitOps (ArgoCD): already installed
 
 |*Source Code Management*
-|GitLab — already installed
+|GitLab: already installed
 
 |*Secrets Management*
 |HashiCorp Vault + External Secrets Operator
@@ -126,7 +126,7 @@ TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual repre
 
 |*Module 4*
 |15 min
-|Deploy Red Hat OpenShift Dev Spaces — a cloud IDE for developers
+|Deploy Red Hat OpenShift Dev Spaces: a cloud IDE for developers
 
 |*Module 5*
 |10 min
@@ -134,7 +134,7 @@ TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual repre
 
 |*Module 6*
 |25 min
-|Deploy Red Hat Developer Hub — the portal that integrates all platform services — and create Software Templates
+|Deploy Red Hat Developer Hub, the portal that integrates all platform services, and create Software Templates
 
 |*Module 7*
 |15 min

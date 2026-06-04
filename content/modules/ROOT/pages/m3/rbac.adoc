@@ -98,8 +98,8 @@ oc get rolebindings -n rhdh-gitops
 
 You configured identity, secrets, and access control:
 
-* **Keycloak** — SSO for Developer Hub, Dev Spaces, and ArgoCD with the `backstage` realm
-* **Vault** — Central storage for shared secrets; External Secrets syncs them into Kubernetes
-* **RBAC** — RoleBindings grant developers and platform engineers appropriate access to GitLab, ArgoCD, and team namespaces
+* **Keycloak**: SSO for Developer Hub, Dev Spaces, and ArgoCD with the `backstage` realm
+* **Vault**: Central storage for shared secrets; External Secrets syncs them into Kubernetes
+* **RBAC**: RoleBindings grant developers and platform engineers appropriate access to GitLab, ArgoCD, and team namespaces
 
 xref:m4/devspaces.adoc[Continue to Module 4: Deploy Dev Spaces →]

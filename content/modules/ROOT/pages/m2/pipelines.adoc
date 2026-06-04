@@ -17,18 +17,18 @@ include::partial$progress-bar.adoc[]
 ====
 *Challenge #2: "Works on Alice's machine, fails on Bob's. Every developer runs builds differently."*
 
-GlobeX's developers each have their own build scripts, their own local toolchains, and their own "it works for me" stories. You need a single, reproducible CI/CD system that runs builds the same way every time — inside containers, on the cluster.
+Golden Path Inc.'s developers each have their own build scripts, their own local toolchains, and their own "it works for me" stories. You need a single, reproducible CI/CD system that runs builds the same way every time: inside containers, on the cluster.
 ====
 
 == Why OpenShift Pipelines?
 
-For CI/CD pipelines in this IDP, we chose **OpenShift Pipelines** (based on Tekton) rather than GitLab CI. Both are valid options — GitLab CI is already available in this cluster and perfectly capable of running pipelines. However, OpenShift Pipelines offers a compelling advantage for a platform engineering context:
+For CI/CD pipelines in this IDP, we chose **OpenShift Pipelines** (based on Tekton) rather than GitLab CI. Both are valid options: GitLab CI is already available in this cluster and perfectly capable of running pipelines. However, OpenShift Pipelines offers a compelling advantage for a platform engineering context:
 
-* **Native to OpenShift** — it ships as a certified operator in the Red Hat catalog; no additional infrastructure to manage
-* **Kubernetes-native execution** — each pipeline step runs as an isolated container pod, with full resource control and auditability
-* **Declarative pipeline-as-code** — Tasks, Pipelines, and PipelineRuns are standard Kubernetes resources stored in Git
-* **Deep OpenShift integration** — built-in triggers, cluster-level RBAC, and integration with image streams and the OpenShift Console
-* **Separation of concerns** — GitLab manages source code and merge requests; OpenShift Pipelines handles the build and deployment orchestration
+* **Native to OpenShift**: it ships as a certified operator in the Red Hat catalog; no additional infrastructure to manage
+* **Kubernetes-native execution**: each pipeline step runs as an isolated container pod, with full resource control and auditability
+* **Declarative pipeline-as-code**: Tasks, Pipelines, and PipelineRuns are standard Kubernetes resources stored in Git
+* **Deep OpenShift integration**: built-in triggers, cluster-level RBAC, and integration with image streams and the OpenShift Console
+* **Separation of concerns**: GitLab manages source code and merge requests; OpenShift Pipelines handles the build and deployment orchestration
 
 In a real-world IDP, you would likely use both: GitLab CI for lightweight repository-level automation (linting, unit tests) and OpenShift Pipelines for cluster-side build, security scan, and deployment workflows.
 
@@ -45,7 +45,7 @@ In a real-world IDP, you would likely use both: GitLab CI for lightweight reposi
 The ArgoCD Application points to the `openshift-pipelines` chart in your GitLab repository.
 Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/openshift-pipelines[{helm_repo_browse}/-/tree/{helm_repo_tag}/openshift-pipelines^]
 
-The chart contains a single `Subscription` resource that instructs OLM (Operator Lifecycle Manager) to install the OpenShift Pipelines operator from the Red Hat catalog. ArgoCD deploys this resource; OLM takes care of the rest — downloading, installing, and keeping the operator up to date.
+The chart contains a single `Subscription` resource that instructs OLM (Operator Lifecycle Manager) to install the OpenShift Pipelines operator from the Red Hat catalog. ArgoCD deploys this resource; OLM takes care of the rest: downloading, installing, and keeping the operator up to date.
 
 == Create the ArgoCD Application
 
@@ -133,9 +133,9 @@ oc get tektonconfig -w
 
 Press **Ctrl+C** once the TektonConfig shows `Ready=True`.
 
-TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in action: ArgoCD Application → Helm chart → reconciled resources. Every subsequent deployment follows this same pattern. This is the foundation of your IDP — version-controlled infrastructure as code.
+TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in action: ArgoCD Application → Helm chart → reconciled resources. Every subsequent deployment follows this same pattern. This is the foundation of your IDP: version-controlled infrastructure as code.
 
-TIP: 💡 **Platform health check** — You can check all platform components at any time.
+TIP: 💡 **Platform health check**: You can check all platform components at any time.
 
 [source,bash,subs="attributes"]
 ----

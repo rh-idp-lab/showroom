@@ -1,7 +1,7 @@
 = Explore ArgoCD (OpenShift GitOps)
 :navtitle: Explore ArgoCD
 
-Your first discovery: the cluster has a GitOps engine already running. ArgoCD watches Git repositories and keeps the cluster in sync with the desired state defined in Git. This will be the backbone of everything you build — every platform component you deploy will go through ArgoCD.
+Your first discovery: the cluster has a GitOps engine already running. ArgoCD watches Git repositories and keeps the cluster in sync with the desired state defined in Git. This will be the backbone of everything you build: every platform component you deploy will go through ArgoCD.
 
 == Open the ArgoCD UI
 
@@ -11,9 +11,9 @@ Your first discovery: the cluster has a GitOps engine already running. ArgoCD wa
 
 == Navigate the ArgoCD UI
 
-* **Applications** — lists all ArgoCD Applications (each typically deploys one Helm chart)
-* **Sync status** — whether the live cluster matches Git (Synced = in sync)
-* **Health status** — health of deployed resources (Healthy, Degraded, etc.)
+* **Applications**: lists all ArgoCD Applications (each typically deploys one Helm chart)
+* **Sync status**: whether the live cluster matches Git (Synced = in sync)
+* **Health status**: health of deployed resources (Healthy, Degraded, etc.)
 
 You may see few or no Applications initially. Throughout this lab, you will create ArgoCD Applications that deploy the platform components.
 
@@ -31,8 +31,8 @@ oc get applications -n openshift-gitops
 
 An ArgoCD Application is a Kubernetes custom resource that tells ArgoCD:
 
-* **Source** — where to get the manifests (Git repo + Helm chart path)
-* **Destination** — where to deploy (cluster + namespace)
+* **Source**: where to get the manifests (Git repo + Helm chart path)
+* **Destination**: where to deploy (cluster + namespace)
 
 == Anatomy of an ArgoCD Application
 
@@ -60,10 +60,10 @@ spec:
       selfHeal: true
 ----
 
-* `source.repoURL` — Git repository URL
-* `source.targetRevision` — branch or tag
-* `source.path` — path to Helm chart within the repo
-* `destination.namespace` — target Kubernetes namespace
+* `source.repoURL`: Git repository URL
+* `source.targetRevision`: branch or tag
+* `source.path`: path to Helm chart within the repo
+* `destination.namespace`: target Kubernetes namespace
 
 Throughout the lab, you will create similar Application manifests for each platform component.
 

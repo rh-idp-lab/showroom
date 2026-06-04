@@ -1,7 +1,7 @@
 = Explore Vault
 :navtitle: Explore Vault
 
-You found a secrets vault! HashiCorp Vault provides **centralized secrets management** for the IDP. This is critical — later you'll discover that GlobeX developers currently share secrets via Slack DMs. Vault is the solution, but it needs to be wired into the platform. For now, let's see what's there.
+You found a secrets vault! HashiCorp Vault provides **centralized secrets management** for the IDP. This is critical: later you'll discover that Golden Path Inc. developers currently share secrets via Slack DMs. Vault is the solution, but it needs to be wired into the platform. For now, let's see what's there.
 
 == Vault's Role in the IDP
 
@@ -10,7 +10,7 @@ You found a secrets vault! HashiCorp Vault provides **centralized secrets manage
 * Applications consume secrets as environment variables or mounted files
 * No secrets in Git; rotation and audit trail in Vault
 
-== Check Vault Status
+== Check Vault status
 
 [source,bash,subs="attributes"]
 ----
@@ -28,7 +28,7 @@ This lab uses the **KV (Key-Value) secrets engine**. Secrets are stored at paths
 
 Each platform component can have its own path (e.g., `kv/secrets/rhdh/backstage` for Developer Hub config).
 
-== Path Structure
+== Path structure
 
 [cols="1,3",options="header"]
 |===

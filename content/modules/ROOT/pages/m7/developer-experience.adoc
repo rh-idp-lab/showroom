@@ -17,12 +17,12 @@ include::partial$progress-bar.adoc[]
 ====
 *Challenge #9: "Great, you built a platform. Now show me a developer can ship code without your help."*
 
-The CTO is watching. You've built the platform — now prove it works. Switch perspective: you're no longer the Platform Engineer. You're a GlobeX developer who just needs to ship a feature. No Helm, no ArgoCD, no Vault — just the portal, a template, and your code.
+The CTO is watching. You've built the platform, now prove it works. Switch perspective: you're no longer the Platform Engineer. You're a Golden Path Inc. developer who just needs to ship a feature. No Helm, no ArgoCD, no Vault, just the portal, a template, and your code.
 ====
 
-Switch perspective: use the IDP you built as a developer would — from template selection to deployment.
+Switch perspective: use the IDP you built as a developer would: from template selection to deployment.
 
-== Run a Software Template
+== Run a software template
 
 . Open https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^] and sign in.
 . Go to **Create** and select a Software Template.
@@ -31,10 +31,10 @@ Switch perspective: use the IDP you built as a developer would — from template
 
 == Observe the workflow
 
-* **Repository created** — New repo appears in GitLab.
-* **Pipeline triggered** — OpenShift Pipelines runs the build.
-* **ArgoCD Application created** — In `rhdh-gitops` or your GitOps namespace.
-* **Application deployed** — The app is deployed to the cluster.
+* **Repository created**: New repo appears in GitLab.
+* **Pipeline triggered**: OpenShift Pipelines runs the build.
+* **ArgoCD Application created**: In `rhdh-gitops` or your GitOps namespace.
+* **Application deployed**: The app is deployed to the cluster.
 
 == Make a code change
 
@@ -47,7 +47,7 @@ Switch perspective: use the IDP you built as a developer would — from template
 
 If Trusted Artifact Signer is integrated with your pipeline, confirm that the built image is signed and verifiable.
 
-TIP: 💡 **Platform health check** — Verify all components are healthy.
+TIP: 💡 **Platform health check**: Verify all components are healthy.
 
 [source,bash,subs="attributes"]
 ----

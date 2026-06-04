@@ -1,7 +1,7 @@
 = Explore GitLab
 :navtitle: Explore GitLab
 
-Good news — GlobeX already has a source code management platform. GitLab is pre-installed and will serve as source code management, CI/CD pipeline host, and OAuth provider for Dev Spaces.
+Good news: Golden Path Inc. already has a source code management platform. GitLab is pre-installed and will serve as source code management, CI/CD pipeline host, and OAuth provider for Dev Spaces.
 
 == Open GitLab
 
@@ -10,10 +10,10 @@ Good news — GlobeX already has a source code management platform. GitLab is pr
 
 == Navigate the GitLab UI
 
-* **Groups** — organize projects (e.g., `idp-lab`, `rhdh`)
-* **Projects** — repositories for applications and platform configs
-* **CI/CD → Pipelines** — view and run pipelines (once configured)
-* **Settings** — OAuth applications, integrations
+* **Groups**: organize projects (e.g., `idp-lab`, `rhdh`)
+* **Projects**: repositories for applications and platform configs
+* **CI/CD → Pipelines**: view and run pipelines (once configured)
+* **Settings**: OAuth applications, integrations
 
 == GitLab Roles in the IDP
 

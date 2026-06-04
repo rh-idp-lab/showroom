@@ -21,9 +21,9 @@ This repository contains the `values.yaml` that configures the Red Hat Developer
 
 Browse the `values.yaml` to see:
 
-* **RHDH configuration** — Authentication (Keycloak OIDC), integrations (GitLab, ArgoCD), base URL, and theme
-* **Plugin configuration** — Which dynamic plugins are enabled (Tekton, ArgoCD, Kubernetes, Keycloak, Quay, etc.) and their settings
-* **Catalog configuration** — Catalog locations, rules, and providers that define where Developer Hub discovers components, APIs, users, groups, and templates
+* **RHDH configuration**: Authentication (Keycloak OpenID Connect (OIDC)), integrations (GitLab, ArgoCD), base URL, and theme
+* **Plugin configuration**: Which dynamic plugins are enabled (Tekton, ArgoCD, Kubernetes, Keycloak, Quay, etc.) and their settings
+* **Catalog configuration**: Catalog locations, rules, and providers that define where Developer Hub discovers components, APIs, users, groups, and templates
 
 == Explore the Catalog
 
@@ -32,20 +32,20 @@ The Catalog is the heart of Developer Hub. Navigate to **Catalog** in the left m
 === Users & Groups
 
 . Click on **Kind** filter and select **User**
-. You should see the users synced from Keycloak — "These are your platform users, imported automatically from the SSO realm."
-. Switch to **Group** — "Teams and roles from Keycloak map to ownership in Developer Hub."
+. You should see the users synced from Keycloak: "These are your platform users, imported automatically from the SSO realm."
+. Switch to **Group**: "Teams and roles from Keycloak map to ownership in Developer Hub."
 
 This sync is handled by the **Keycloak Org Entity Provider** plugin. Every user and group in the `sso` realm is automatically reflected in the catalog.
 
 === Components
 
 . Switch the **Kind** filter to **Component**
-. Browse the registered components — each one represents a service, library, or application
+. Browse the registered components: each one represents a service, library, or application
 . Click on a component to see its detail page:
-** **Overview** — Owner, lifecycle, system, description
-** **CI/CD** — Tekton pipeline runs (via the Tekton plugin)
-** **Dependencies** — Upstream and downstream service relationships
-** **Docs** — Technical documentation (TechDocs)
+** **Overview**: Owner, lifecycle, system, description
+** **CI/CD**: Tekton pipeline runs (via the Tekton plugin)
+** **Dependencies**: Upstream and downstream service relationships
+** **Docs**: Technical documentation (TechDocs)
 
 === Domain & System
 
@@ -65,14 +65,14 @@ For this lab, one Domain and one System are pre-registered from the https://gitl
 
 |System
 |`opencodequest`
-|The workshop system — components you create in the templates will reference this system
+|The workshop system: components you create in the templates will reference this system
 |===
 
-. Switch the **Kind** filter to **Domain** — you should see `opencodequest`
-. Switch to **System** — you should see `opencodequest` linked to the domain above
+. Switch the **Kind** filter to **Domain**: you should see `opencodequest`
+. Switch to **System**: you should see `opencodequest` linked to the domain above
 . When creating a new component with a Software Template, select `opencodequest` in the *System* field to attach your service to this shared context
 
-== Verify Integrations
+== Verify integrations
 
 === GitLab
 
@@ -83,7 +83,7 @@ For this lab, one Domain and one System are pre-registered from the https://gitl
 === ArgoCD
 
 . Open a component that has an ArgoCD Application
-. Check the **ArgoCD** tab — you should see the sync status and health
+. Check the **ArgoCD** tab: you should see the sync status and health
 . "Real-time deployment status, without leaving the portal."
 
 === Tekton
@@ -92,7 +92,7 @@ For this lab, one Domain and one System are pre-registered from the https://gitl
 . Pipeline runs are listed with their status, duration, and logs
 . "Developers see their build history without switching to the OpenShift Console."
 
-== Plugin Ecosystem
+== Plugin ecosystem
 
 Developer Hub extends Backstage with a curated set of plugins:
 
@@ -119,6 +119,6 @@ Developer Hub extends Backstage with a curated set of plugins:
 |Technology assessment and adoption status
 |===
 
-TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git — ArgoCD handles the rest.
+TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git: ArgoCD handles the rest.
 
 xref:m6/templates.adoc[Next: Import Software Templates →]

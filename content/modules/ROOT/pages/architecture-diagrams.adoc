@@ -8,7 +8,7 @@ This page contains visual representations of the Internal Developer Platform arc
 
 == Platform Overview (Visual)
 
-image::idp-architecture.svg[IDP Architecture Overview,800,align="center"]
+image::idp-architecture.svg[IDP Architecture Overview,800,align="center",link=self,window=blank]
 
 This diagram shows all 6 layers of the platform, from the pre-installed foundation (Layer 0) to the developer portal (Layer 5). Each layer builds upon the previous, following a clear deployment progression.
 

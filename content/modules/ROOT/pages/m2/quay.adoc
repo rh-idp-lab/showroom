@@ -5,7 +5,7 @@
 ====
 *Challenge #3: "Teams push images to random registries. No scanning, no audit trail."*
 
-GlobeX's teams use Docker Hub, GitHub Packages, even personal registries. Nobody knows which images are in production or whether they've been scanned. You need a single, private container registry as the source of truth for all images.
+Golden Path Inc.'s teams use Docker Hub, GitHub Packages, even personal registries. Nobody knows which images are in production or whether they've been scanned. You need a single, private container registry as the source of truth for all images.
 ====
 
 == What Red Hat Quay provides
@@ -116,7 +116,7 @@ Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain
 
 == Monitor the deployment
 
-Quay takes a few minutes to initialise — the operator must first provision PostgreSQL, Redis, and then configure the registry against NooBaa object storage.
+Quay takes a few minutes to initialise: the operator must first provision PostgreSQL, Redis, and then configure the registry against NooBaa object storage.
 
 [source,bash,subs="attributes"]
 ----

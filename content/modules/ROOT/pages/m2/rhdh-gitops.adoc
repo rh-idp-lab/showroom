@@ -5,7 +5,7 @@
 ====
 *Challenge #5: "Each team deploys differently. No visibility, no consistency, no rollback."*
 
-GlobeX's dev teams use a mix of `kubectl apply`, shell scripts, and "just SSH into the server". Deployments are invisible, inconsistent, and scary. You'll give developers their own GitOps instance — a dedicated ArgoCD that handles application deployments, separate from the platform ArgoCD you've been using.
+Golden Path Inc.'s dev teams use a mix of `kubectl apply`, shell scripts, and "just SSH into the server". Deployments are invisible, inconsistent, and scary. You'll give developers their own GitOps instance: a dedicated ArgoCD that handles application deployments, separate from the platform ArgoCD you've been using.
 ====
 
 == Why a separate ArgoCD instance
@@ -95,7 +95,7 @@ ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster
 
 Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/rhdh-gitops?view=graph[Topology (rhdh-gitops)^]
 
-NOTE: This component does not install an operator — it deploys ArgoCD resources directly via the Helm chart.
+NOTE: This component does not install an operator: it deploys ArgoCD resources directly via the Helm chart.
 
 == Verify with CLI
 
@@ -116,12 +116,12 @@ Click **LOG IN VIA OPENSHIFT** and log in with `user1` / `{common_password}`.
 
 == Challenges #2–5 Complete
 
-Four problems solved. You've built GlobeX's CI/CD layer:
+Four problems solved. You've built Golden Path Inc.'s CI/CD layer:
 
-* **Inconsistent builds** → OpenShift Pipelines (Tekton) — reproducible, containerized builds
-* **Scattered images** → Red Hat Quay — one private registry with scanning and audit
-* **Secrets in Slack** → External Secrets Operator — Vault secrets synced automatically
-* **Deployment chaos** → Dedicated ArgoCD — GitOps for every application deployment
+* **Inconsistent builds** → OpenShift Pipelines (Tekton): reproducible, containerized builds
+* **Scattered images** → Red Hat Quay: one private registry with scanning and audit
+* **Secrets in Slack** → External Secrets Operator: Vault secrets synced automatically
+* **Deployment chaos** → Dedicated ArgoCD: GitOps for every application deployment
 
 Next challenge: Vault is installed and External Secret Operator (ESO) is connected, but the actual secrets aren't stored yet. Time to populate Vault with the credentials your platform needs.
 

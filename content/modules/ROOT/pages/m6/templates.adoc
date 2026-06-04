@@ -1,7 +1,7 @@
 = Import Software Templates (Golden Paths)
 :navtitle: Import Software Templates
 
-The portal is live and the catalog is populated. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths — the ultimate self-service experience.
+The portal is live and the catalog is populated. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths: the ultimate self-service experience.
 
 You will now register a pre-built collection of templates from your GitLab repository into the Developer Hub catalog.
 
@@ -9,10 +9,10 @@ You will now register a pre-built collection of templates from your GitLab repos
 
 The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodequest-templates/-/blob/main/scaffolder-templates/opencodequest-templates.yaml[opencodequest-templates.yaml^] is a Backstage `Location` entity that references four ready-to-use scaffolder templates:
 
-* *fight-ui* — Quarkus + web UI frontend service
-* *quarkus-postgresql* — Quarkus CRUD microservice with a PostgreSQL database
-* *quarkus-with-spring-postgresql* — Full pipeline with Tekton manifests
-* *quarkus-ai* — AI-enabled Quarkus application
+* *fight-ui*: Quarkus + web UI frontend service
+* *quarkus-postgresql*: Quarkus CRUD microservice with a PostgreSQL database
+* *quarkus-with-spring-postgresql*: Full pipeline with Tekton manifests
+* *quarkus-ai*: AI-enabled Quarkus application
 
 == Register the templates
 
@@ -33,4 +33,4 @@ Developer Hub will register the `Location` entity and automatically discover all
 . Navigate to **Self Service** in the left menu.
 . You should now see the four OpenCodeQuest templates available for use.
 
-xref:m7/developer-experience.adoc[Next: Module 7 — Use the Platform as a Developer →]
+xref:m7/developer-experience.adoc[Next: Module 7: Use the Platform as a Developer →]

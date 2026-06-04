@@ -17,23 +17,23 @@ include::partial$progress-bar.adoc[]
 ====
 *Challenge #6: "New developers spend 3 days installing tools before writing a single line of code."*
 
-GlobeX just hired five new developers. The team lead's onboarding checklist has 47 steps: install Node, Python, oc, helm, configure git, set up SSH keys, request VPN access, install IDE plugins... By day 3 they still haven't written a line of code. You need a cloud IDE that gives them a fully configured development environment in seconds.
+Golden Path Inc. just hired five new developers. The team lead's onboarding checklist has 47 steps: install Node, Python, oc, helm, configure git, set up SSH keys, request VPN access, install IDE plugins... By day 3 they still haven't written a line of code. You need a cloud IDE that gives them a fully configured development environment in seconds.
 ====
 
-Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access — all in the browser.
+Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access: all in the browser.
 
 == Why Dev Spaces?
 
-In a traditional setup, onboarding a developer takes hours: install the right versions of `node`, `python`, `oc`, `helm`, configure git credentials, clone repositories, set up environment variables. Every developer ends up with a slightly different environment — "works on my machine" becomes a real problem.
+In a traditional setup, onboarding a developer takes hours: install the right versions of `node`, `python`, `oc`, `helm`, configure git credentials, clone repositories, set up environment variables. Every developer ends up with a slightly different environment: "works on my machine" becomes a real problem.
 
 Dev Spaces eliminates this entirely:
 
-* **Zero local setup** — developers open a browser, click a link, and land in a fully configured IDE running inside the cluster. No installation required.
-* **Reproducible environments** — workspaces are defined as code (`devfile.yaml` in the repository). Every developer gets the exact same toolchain, every time.
-* **Direct cluster access** — the IDE runs inside OpenShift. No VPN, no port-forwarding, no firewall issues. The terminal has direct access to the cluster.
-* **Git integration via OAuth** — Dev Spaces authenticates to GitLab using an OAuth application. Developers push code without managing SSH keys or tokens manually.
-* **Consistent security posture** — code stays inside the cluster. No source code on laptops, no credentials in `~/.gitconfig` on personal machines.
-* **SSO via Keycloak** — developers log in once using their platform identity. No separate Dev Spaces account.
+* **Zero local setup**: developers open a browser, click a link, and land in a fully configured IDE running inside the cluster. No installation required.
+* **Reproducible environments**: workspaces are defined as code (`devfile.yaml` in the repository). Every developer gets the exact same toolchain, every time.
+* **Direct cluster access**: the IDE runs inside OpenShift. No VPN, no port-forwarding, no firewall issues. The terminal has direct access to the cluster.
+* **Git integration via OAuth**: Dev Spaces authenticates to GitLab using an OAuth application. Developers push code without managing SSH keys or tokens manually.
+* **Consistent security posture**: code stays inside the cluster. No source code on laptops, no credentials in `~/.gitconfig` on personal machines.
+* **SSO via Keycloak**: developers log in once using their platform identity. No separate Dev Spaces account.
 
 In the context of an IDP, Dev Spaces is the "cloud IDE" golden path: any developer can start contributing to any project in seconds, with the correct toolchain, access rights, and integrations already configured.
 
@@ -44,7 +44,7 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/devspaces[{helm_repo_b
 
 The chart installs the Dev Spaces operator (via OLM) and a `CheCluster` instance pre-configured with the Keycloak OAuth integration.
 
-== Step 1 — Create a GitLab OAuth Application
+== Step 1: Create a GitLab OAuth Application
 
 Dev Spaces needs a GitLab OAuth application to authenticate developers and allow them to clone and push to repositories.
 
@@ -67,7 +67,7 @@ Dev Spaces needs a GitLab OAuth application to authenticate developers and allow
 |===
 
 . Click *Save application*
-. Copy the **Application ID** and **Secret** — these values are shown only once
+. Copy the **Application ID** and **Secret**: these values are shown only once
 
 Save them in environment variables in your terminal:
 
@@ -77,7 +77,7 @@ export GITLAB_OAUTH_ID=<paste Application ID here>
 export GITLAB_OAUTH_SECRET=<paste Secret here>
 ----
 
-== Step 2 — Create the ArgoCD Application
+== Step 2: Create the ArgoCD Application
 
 Use the OAuth credentials to generate the Dev Spaces Application manifest:
 
@@ -130,7 +130,7 @@ Apply it:
 oc apply -f devspaces-app.yaml
 ----
 
-== Step 3 — Verify the Deployment
+== Step 3: Verify the Deployment
 
 === Verify in ArgoCD UI
 
@@ -163,17 +163,17 @@ oc get pods -n openshift-devspaces -w
 
 TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop watching once all pods show `Running` and `1/1` or `2/2` READY.
 
-== Step 4 — Access Dev Spaces
+== Step 4: Access Dev Spaces
 
 Once all pods are running, open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
 
-Log in with your GitLab credentials — Dev Spaces will redirect you to GitLab OAuth and then open your workspace.
+Log in with your GitLab credentials: Dev Spaces will redirect you to GitLab OAuth and then open your workspace.
 
-TIP: 💡 **Platform health check** — Verify all components are healthy.
+TIP: 💡 **Platform health check**: Verify all components are healthy.
 
 [source,bash,subs="attributes"]
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
 
-xref:m5/trusted-artifact-signer.adoc[Next: Module 5 — Deploy Trusted Artifact Signer →]
+xref:m5/trusted-artifact-signer.adoc[Next: Module 5: Deploy Trusted Artifact Signer →]

@@ -17,20 +17,20 @@ include::partial$progress-bar.adoc[]
 ====
 *Challenge #8: "Developers need 6 different logins. They can't find anything."*
 
-You've built all the pieces: pipelines, registry, secrets, IDE, signing. But GlobeX developers still have to know about ArgoCD, Tekton, Quay, Vault, Dev Spaces — and log into each one separately. The CTO's vision was _one place_ for everything. Time to build that front door.
+You've built all the pieces: pipelines, registry, secrets, IDE, signing. But Golden Path Inc. developers still have to know about ArgoCD, Tekton, Quay, Vault, Dev Spaces: and log into each one separately. The CTO's vision was _one place_ for everything. Time to build that front door.
 ====
 
 You have deployed all the platform services: GitOps, CI/CD pipelines, secrets management, SSO, a cloud IDE, and supply chain signing. Now it is time to tie them all together with a **developer portal**.
 
-Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. It acts as the **single gateway** to your entire Internal Developer Platform — the one place where developers discover services, browse APIs, read documentation, and instantiate golden-path templates. It integrates with every service you have deployed so far:
+Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. It acts as the **single gateway** to your entire Internal Developer Platform: the one place where developers discover services, browse APIs, read documentation, and instantiate golden-path templates. It integrates with every service you have deployed so far:
 
-* **Keycloak** — SSO authentication (Module 3)
-* **GitLab** — source code discovery and repository creation (pre-installed)
-* **ArgoCD** — application deployment status (Module 2)
-* **OpenShift Pipelines** — pipeline run visibility (Module 2)
-* **External Secrets / Vault** — secrets injection (Modules 2 & 3)
-* **Dev Spaces** — one-click cloud IDE links (Module 4)
-* **Trusted Artifact Signer** — signed artifact verification (Module 5)
+* **Keycloak**: SSO authentication (Module 3)
+* **GitLab**: source code discovery and repository creation (pre-installed)
+* **ArgoCD**: application deployment status (Module 2)
+* **OpenShift Pipelines**: pipeline run visibility (Module 2)
+* **External Secrets / Vault**: secrets injection (Modules 2 & 3)
+* **Dev Spaces**: one-click cloud IDE links (Module 4)
+* **Trusted Artifact Signer**: signed artifact verification (Module 5)
 
 == The Helm Chart
 
@@ -39,7 +39,7 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{
 
 The chart installs the Developer Hub operator (via OLM) and a `Red Hat Developer Hub` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
 
-== Step 1 — Retrieve required credentials
+== Step 1: Retrieve required credentials
 
 [source,bash,subs="attributes"]
 ----
@@ -65,7 +65,7 @@ export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
 ----
 
-== Step 2 — Create the ArgoCD Application
+== Step 2: Create the ArgoCD Application
 
 [source,bash,subs="specialcharacters,attributes"]
 ----
@@ -180,7 +180,7 @@ TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop wa
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 
-TIP: 💡 **Platform health check** — Verify all components are healthy.
+TIP: 💡 **Platform health check**: Verify all components are healthy.
 
 [source,bash,subs="attributes"]
 ----

@@ -1,4 +1,4 @@
-= Day 1 at GlobeX — Discover the Foundation
+= Day 1 at Golden Path Inc.: Discover the Foundation
 :navtitle: Discover the Foundation
 :m1-status: ⏳
 :m2-status: ⚪
@@ -30,7 +30,7 @@ Platform engineering shifts the burden of toolchain complexity from individual t
 * Pre-built templates (golden paths) that encode security and best practices
 * Consistent experience across the organization
 
-== Architecture We Will Build
+== Architecture we will build
 
 This lab assembles an IDP on OpenShift using a layered architecture:
 
@@ -51,7 +51,7 @@ This lab assembles an IDP on OpenShift using a layered architecture:
 |Red Hat Build of Keycloak provides SSO across all platform services.
 
 |Developer Portal
-|Red Hat Developer Hub (Backstage) — single pane of glass for services, docs, templates.
+|Red Hat Developer Hub (Backstage): single pane of glass for services, docs, templates.
 
 |Developer Experience
 |Red Hat OpenShift Dev Spaces provides cloud IDEs. Software Templates create new projects in one click.
@@ -59,7 +59,7 @@ This lab assembles an IDP on OpenShift using a layered architecture:
 
 == GitOps Approach
 
-Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No manual `helm install` — ArgoCD reconciles desired state from Git into the cluster.
+Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No manual `helm install`: ArgoCD reconciles desired state from Git into the cluster.
 
 * You create an ArgoCD `Application` YAML
 * ArgoCD pulls the chart from Git and deploys it
@@ -67,7 +67,7 @@ Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No ma
 
 TIP: See xref:architecture-diagrams.adoc#_gitops_deployment_flow[GitOps Deployment Flow] diagram for a visual representation of this process.
 
-== Helm Chart Repository
+== Helm chart repository
 
 All platform components come from a single Helm chart repository:
 
@@ -84,15 +84,15 @@ All platform components come from a single Helm chart repository:
 
 Each ArgoCD Application references a chart path within this repository (e.g., `charts/rhdh-gitops`).
 
-== Pre-Installed Foundation
+== Pre-installed foundation
 
 Your cluster already has:
 
-* **OpenShift GitOps (ArgoCD)** — the GitOps engine
-* **GitLab** — source code management and CI/CD host
-* **HashiCorp Vault** — centralized secrets store
-* **NooBaa** — object storage (S3-compatible)
-* **Red Hat Build of Keycloak** — SSO and identity provider for all platform services
+* **OpenShift GitOps (ArgoCD)**: the GitOps engine
+* **GitLab**: source code management and CI/CD host
+* **HashiCorp Vault**: centralized secrets store
+* **NooBaa**: object storage (S3-compatible)
+* **Red Hat Build of Keycloak**: SSO and identity provider for all platform services
 
 In this module, you will explore these components.
 

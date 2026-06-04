@@ -47,7 +47,7 @@ Prepare three browser tabs:
 
 * "Every organization building on Kubernetes faces the same problem: **too many tools, too much cognitive load** for developers."
 * "Developers don't want to learn Helm, ArgoCD, Vault, Tekton, Keycloak. They want to write code and ship it."
-* "Platform engineering solves this by building a **self-service layer** — an Internal Developer Platform."
+* "Platform engineering solves this by building a **self-service layer**: an Internal Developer Platform."
 * "Today I'll show you one built entirely on **Red Hat OpenShift products**, deployed in under 2 hours using only **Helm charts and GitOps**."
 
 === Visual
@@ -91,16 +91,16 @@ TIP: For a polished presentation, display the xref:architecture-diagrams.adoc#_p
 
 [TIP]
 ====
-Show the end result first. Start with the developer's perspective — this is the hook.
+Show the end result first. Start with the developer's perspective: this is the hook.
 ====
 
 === Step 1: Open Developer Hub [2 min]
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 
-* Sign in via SSO (Keycloak) — "One login for the entire platform."
-* Browse the **Catalog** — "Every service, API, and component in one place."
-* Show a registered component — "Docs, ownership, dependencies, all discoverable."
+* Sign in via SSO (Keycloak): "One login for the entire platform."
+* Browse the **Catalog**: "Every service, API, and component in one place."
+* Show a registered component: "Docs, ownership, dependencies, all discoverable."
 
 === Step 2: Create an Application from a Template [3 min]
 
@@ -117,24 +117,24 @@ Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 While the template executes:
 
 * In Developer Hub, open the newly created component
-* Click on the **CI/CD** tab — show the Tekton pipeline run
+* Click on the **CI/CD** tab: show the Tekton pipeline run
 * Walk through the pipeline stages: "Clone → Build → Push to Quay → Sign with Sigstore → Deploy via ArgoCD"
-* "Each stage is a Tekton Task — a reusable, composable building block."
+* "Each stage is a Tekton Task: a reusable, composable building block."
 
 === Step 4: Explore the Component Page [3 min]
 
 Once the app is deployed:
 
-* Show the **Overview** tab — "Ownership, lifecycle, system — everything in one place."
-* Show the **ArgoCD plugin** — "The app is deployed and synced. Real-time status from ArgoCD."
-* Show the **Tekton plugin** — "Build history, logs, success/failure — no need to leave the portal."
-* Show the **Dependencies** tab (if available) — "Who depends on this service? Who does it call?"
-* Click the **Dev Spaces** link — "The developer can start coding immediately in a cloud IDE."
-* Open the app URL — "From template to running app in 3 minutes."
+* Show the **Overview** tab, "Ownership, lifecycle, system, everything in one place."
+* Show the **ArgoCD plugin**: "The app is deployed and synced. Real-time status from ArgoCD."
+* Show the **Tekton plugin**: "Build history, logs, success/failure: no need to leave the portal."
+* Show the **Dependencies** tab (if available): "Who depends on this service? Who does it call?"
+* Click the **Dev Spaces** link: "The developer can start coding immediately in a cloud IDE."
+* Open the app URL: "From template to running app in 3 minutes."
 
 ---
 
-== Act 3: How It All Works — The GitOps Engine [10 min]
+== Act 3: How It All Works: The GitOps Engine [10 min]
 
 [TIP]
 ====
@@ -145,9 +145,9 @@ Switch to ArgoCD. Now peel back the curtain.
 
 Open: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
 
-* "Everything you just saw was deployed by ArgoCD — including ArgoCD itself."
-* Show the list of Applications — "Each tile is a platform component, deployed from a Helm chart in Git."
-* Click on one (e.g., `keycloak`) — Show the resource tree: "ArgoCD renders the Helm chart and reconciles every resource."
+* "Everything you just saw was deployed by ArgoCD: including ArgoCD itself."
+* Show the list of Applications: "Each tile is a platform component, deployed from a Helm chart in Git."
+* Click on one (e.g., `keycloak`): Show the resource tree: "ArgoCD renders the Helm chart and reconciles every resource."
 
 === Step 2: Anatomy of a Deployment [2 min]
 
@@ -163,7 +163,7 @@ oc get application openshift-pipelines -n openshift-gitops -o yaml | head -30
 
 === Step 3: Self-Heal in Action [2 min]
 
-Demonstrate GitOps self-healing — delete a resource and watch ArgoCD restore it:
+Demonstrate GitOps self-healing: delete a resource and watch ArgoCD restore it:
 
 [source,bash,subs="attributes"]
 ----
@@ -171,7 +171,7 @@ Demonstrate GitOps self-healing — delete a resource and watch ArgoCD restore i
 oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --wait=false
 ----
 
-* Switch to ArgoCD UI — the application briefly shows **OutOfSync** then self-heals
+* Switch to ArgoCD UI: the application briefly shows **OutOfSync** then self-heals
 * "I just deleted a pod. ArgoCD detected the drift and recreated it in seconds."
 * "This is the power of GitOps: the cluster always converges to the state declared in Git."
 
@@ -186,7 +186,7 @@ oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --w
 
 * "We use two ArgoCD instances: one for the **platform** (openshift-gitops), one for **developer apps** (rhdh-gitops)."
 * Open: https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}[RHDH GitOps^]
-* "When a developer creates an app from a template, the ArgoCD Application lands here — not in the platform GitOps."
+* "When a developer creates an app from a template, the ArgoCD Application lands here: not in the platform GitOps."
 * "Separation of concerns: platform team owns platform GitOps, developers deploy through the portal."
 
 ---
@@ -197,9 +197,9 @@ oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --w
 
 Open: https://sso.{openshift_cluster_ingress_domain}[Keycloak^]
 
-* "One Keycloak realm — `sso` — provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
-* Show the **Clients** tab — "backstage, backstage-plugin, openshift — each service is a registered OIDC client."
-* Show **Users** and **Groups** — "Groups map to RBAC: developers get access to their namespaces, platform engineers get admin."
+* "One Keycloak realm, `sso`, provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
+* Show the **Clients** tab, "backstage, backstage-plugin, openshift, each service is a registered OIDC client."
+* Show **Users** and **Groups**: "Groups map to RBAC: developers get access to their namespaces, platform engineers get admin."
 
 === Step 2: Secrets Management [1.5 min]
 
@@ -214,7 +214,7 @@ oc exec -n vault vault-0 -- vault kv get kv/secrets/rhdh/common_password
 === Step 3: Supply Chain Security [1.5 min]
 
 * "Trusted Artifact Signer uses Sigstore to sign every container image built by Tekton."
-* "Developers don't think about it — it happens automatically in the pipeline."
+* "Developers don't think about it: it happens automatically in the pipeline."
 * Show the TAS operator: `oc get securesign -n trusted-artifact-signer`
 
 ---
@@ -272,15 +272,15 @@ EOF
 Switch to ArgoCD UI and watch it sync in real time.
 
 * "That's it. One YAML, applied to the cluster. ArgoCD does the rest."
-* "This is how we deployed every component — in under 2 hours."
+* "This is how we deployed every component: in under 2 hours."
 
 ---
 
-== Act 6: Code to Production — Live Cycle [8 min]
+== Act 6: Code to Production: Live Cycle [8 min]
 
 [TIP]
 ====
-This is the "wow" moment. Show the full inner loop: code change → pipeline → signed image → deployment — all automatic.
+This is the "wow" moment. Show the full inner loop: code change → pipeline → signed image → deployment: all automatic.
 ====
 
 === Step 1: Open Dev Spaces [2 min]
@@ -291,15 +291,15 @@ This is the "wow" moment. Show the full inner loop: code change → pipeline →
 Open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
 
 * "This is a full VS Code IDE running inside the cluster. Zero local setup."
-* Show the terminal — "Direct access to the cluster. No VPN, no port-forwarding."
-* Show the Git integration — "Already authenticated to GitLab via OAuth. No SSH keys to manage."
+* Show the terminal: "Direct access to the cluster. No VPN, no port-forwarding."
+* Show the Git integration: "Already authenticated to GitLab via OAuth. No SSH keys to manage."
 
 === Step 2: Make a Code Change [3 min]
 
 Make a visible change to the application:
 
 * Open a source file (e.g., `index.html`, `application.properties`, or a REST endpoint)
-* Change a visible string — a title, a welcome message, a color
+* Change a visible string: a title, a welcome message, a color
 * Commit and push from the Dev Spaces terminal:
 
 [source,bash]
@@ -315,11 +315,11 @@ git push
 
 Switch between tabs to narrate the automated workflow:
 
-. **GitLab** — "The commit landed. A webhook triggers the pipeline."
-. **OpenShift Console / Developer Hub** — "Tekton is running: clone, build, push, sign, deploy."
-. **Quay** — "The new image is in the registry, tagged and signed."
-. **ArgoCD (rhdh-gitops)** — "ArgoCD detected the new image and is updating the deployment."
-. **App URL** — Refresh the app — "There's our change. Live."
+. **GitLab**: "The commit landed. A webhook triggers the pipeline."
+. **OpenShift Console / Developer Hub**: "Tekton is running: clone, build, push, sign, deploy."
+. **Quay**: "The new image is in the registry, tagged and signed."
+. **ArgoCD (rhdh-gitops)**: "ArgoCD detected the new image and is updating the deployment."
+. **App URL**: Refresh the app: "There's our change. Live."
 
 * "From code change to production in under 2 minutes."
 * "The developer never left the browser. Never touched Helm, ArgoCD, or Vault."
@@ -343,14 +343,14 @@ bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/
 === Key Takeaways
 
 * "We built a complete IDP using **8 Red Hat / open source products**, all deployed via **GitOps**."
-* "Developers get a **self-service portal** — they never touch Helm, ArgoCD, or Vault directly."
-* "The platform team manages everything through **Git** — infrastructure as code, for real."
+* "Developers get a **self-service portal**: they never touch Helm, ArgoCD, or Vault directly."
+* "The platform team manages everything through **Git**: infrastructure as code, for real."
 * "From code to production, **fully automated**: build, sign, scan, deploy."
 * "This entire platform was deployed in **under 2 hours**. You can do it too."
 
 === Resources & Next Steps
 
-* The full hands-on lab is available — 7 modules, step by step
+* The full hands-on lab is available: 7 modules, step by step
 * All the Helm charts are open source: {helm_repo_browse}[{helm_repo_browse}^]
 * link:https://docs.redhat.com/en/documentation/red_hat_developer_hub/[Red Hat Developer Hub documentation^]
 * link:https://platformengineering.org/[Platform Engineering community^]
@@ -367,31 +367,31 @@ bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/
 
 |0:00
 |3 min
-|Act 1 — The Problem
+|Act 1: The Problem
 
 |3:00
 |10 min
-|Act 2 — Developer Experience (Developer Hub, create app, pipeline deep dive)
+|Act 2: Developer Experience (Developer Hub, create app, pipeline deep dive)
 
 |13:00
 |10 min
-|Act 3 — How It Works (ArgoCD, self-heal demo, Helm charts, GitOps)
+|Act 3: How It Works (ArgoCD, self-heal demo, Helm charts, GitOps)
 
 |23:00
 |5 min
-|Act 4 — Security & Identity (Keycloak, Vault, TAS)
+|Act 4: Security & Identity (Keycloak, Vault, TAS)
 
 |28:00
 |5 min
-|Act 5 — Live Deployment (deploy a component in real time)
+|Act 5: Live Deployment (deploy a component in real time)
 
 |33:00
 |8 min
-|Act 6 — Code to Production (Dev Spaces, code change, full cycle)
+|Act 6: Code to Production (Dev Spaces, code change, full cycle)
 
 |41:00
 |3 min
-|Act 7 — Wrap Up, Health Check & Q&A
+|Act 7: Wrap Up, Health Check & Q&A
 
 |*Total*
 |*44 min*
