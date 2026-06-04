@@ -123,7 +123,7 @@ Four problems solved. You've built GlobeX's CI/CD layer:
 * **Secrets in Slack** → External Secrets Operator — Vault secrets synced automatically
 * **Deployment chaos** → Dedicated ArgoCD — GitOps for every application deployment
 
-Next challenge: Vault is installed and ESO is connected, but the actual secrets aren't stored yet. Time to populate Vault with the credentials your platform needs.
+Next challenge: Vault is installed and External Secret Operator (ESO) is connected, but the actual secrets aren't stored yet. Time to populate Vault with the credentials your platform needs.
 
 == Next
 
