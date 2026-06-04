@@ -14,18 +14,18 @@
 
 include::partial$progress-bar.adoc[]
 
-== Welcome to GlobeX Corp!
+== Welcome to Golden Path Inc.!
 
 [NOTE]
 ====
-*Your mission:* You've just been hired as the **Platform Engineer** at GlobeX Corp, a fast-growing company. The CTO has given you a clear mandate:
+*Your mission:* You've just been hired as the **Platform Engineer** at Golden Path Inc., a fast-growing company. The CTO has given you a clear mandate:
 
 _"Our developers are drowning in tooling complexity. They spend 40% of their time fighting with infrastructure instead of shipping features. We're losing competitive advantage. I need you to build an Internal Developer Platform that gets them back to writing code — and I need it done today."_
 ====
 
 In this hands-on lab, you will build a fully functional **Internal Developer Platform (IDP)** on Red Hat OpenShift — step by step, using only **Helm charts** and **GitOps**.
 
-Each module presents a **real-world challenge** that GlobeX Corp is facing. You'll solve them one by one, and by the end of this 2-hour session, you'll have assembled a complete platform that enables developers to self-service their way from idea to production.
+Each module presents a **real-world challenge** that Golden Path Inc. is facing. You'll solve them one by one, and by the end of this 2-hour session, you'll have assembled a complete platform that enables developers to self-service their way from idea to production.
 
 === The Challenges You'll Solve
 

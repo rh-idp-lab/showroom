@@ -49,7 +49,7 @@ Log in with `admin` / `{common_password}`, then navigate to the **sso** realm an
 
 == Challenge #1 Complete
 
-You've mapped out GlobeX Corp's existing foundation. Now you know what's in place:
+You've mapped out Golden Path Inc.'s existing foundation. Now you know what's in place:
 
 * **ArgoCD** — GitOps engine; deploys from Helm charts in Git
 * **GitLab** — source code, CI/CD, OAuth provider

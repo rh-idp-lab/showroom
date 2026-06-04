@@ -13,7 +13,7 @@
 
 include::partial$progress-bar.adoc[]
 
-TIP: 🎉 **Mission accomplished!** The CTO's mandate is fulfilled. GlobeX Corp's developers can now go from idea to production without touching infrastructure. You solved 9 real challenges — from inconsistent builds to supply chain security — and assembled a complete Internal Developer Platform using only Helm charts and GitOps.
+TIP: 🎉 **Mission accomplished!** The CTO's mandate is fulfilled. Golden Path Inc.'s developers can now go from idea to production without touching infrastructure. You solved 9 real challenges — from inconsistent builds to supply chain security — and assembled a complete Internal Developer Platform using only Helm charts and GitOps.
 
 == What You Built at GlobeX
 
