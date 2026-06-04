@@ -7,8 +7,8 @@
 :m5-status: ⚪
 :m6-status: ⚪
 :m7-status: ⚪
-:overall-progress: 70
-:time-spent: 85
+:overall-progress: 55
+:time-spent: 60
 :time-remaining: 45
 
 include::partial$progress-bar.adoc[]

@@ -10,7 +10,7 @@
 :m7-status: ⚪
 :overall-progress: 0
 :time-spent: 0
-:time-remaining: 130
+:time-remaining: 105
 
 include::partial$progress-bar.adoc[]
 
@@ -113,7 +113,7 @@ TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual repre
 |Module |Duration |What You Do
 
 |*Module 1*
-|20 min
+|15 min
 |Explore the pre-installed foundation: ArgoCD, GitLab, Vault, NooBaa, Keycloak
 
 |*Module 2*
@@ -121,11 +121,11 @@ TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual repre
 |Deploy OpenShift Pipelines, Red Hat Quay (container registry), External Secrets Operator, and a dedicated ArgoCD instance
 
 |*Module 3*
-|15 min
+|10 min
 |Store platform secrets in Vault, configure RBAC
 
 |*Module 4*
-|15 min
+|10 min
 |Deploy Red Hat OpenShift Dev Spaces: a cloud IDE for developers
 
 |*Module 5*
@@ -133,11 +133,11 @@ TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual repre
 |Deploy Trusted Artifact Signer for supply chain security
 
 |*Module 6*
-|25 min
+|15 min
 |Deploy Red Hat Developer Hub, the portal that integrates all platform services, and create Software Templates
 
 |*Module 7*
-|15 min
+|10 min
 |Use the platform as a developer: instantiate a template, deploy an app
 |===
 
