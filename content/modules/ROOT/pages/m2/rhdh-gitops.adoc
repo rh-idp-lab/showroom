@@ -128,4 +128,10 @@ Four problems solved. You've built Golden Path Inc.'s CI/CD layer:
 * **Secrets in Slack** → External Secrets Operator: Vault secrets synced automatically
 * **Deployment chaos** → Dedicated ArgoCD: GitOps for every application deployment
 
+TIP: 💡 **Platform health check**: Verify all components are healthy.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
 Next challenge: Vault is installed and External Secret Operator (ESO) is connected, but the actual secrets aren't stored yet. Time to populate Vault with the credentials your platform needs.

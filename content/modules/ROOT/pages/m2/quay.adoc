@@ -174,3 +174,10 @@ TIP: Press **Ctrl+C** once you see `REGISTRY ENDPOINT` populated and `AVAILABLE:
 |`Job` (noobaa-status)
 |Waits for NooBaa to be healthy before creating the `QuayRegistry`
 |===
+TIP: 💡 **Platform health check**: Verify all components are healthy.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
+
