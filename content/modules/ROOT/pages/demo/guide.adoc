@@ -48,20 +48,49 @@ Prepare three browser tabs:
 * "Every organization building on Kubernetes faces the same problem: **too many tools, too much cognitive load** for developers."
 * "Developers don't want to learn Helm, ArgoCD, Vault, Tekton, Keycloak. They want to write code and ship it."
 * "Platform engineering solves this by building a **self-service layer**: an Internal Developer Platform."
+* "The link:https://platformengineering.org[platformengineering.org^] reference architecture defines six principles that guide successful IDP implementations. Today's demo respects all of them."
 * "Today I'll show you one built entirely on **Red Hat OpenShift products**, deployed in under 2 hours using only **Helm charts and GitOps**."
 
-=== Visual
+=== The Six Principles
 
-Show this architecture table (you can draw it on a whiteboard or display it):
+Use this table as a slide or draw it on a whiteboard. You will come back to each principle during the demo.
 
 [cols="1,3",options="header"]
 |===
-|Layer |What We Use
+|Principle |What it means for this platform
 
-|GitOps Foundation
+|*Product Mindset*
+|The platform is a product: designed around developer needs, measured by adoption, improved continuously.
+
+|*Golden Paths, Not Golden Cages*
+|Software Templates are pre-configured workflows that make the right way the easiest way, without locking teams in.
+
+|*Self-Service via Abstraction*
+|Developers provision environments, pipelines, and secrets from a portal — no ticket, no waiting.
+
+|*Developer Experience (DevEx)*
+|Zero local setup. One login. One portal. Cognitive load minimized at every step.
+
+|*Shared Responsibility & Governance*
+|Security, signing, and secret management are embedded in the platform — not left to individual teams.
+
+|*GitOps as the rule*
+|Every infrastructure change goes through Git. ArgoCD reconciles continuously.
+|===
+
+=== Platform Architecture
+
+[cols="1,3",options="header"]
+|===
+|Layer |What we use
+
+|Application platform
+|Red Hat OpenShift Container Platform
+
+|GitOps foundation
 |OpenShift GitOps (ArgoCD)
 
-|Source Code
+|Source code
 |GitLab
 
 |Secrets
@@ -76,14 +105,12 @@ Show this architecture table (you can draw it on a whiteboard or display it):
 |Cloud IDE
 |Red Hat OpenShift Dev Spaces
 
-|Supply Chain Security
+|Supply chain security
 |Red Hat Trusted Artifact Signer
 
-|**Developer Portal**
+|**Developer portal**
 |**Red Hat Developer Hub (Backstage)**
 |===
-
-TIP: For a polished presentation, display the xref:architecture-diagrams.adoc#_platform_overview_visual[Platform Architecture Diagram] on screen while explaining the layers.
 
 ---
 
@@ -92,25 +119,29 @@ TIP: For a polished presentation, display the xref:architecture-diagrams.adoc#_p
 [TIP]
 ====
 Show the end result first. Start with the developer's perspective: this is the hook.
+
+*Principles in action:* Product Mindset — Self-Service via Abstraction — Golden Paths, Not Golden Cages
 ====
 
 === Step 1: Open Developer Hub [2 min]
 
 Open: https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^]
 
-* Sign in via SSO (Keycloak): "One login for the entire platform."
-* Browse the **Catalog**: "Every service, API, and component in one place."
-* Show a registered component: "Docs, ownership, dependencies, all discoverable."
+* Sign in via SSO (Keycloak): "One login for the entire platform. That is the **Product Mindset** at work: no six different portals, no six passwords."
+* Browse the **Catalog**: "Every service, API, and component in one place. Developers can find who owns what, read the docs, and see deployment status — without opening Slack."
+* Show a registered component: "Ownership, lifecycle, dependencies: all discoverable from one screen."
 
 === Step 2: Create an Application from a Template [3 min]
 
-* Go to **Create** → Pick a Software Template (e.g., Quarkus Application)
+* Go to **Self Service** → Pick a Software Template (e.g., Quarkus Application)
 * Fill in the form: name, owner, description
 * Click **Create** and narrate each step:
 ** "A GitLab repo is being created..."
 ** "A Tekton pipeline is set up..."
 ** "An ArgoCD Application is created..."
 ** "The component is registered in the catalog."
+* "This is a **Golden Path**: the developer filled a form. The platform handled everything else. No Helm, no ArgoCD YAML, no Vault token."
+* "It is not a golden cage: they got a real Git repository, a real pipeline. They can extend both."
 
 === Step 3: Follow the Pipeline [2 min]
 
@@ -119,17 +150,17 @@ While the template executes:
 * In Developer Hub, open the newly created component
 * Click on the **CI/CD** tab: show the Tekton pipeline run
 * Walk through the pipeline stages: "Clone → Build → Push to Quay → Sign with Sigstore → Deploy via ArgoCD"
-* "Each stage is a Tekton Task: a reusable, composable building block."
+* "Each stage is a Tekton Task: a reusable, composable building block. The developer did not write any of this."
 
 === Step 4: Explore the Component Page [3 min]
 
 Once the app is deployed:
 
-* Show the **Overview** tab, "Ownership, lifecycle, system, everything in one place."
-* Show the **ArgoCD plugin**: "The app is deployed and synced. Real-time status from ArgoCD."
+* Show the **Overview** tab: "Ownership, lifecycle, system — everything in one place."
+* Show the **ArgoCD plugin**: "The app is deployed and synced. Real-time status from ArgoCD — without leaving the portal."
 * Show the **Tekton plugin**: "Build history, logs, success/failure: no need to leave the portal."
 * Show the **Dependencies** tab (if available): "Who depends on this service? Who does it call?"
-* Click the **Dev Spaces** link: "The developer can start coding immediately in a cloud IDE."
+* Click the **Dev Spaces** link: "The developer can start coding immediately in a cloud IDE. **Self-service via abstraction** — zero setup."
 * Open the app URL: "From template to running app in 3 minutes."
 
 ---
@@ -139,6 +170,8 @@ Once the app is deployed:
 [TIP]
 ====
 Switch to ArgoCD. Now peel back the curtain.
+
+*Principle in action:* GitOps as the rule
 ====
 
 === Step 1: ArgoCD Overview [2 min]
@@ -146,6 +179,7 @@ Switch to ArgoCD. Now peel back the curtain.
 Open: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}[ArgoCD^]
 
 * "Everything you just saw was deployed by ArgoCD: including ArgoCD itself."
+* "**GitOps as the rule**: no manual `kubectl apply`, no imperative scripts. Git is the source of truth."
 * Show the list of Applications: "Each tile is a platform component, deployed from a Helm chart in Git."
 * Click on one (e.g., `keycloak`): Show the resource tree: "ArgoCD renders the Helm chart and reconciles every resource."
 
@@ -159,7 +193,7 @@ oc get application openshift-pipelines -n openshift-gitops -o yaml | head -30
 ----
 
 * "This is the entire deployment definition. A source (Helm chart in Git) and a destination (namespace). That's it."
-* "No `helm install`. No manual steps. Git is the source of truth."
+* "No `helm install`. No manual steps. Git is the source of truth. Any drift is detected and corrected automatically."
 
 === Step 3: Self-Heal in Action [2 min]
 
@@ -167,7 +201,6 @@ Demonstrate GitOps self-healing: delete a resource and watch ArgoCD restore it:
 
 [source,bash,subs="attributes"]
 ----
-# Pick a non-critical pod and delete it
 oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --wait=false
 ----
 
@@ -180,7 +213,7 @@ oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --w
 * "All components come from a single Helm chart repository."
 * Show the repo: {helm_repo_browse}[{helm_repo_browse}^] (branch: `{helm_repo_tag}`)
 * "Each folder is a component: `keycloak/`, `external-secrets/`, `redhat-developer-hub/`, etc."
-* "Want to change something? Update the chart, push to Git, ArgoCD reconciles."
+* "Want to change something? Update the chart, push to Git, ArgoCD reconciles. One workflow for platform and applications."
 
 === Step 5: Two ArgoCD Instances [2 min]
 
@@ -193,13 +226,20 @@ oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --w
 
 == Act 4: Security & Identity [5 min]
 
+[TIP]
+====
+*Principle in action:* Shared Responsibility & Governance
+====
+
 === Step 1: SSO Everywhere [2 min]
 
 Open: https://sso.{openshift_cluster_ingress_domain}[Keycloak^]
 
-* "One Keycloak realm, `sso`, provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
-* Show the **Clients** tab, "backstage, backstage-plugin, openshift, each service is a registered OIDC client."
+* "One Keycloak realm provides SSO for Developer Hub, Dev Spaces, and ArgoCD."
+* "Developers log in once. The platform propagates their identity and permissions to every service."
+* Show the **Clients** tab: "backstage, backstage-plugin, openshift — each service is a registered OIDC client."
 * Show **Users** and **Groups**: "Groups map to RBAC: developers get access to their namespaces, platform engineers get admin."
+* "**Governance embedded in the platform**: no manual RBAC scripts per team, no shared credentials."
 
 === Step 2: Secrets Management [1.5 min]
 
@@ -209,12 +249,14 @@ oc exec -n vault vault-0 -- vault kv get kv/secrets/rhdh/common_password
 ----
 
 * "Vault stores shared secrets. External Secrets Operator syncs them into Kubernetes automatically."
-* "No secrets in Git. No manual `oc create secret`. It's all automated."
+* "No secrets in Git. No manual `oc create secret`. No secrets in Slack."
+* "This is **Shared Responsibility & Governance** in practice: security is enforced by the platform, not by individual discipline."
 
 === Step 3: Supply Chain Security [1.5 min]
 
 * "Trusted Artifact Signer uses Sigstore to sign every container image built by Tekton."
 * "Developers don't think about it: it happens automatically in the pipeline."
+* "The security auditor can verify the provenance of any image in production: when it was built, from which commit, by which pipeline."
 * Show the TAS operator: `oc get securesign -n trusted-artifact-signer`
 
 ---
@@ -223,7 +265,9 @@ oc exec -n vault vault-0 -- vault kv get kv/secrets/rhdh/common_password
 
 [TIP]
 ====
-Deploy one component live to prove it takes seconds.
+Deploy one component live to prove it takes seconds. This is the most concrete GitOps demonstration.
+
+*Principle in action:* GitOps as the rule
 ====
 
 Pick a component that isn't deployed yet (or delete one before the demo). For example, delete and redeploy `external-secrets`:
@@ -273,6 +317,7 @@ Switch to ArgoCD UI and watch it sync in real time.
 
 * "That's it. One YAML, applied to the cluster. ArgoCD does the rest."
 * "This is how we deployed every component: in under 2 hours."
+* "Any team member can reproduce this deployment. Git is the runbook."
 
 ---
 
@@ -281,6 +326,8 @@ Switch to ArgoCD UI and watch it sync in real time.
 [TIP]
 ====
 This is the "wow" moment. Show the full inner loop: code change → pipeline → signed image → deployment: all automatic.
+
+*Principles in action:* Developer Experience (DevEx) — Self-Service via Abstraction — GitOps as the rule
 ====
 
 === Step 1: Open Dev Spaces [2 min]
@@ -290,7 +337,8 @@ This is the "wow" moment. Show the full inner loop: code change → pipeline →
 
 Open: https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^]
 
-* "This is a full VS Code IDE running inside the cluster. Zero local setup."
+* "This is a full VS Code IDE running inside the cluster. **Zero local setup.** The developer's environment is defined as code, identical for every team member."
+* "This is **Developer Experience**: no 47-step onboarding guide. Day one productivity, from a browser tab."
 * Show the terminal: "Direct access to the cluster. No VPN, no port-forwarding."
 * Show the Git integration: "Already authenticated to GitLab via OAuth. No SSH keys to manage."
 
@@ -309,7 +357,7 @@ git commit -m "Update welcome message"
 git push
 ----
 
-* "That push triggers the entire pipeline automatically."
+* "That push triggers the entire pipeline automatically. The developer's job is done."
 
 === Step 3: Watch the Full Cycle [3 min]
 
@@ -323,7 +371,7 @@ Switch between tabs to narrate the automated workflow:
 
 * "From code change to production in under 2 minutes."
 * "The developer never left the browser. Never touched Helm, ArgoCD, or Vault."
-* "**That's what an Internal Developer Platform does.**"
+* "**That is what an Internal Developer Platform does.**"
 
 ---
 
@@ -338,11 +386,38 @@ Show the platform health check to reinforce the scope of what was built:
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
 
-* "11 components, all healthy, all deployed via GitOps."
+* "11 components, all healthy, all deployed via GitOps. One command to verify the entire platform."
+
+=== Principles Check
+
+Come back to the six principles. Every one was demonstrated today.
+
+[cols="2,3",options="header"]
+|===
+|Principle |What you just saw
+
+|*Product Mindset*
+|Developer Hub is the front door of the platform. One portal, one login, designed around developer needs.
+
+|*Golden Paths, Not Golden Cages*
+|A Software Template created a Git repo, a pipeline, an ArgoCD app, and a catalog entry — from a single form. The right way is the easy way.
+
+|*Self-Service via Abstraction*
+|The developer never opened a ticket. Never contacted the platform team. Never touched Helm or ArgoCD.
+
+|*Developer Experience (DevEx)*
+|Dev Spaces: browser-based IDE, zero local setup, authenticated out of the box. Day one productivity.
+
+|*Shared Responsibility & Governance*
+|Every image is signed (TAS). Secrets never touch Git (Vault + ESO). SSO propagates identity to every service (Keycloak).
+
+|*GitOps as the rule*
+|Every component deployed via an ArgoCD Application pointing to a Helm chart in Git. Live self-heal demo proved it.
+|===
 
 === Key Takeaways
 
-* "We built a complete IDP using **8 Red Hat / open source products**, all deployed via **GitOps**."
+* "We built a complete IDP using **Red Hat OpenShift products**, all deployed via **GitOps**."
 * "Developers get a **self-service portal**: they never touch Helm, ArgoCD, or Vault directly."
 * "The platform team manages everything through **Git**: infrastructure as code, for real."
 * "From code to production, **fully automated**: build, sign, scan, deploy."
@@ -354,6 +429,7 @@ bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/
 * All the Helm charts are open source: {helm_repo_browse}[{helm_repo_browse}^]
 * link:https://docs.redhat.com/en/documentation/red_hat_developer_hub/[Red Hat Developer Hub documentation^]
 * link:https://platformengineering.org/[Platform Engineering community^]
+* link:https://www.redhat.com/en/solutions/internal-developer-platform[Red Hat Internal Developer Platform solution page^]
 
 === Questions?
 
@@ -367,7 +443,7 @@ bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/
 
 |0:00
 |3 min
-|Act 1: The Problem
+|Act 1: The Problem + Platform Engineering Principles
 
 |3:00
 |10 min
@@ -391,9 +467,10 @@ bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/
 
 |41:00
 |3 min
-|Act 7: Wrap Up, Health Check & Q&A
+|Act 7: Wrap Up, Principles Check & Q&A
 
 |*Total*
 |*44 min*
 |
+
 |===
