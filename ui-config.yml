@@ -31,17 +31,19 @@ tabs:
     url: 'https://openshift-gitops-server-openshift-gitops.${DOMAIN}'
     external: true
 
-  # # Developer Hub (Red Hat Developer Hub / Backstage)
-  # - name: Developer Hub
-  #   url: 'https://backstage-rhdh.${DOMAIN}'
-  #   external: true
+  # Application-level ArgoCD (RHDH dedicated instance)
+  - name: ArgoCD (Apps)
+    url: 'https://rhdh-gitops-server-rhdh-gitops.${DOMAIN}'
+    external: true
+
+  # Developer Hub (Red Hat Developer Hub / Backstage)
+  - name: Developer Hub
+    url: 'https://backstage-rhdh.${DOMAIN}'
+    external: true
 
   # # Cloud IDE
   # - name: Dev Spaces
   #   url: 'https://devspaces.${DOMAIN}'
   #   external: true
 
-  # # Application-level ArgoCD (RHDH dedicated instance)
-  # - name: ArgoCD (Apps)
-  #   url: 'https://rhdh-gitops-server-rhdh-gitops.${DOMAIN}'
-  #   external: true
+
