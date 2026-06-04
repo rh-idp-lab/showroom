@@ -56,7 +56,75 @@ This lab assembles an IDP on OpenShift using a layered architecture:
 |Developer Experience
 |Red Hat OpenShift Dev Spaces provides cloud IDEs. Software Templates create new projects in one click.
 |===
+[ditaa]
+----
+                          +------------------+
+                          |   Developers     |
+                          |   (Web Browser)  |
+                          +--------+---------+
+                                   |
+                                   | HTTPS (SSO via Keycloak)
+                                   v
+                    +------------------------------+
+                    |  Red Hat Developer Hub       |
+                    |  (Backstage)                 |
+                    |  - Service Catalog           |
+                    |  - Software Templates        |
+                    |  - Plugins (ArgoCD, Tekton)  |
+                    +--------------+---------------+
+                                   |
+                +------------------+-------------------+
+                |                  |                   |
+                v                  v                   v
+    +-----------+------+  +--------+--------+  +-------+---------+
+    | OpenShift Dev    |  | GitLab          |  | ArgoCD (Apps)   |
+    | Spaces           |  | - Repositories  |  | rhdh-gitops     |
+    | (Cloud IDE)      |  | - OAuth         |  +--------+--------+
+    +------------------+  +-----------------+           |
+                                   |                    |
+                                   | Git Push           | GitOps Sync
+                                   v                    v
+                    +------------------------------+
+                    |  OpenShift Pipelines         |
+                    |  (Tekton)                    |
+                    |  - Build                     |
+                    |  - Test                      |
+                    |  - Sign (TAS)                |
+                    +--------------+---------------+
+                                   |
+                    +--------------+---------------+
+                    |              |               |
+                    v              v               v
+         +----------+----+  +------+------+  +-----+----------+
+         | Red Hat Quay |  | Vault       |  | OpenShift      |
+         | (Registry)   |  | (Secrets)   |  | (Runtime)      |
+         +--------------+  +------+------+  +----------------+
+                                  ^
+                                  |
+                    +-------------+----------------+
+                    | External Secrets Operator    |
+                    | (Vault -> K8s Secrets)       |
+                    +------------------------------+
 
+    +----------------------------------------------------------+
+    |              Identity & Access Control                    |
+    |  Red Hat Build of Keycloak (RHBK)                        |
+    |  - SSO for all platform services                         |
+    |  - RBAC mapping (users, groups, roles)                   |
+    +----------------------------------------------------------+
+
+    +----------------------------------------------------------+
+    |              Platform Foundation                          |
+    |  OpenShift GitOps (ArgoCD - Platform)                    |
+    |  - Deploys all platform components                       |
+    |  - Reconciles Helm charts from Git                       |
+    +----------------------------------------------------------+
+
+    +----------------------------------------------------------+
+    |              Storage & Security                           |
+    |  NooBaa (S3-compatible) | Trusted Artifact Signer        |
+    +----------------------------------------------------------+
+----
 == GitOps Approach
 
 Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No manual `helm install`: ArgoCD reconciles desired state from Git into the cluster.
@@ -65,7 +133,6 @@ Everything is deployed as **ArgoCD Applications** pointing to Helm charts. No ma
 * ArgoCD pulls the chart from Git and deploys it
 * Changes to Git are automatically reconciled (or manually synced)
 
-TIP: See xref:architecture-diagrams.adoc#_gitops_deployment_flow[GitOps Deployment Flow] diagram for a visual representation of this process.
 
 == Helm chart repository
 

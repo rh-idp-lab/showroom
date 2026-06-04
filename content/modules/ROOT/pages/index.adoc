@@ -104,7 +104,6 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 |Red Hat Trusted Artifact Signer (Sigstore)
 |===
 
-TIP: See xref:architecture-diagrams.adoc[Architecture Diagrams] for visual representations of the platform architecture, deployment flow, and component interactions.
 
 === Lab Structure
 
