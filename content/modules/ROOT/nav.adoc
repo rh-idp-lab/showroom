@@ -1,5 +1,3 @@
-* xref:demo/guide.adoc[Demo Guide (45 min)]
-
 * xref:index.adoc[Welcome to Golden Path Inc.]
 * xref:env.adoc[Your Environment]
 
@@ -35,3 +33,5 @@
 ** xref:m7/developer-experience.adoc[Ship Code Without Help]
 
 * xref:m7/conclusion.adoc[Mission Accomplished]
+
+* xref:demo/guide.adoc[Demo Guide (45 min)]

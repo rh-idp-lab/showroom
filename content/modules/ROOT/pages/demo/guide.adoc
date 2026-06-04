@@ -41,6 +41,440 @@ Prepare three browser tabs:
 
 ---
 
+== Deployment Runbook
+
+[NOTE]
+====
+Run this section **before the demo** to deploy all platform components from scratch. Skip directly to the Acts if the platform is already deployed and healthy.
+
+All commands use `{helm_repo}` and `{helm_repo_tag}` as Antora attributes. Replace them with the actual values for your cluster if running outside Showroom.
+====
+
+=== Step 1: OpenShift Pipelines
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > pipelines-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-pipelines
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-operators
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: openshift-pipelines
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=false
+      - RespectIgnoreDifferences=true
+EOF
+oc apply -f pipelines-application.yaml
+----
+
+Wait for `Ready=True`:
+
+[source,bash,subs="attributes"]
+----
+oc get tektonconfig -w
+----
+
+=== Step 2: Red Hat Quay
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > quay-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quay
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: quay-registry
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: quay
+    helm:
+      values: |
+        quay-registry:
+          quay:
+            host: quay.{openshift_cluster_ingress_domain}
+            adminUser: quayadmin
+            adminUserPassword: {common_password}
+          noobaa:
+            name: noobaa
+            namespace: openshift-storage
+          vault:
+            name: vault
+            namespace: vault
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 10
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+oc apply -f quay-application.yaml
+----
+
+=== Step 3: External Secrets Operator
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > external-secrets-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-secrets
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets
+  project: default
+  ignoreDifferences:
+    - group: admissionregistration.k8s.io
+      kind: MutatingWebhookConfiguration
+      jqPathExpressions:
+        - '.webhooks[]?.clientConfig.caBundle'
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: external-secrets
+    helm:
+      values: |
+        vault-integration:
+          vault:
+            namespace: vault
+            name: vault
+            auth:
+              namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+oc apply -f external-secrets-application.yaml
+----
+
+=== Step 4: Vault — Store the Common Password
+
+[source,bash,subs="attributes"]
+----
+VAULT_TOKEN=$(oc get secret vault-token -n vault -o jsonpath='{.data.token}' | base64 -d)
+
+oc exec -n vault vault-0 -- env VAULT_TOKEN=$VAULT_TOKEN \
+  vault kv put kv/secrets/rhdh/common_password password={common_password}
+----
+
+=== Step 5: RHDH GitOps (Dedicated ArgoCD for Apps)
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > rhdh-gitops-application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhdh-gitops
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rhdh-gitops
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: gitops
+    helm:
+      values: |
+        nameOverride: rhdh-gitops
+        password: {common_password}
+        controller:
+          resources:
+            requests:
+              cpu: 500m
+              memory: 1Gi
+            limits:
+              cpu: 1500m
+              memory: 3Gi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 2
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+oc apply -f rhdh-gitops-application.yaml
+----
+
+=== Step 6: Red Hat OpenShift Dev Spaces
+
+First, create a GitLab OAuth application for Dev Spaces:
+
+. Open https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] as `user1` / `{common_password}`
+. Go to *Avatar → Edit profile → Applications → Add new application*:
+** Name: `devspaces`
+** Redirect URI: `https://devspaces.{openshift_cluster_ingress_domain}/api/oauth/callback`
+** Scopes: `api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
+. Save and copy the Application ID and Secret
+
+[source,bash,subs="attributes"]
+----
+export GITLAB_OAUTH_ID=<Application ID>
+export GITLAB_OAUTH_SECRET=<Secret>
+
+cat <<EOF > devspaces-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devspaces
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: devspaces
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        devspaces:
+          gitlab:
+            url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+            oauthClientId: $GITLAB_OAUTH_ID
+            oauthClientSecret: $GITLAB_OAUTH_SECRET
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-devspaces
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+      - CreateNamespace=true
+      - RespectIgnoreDifferences=true
+EOF
+oc apply -f devspaces-app.yaml
+----
+
+=== Step 7: Red Hat Trusted Artifact Signer
+
+[source,bash,subs="attributes"]
+----
+cat <<'EOF' > trusted-artifact-signer-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trusted-artifact-signer
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: rhtas
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        trusted-artifact-signer:
+          instance: securesign
+          email: admin@example.com
+          org: my-org
+          oidc: sso.{openshift_cluster_ingress_domain}/realms/sso
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-artifact-signer
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    retry:
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m0s
+      limit: 5
+    syncOptions:
+      - CreateNamespace=true
+EOF
+oc apply -f trusted-artifact-signer-app.yaml
+----
+
+=== Step 8: Red Hat Developer Hub
+
+First, retrieve the secrets needed by the Helm chart:
+
+[source,bash,subs="attributes"]
+----
+# GitLab root token
+export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab \
+  -o jsonpath='{.data.token}' | base64 -d)
+
+# ArgoCD admin password
+export ARGOCD_PASSWORD="{common_password}"
+
+# Keycloak: retrieve the backstage client secret
+export KEYCLOAK_TOKEN=$(curl -sk -X POST \
+  "https://sso.{openshift_cluster_ingress_domain}/realms/master/protocol/openid-connect/token" \
+  -d "client_id=admin-cli&username=admin&password={common_password}&grant_type=password" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+
+export CLIENT_UUID=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients?clientId=backstage" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)[0]['id'])")
+
+export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients/$CLIENT_UUID/client-secret" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
+
+echo "GITLAB_TOKEN: $GITLAB_TOKEN"
+echo "KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET"
+----
+
+[source,bash,subs="attributes"]
+----
+cat <<EOF > backstage-bootstrap-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: backstage-bootstrap
+  namespace: openshift-gitops
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io/foreground
+spec:
+  project: default
+  source:
+    repoURL: {helm_repo}
+    path: redhat-developer-hub
+    targetRevision: {helm_repo_tag}
+    helm:
+      values: |
+        redhat-developer-hub-prereqs:
+          namespace: rhdh
+          backstage:
+            argocd:
+              password: $ARGOCD_PASSWORD
+            gitlab:
+              token: $GITLAB_TOKEN
+            oauth:
+              clientId: backstage
+              clientSecret: $KEYCLOAK_CLIENT_SECRET
+
+        redhat-developer-hub-config-template:
+          nameOverride: "backstage"
+          namespace: rhdh
+          gitlab:
+            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+            rootPassword: {common_password}
+          backstage:
+            host: backstage-rhdh.{openshift_cluster_ingress_domain}
+          keycloak:
+            host: sso.{openshift_cluster_ingress_domain}
+            realm: sso
+            clientId: backstage
+            clientSecret: $KEYCLOAK_CLIENT_SECRET
+          gitops:
+            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+          kubernetes:
+            api: https://kubernetes.default.svc
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
+          quay:
+            project: quayadmin
+          stackrox:
+            endpoint: central-stackrox.apps.cluster-m4mqn.dynamic2.redhatworkshops.io:443
+
+        redhat-developer-hub-application:
+          gitops:
+            namespace: openshift-gitops
+          helm:
+            values:
+              git:
+                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rhdh
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+EOF
+oc apply -f backstage-bootstrap-app.yaml
+----
+
+TIP: Developer Hub installs its dynamic plugins on first boot. Wait 5–10 minutes before the portal is accessible.
+
+=== Final Health Check
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
+
+All components should show ✅. The platform is ready for the demo.
+
+---
+
 == Act 1: The Problem [3 min]
 
 === Talking Points
