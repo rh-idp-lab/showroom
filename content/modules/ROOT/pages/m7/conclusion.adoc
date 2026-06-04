@@ -115,7 +115,8 @@ The total cost of ownership of a DIY platform is not the cost of open-source lic
 
 This platform is a foundation, not a ceiling. Possible next steps:
 
-* *More golden paths*: Add templates for Spring Boot, Python, or Node.js microservices.
+* *AI workloads*: A modern IDP must be able to host AI workloads and make them consumable by developers with no ML expertise. Red Hat OpenShift AI provides a managed environment for training, serving, and monitoring models directly on the cluster. Expose model endpoints through RHDH software templates so developers access AI capabilities the same way they access any other service — from the catalog, in one click.
+* *More golden paths*: Add templates for Quarkus, Spring Boot, Python, or Node.js microservices.
 * *Observability*: Integrate OpenShift Monitoring and Grafana dashboards into the RHDH catalog.
 * *Service mesh*: Add Red Hat OpenShift Service Mesh for traffic management, mTLS, and tracing.
 * *Custom plugins*: Surface your organization's internal tools (ITSM, cost management, compliance) directly in RHDH.
@@ -125,9 +126,7 @@ This platform is a foundation, not a ceiling. Possible next steps:
 
 * link:https://docs.redhat.com/en/documentation/red_hat_developer_hub/[Red Hat Developer Hub documentation^]
 * link:https://docs.openshift.com/gitops/[OpenShift GitOps documentation^]
-* link:https://backstage.io[Backstage.io community^]
 * link:https://platformengineering.org/[Platform Engineering community^]
-* link:https://www.redhat.com/en/solutions/internal-developer-platform[Red Hat Internal Developer Platform solution page^]
 
 == Thank you
 
