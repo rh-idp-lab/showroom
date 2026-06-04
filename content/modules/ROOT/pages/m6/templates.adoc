@@ -37,3 +37,187 @@ Developer Hub will register the `Location` entity and automatically discover all
 
 . Navigate to **Self Service** in the left menu.
 . You should now see the four OpenCodeQuest templates available for use.
+
+== Deploy your first service: Fight-UI
+
+Now that templates are registered, use the simplest one to prove the platform end to end. The *Fight-UI* template deploys a pre-built frontend application directly — no CI pipeline, no build step. It is the fastest path to a running component in the catalog.
+
+=== What it creates
+
+[cols="1,3",options="header"]
+|===
+|Resource |Details
+
+|GitLab repository (`fight-ui`)
+|Source code repository under your user namespace
+
+|GitLab repository (`fight-ui-gitops`)
+|Helm manifests and ArgoCD Application definitions
+
+|ArgoCD Application (`<user>-fight-ui-bootstrap`)
+|Created in `rhdh-gitops`, deploys the app to the `workshop-dev` namespace
+
+|OpenShift Deployment
+|Pulls the pre-built image `ghcr.io/cescoffier/quarkus-openshift-workshop-fight-ui:main` — no build required
+
+|Catalog component
+|Registered automatically in Developer Hub, linked to the `opencodequest` system
+|===
+
+=== Run the template
+
+. In Developer Hub, click **Self Service**.
+. Click **OpenCodeQuest - Fight-UI service**.
+. Fill in the form:
++
+[cols="1,3",options="header"]
+|===
+|Field |Value
+
+|*OpenShift Cluster*
+|Select `{openshift_cluster_ingress_domain}` from the dropdown
+
+|*System*
+|Select `opencodequest`
+|===
+
+. Click **Next**, then **Create**.
+
+Watch the steps execute: source repository → gitops repository → ArgoCD resources → catalog registration. Each step is a Backstage scaffolder action running on the cluster.
+
+=== Explore the component
+
+Once the template completes, click **Open Component in catalog**.
+
+[cols="1,3",options="header"]
+|===
+|Tab |What you see
+
+|**Overview**
+|Owner, lifecycle, system (`opencodequest`), description and links to both GitLab repositories
+
+|**ArgoCD**
+|Sync status and health of the `fight-ui-bootstrap` application in `rhdh-gitops` — the deployment converging to the desired state in Git
+
+|**Topology**
+|Live view of the pods running in the `workshop-dev` namespace: the Fight-UI deployment and its route
+
+|**Source**
+|Direct link to the `fight-ui` GitLab repository created by the template
+|===
+
+This is the plugin ecosystem in action. One component, deployed from a single form, visible across GitLab, ArgoCD, and OpenShift — all from inside Developer Hub.
+
+== Deploy a service with CI/CD: Quarkus CRUD Microservice
+
+Now step up to a real golden path. The *OpenCodeQuest - Quarkus CRUD Microservice* template generates a full Quarkus application from scratch, sets up a Tekton pipeline, pushes images to Quay, and wires a Dev Spaces workspace — all in a single form.
+
+=== What it creates
+
+[cols="1,3",options="header"]
+|===
+|Resource |Details
+
+|GitLab repository (`<name>`)
+|Generated Quarkus source code (REST API + PostgreSQL) with `devfile.yaml` for Dev Spaces
+
+|GitLab repository (`<name>-gitops`)
+|Helm charts for the Tekton pipeline, ArgoCD Applications, and deployment manifests
+
+|Tekton Pipeline
+|CI pipeline deployed by ArgoCD: clone → build (Maven) → push image to Quay → (optionally) sign with TAS → deploy
+
+|ArgoCD Application (`<user>-<name>-bootstrap`)
+|Bootstraps all gitops resources in `rhdh-gitops`, which then deploys the app to `workshop-dev`
+
+|Quay repository
+|Image repository in the `quayadmin` organization, created automatically on first push
+
+|Catalog component
+|Registered with full plugin support: GitLab, Tekton, ArgoCD, Topology, Quay, Dev Spaces
+|===
+
+=== Run the template
+
+. In Developer Hub, click **Self Service**.
+. Click **OpenCodeQuest - Quarkus CRUD microservice**.
+. Fill in the form:
++
+[cols="1,3",options="header"]
+|===
+|Field |Value
+
+|*OpenShift Cluster*
+|Select `{openshift_cluster_ingress_domain}`
+
+|*Image Host*
+|Pre-filled: `quay.{openshift_cluster_ingress_domain}`
+
+|*Organization*
+|Pre-filled: `quayadmin`
+
+|*Image Tag*
+|`latest`
+
+|*Name*
+|`hero` (or any short lowercase name)
+
+|*System*
+|Select `opencodequest`
+
+|*Group Id*
+|`com.redhat.workshop`
+
+|*Verify Commits*
+|`disabled` (enable only if TAS is deployed and configured)
+|===
+
+. Click **Next** through each step, then **Create**.
+
+The scaffolder executes 6 steps: source skeleton → GitLab publish → catalog register → gitops manifests → GitLab gitops publish → ArgoCD bootstrap.
+
+=== Trigger the first pipeline run
+
+Once the component is registered, the ArgoCD bootstrap application deploys the Tekton pipeline resources into the cluster. A push to `main` triggers the pipeline automatically.
+
+The easiest way is to use Dev Spaces directly from the component page:
+
+. Open the component in the catalog → click **Open in Dev Spaces** (in the shortcuts on the Overview tab).
+. Dev Spaces opens a browser-based VS Code IDE, already cloned and authenticated.
+. Make any small visible change (a comment, a string in a REST response, etc.).
+. Use the **Source Control** panel in the left sidebar to stage, commit, and push — no terminal needed.
+. The push triggers the Tekton pipeline via a GitLab webhook. Switch back to Developer Hub and open the **CI/CD** tab to follow the run.
+
+[WARNING]
+====
+The demo environment has limited cluster resources (CPU, memory, ephemeral storage). The first pipeline run — which downloads all Maven dependencies and builds the container image — may fail with resource pressure errors such as `node(s) had untolerated taint {node.kubernetes.io/disk-pressure}` or `OOMKilled`.
+
+If the pipeline fails, retry the run from the **CI/CD** tab. Subsequent runs are faster because Maven artifacts are cached. If failures persist, the Fight-UI component (deployed in the previous step) already demonstrates the ArgoCD and Topology integrations without requiring a successful pipeline run.
+====
+
+=== Explore the component
+
+[cols="1,3",options="header"]
+|===
+|Tab |What you see
+
+|**Overview**
+|Owner, system (`opencodequest`), links to source and gitops repositories
+
+|**CI/CD**
+|Tekton pipeline runs: each stage (clone, build, push, sign, deploy) with logs and duration
+
+|**ArgoCD**
+|Bootstrap application health + the child applications managing the deployment
+
+|**Topology**
+|Running pods in `workshop-dev` — the Quarkus app and its PostgreSQL database
+
+|**Image**
+|Quay repository with the built image, vulnerability scan results (Clair)
+
+|**Dev Spaces**
+|One-click link to open the source repository in a browser-based VS Code IDE, pre-configured with the Quarkus toolchain
+|===
+
+NOTE: The first pipeline run pulls Maven dependencies and may take 3–5 minutes. Subsequent runs are significantly faster.
