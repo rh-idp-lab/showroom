@@ -8,6 +8,11 @@
 Golden Path Inc.'s dev teams use a mix of `kubectl apply`, shell scripts, and "just SSH into the server". Deployments are invisible, inconsistent, and scary. You'll give developers their own GitOps instance: a dedicated ArgoCD that handles application deployments, separate from the platform ArgoCD you've been using.
 ====
 
+.Platform Engineering Principle: GitOps as the rule
+****
+Developer application deployments follow the same GitOps model as the platform itself. Every application is an ArgoCD `Application` resource pointing to a Helm chart in Git. There are no imperative scripts, no manual approvals: Git is the source of truth, and ArgoCD is the enforcement engine.
+****
+
 == Why a separate ArgoCD instance
 
 The cluster GitOps ArgoCD (in `openshift-gitops`) manages platform components. A separate ArgoCD instance in `rhdh-gitops` is used for developer applications. This separation provides:

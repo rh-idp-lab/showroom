@@ -20,6 +20,11 @@ include::partial$progress-bar.adoc[]
 Golden Path Inc. just hired five new developers. The team lead's onboarding checklist has 47 steps: install Node, Python, oc, helm, configure git, set up SSH keys, request VPN access, install IDE plugins... By day 3 they still haven't written a line of code. You need a cloud IDE that gives them a fully configured development environment in seconds.
 ====
 
+.Platform Engineering Principle: Developer Experience (DevEx)
+****
+Cognitive load at onboarding is a direct measure of platform maturity. Dev Spaces eliminates the "works on my machine" problem entirely: the development environment is defined as code, provisioned on demand in the browser, and identical for every developer on the team. Day 1 productivity becomes the standard, not the exception.
+****
+
 Red Hat OpenShift Dev Spaces provides a cloud-based IDE for developers with pre-configured workspaces, Git integration, and terminal access: all in the browser.
 
 == Why Dev Spaces?

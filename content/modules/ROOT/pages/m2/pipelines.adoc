@@ -20,6 +20,11 @@ include::partial$progress-bar.adoc[]
 Golden Path Inc.'s developers each have their own build scripts, their own local toolchains, and their own "it works for me" stories. You need a single, reproducible CI/CD system that runs builds the same way every time: inside containers, on the cluster.
 ====
 
+.Platform Engineering Principle: GitOps as the rule
+****
+The pipeline definition lives in Git alongside the application code. ArgoCD reconciles the Tekton resources from the Helm chart automatically: no manual `kubectl apply`, no imperative scripts. When you update a pipeline step, you commit, push, and let GitOps do the rest.
+****
+
 == Why OpenShift Pipelines?
 
 For CI/CD pipelines in this IDP, we chose **OpenShift Pipelines** (based on Tekton) rather than GitLab CI. Both are valid options: GitLab CI is already available in this cluster and perfectly capable of running pipelines. However, OpenShift Pipelines offers a compelling advantage for a platform engineering context:

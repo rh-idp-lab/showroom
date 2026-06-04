@@ -20,6 +20,11 @@ include::partial$progress-bar.adoc[]
 The CTO is watching. You've built the platform, now prove it works. Switch perspective: you're no longer the Platform Engineer. You're a Golden Path Inc. developer who just needs to ship a feature. No Helm, no ArgoCD, no Vault, just the portal, a template, and your code.
 ====
 
+.Platform Engineering Principle: Self-Service via Abstraction
+****
+This module is the ultimate proof of concept. A developer opens the portal, fills in a form, and gets a fully configured Git repository, a running pipeline, and a deployed application — without opening a single ticket, reading a runbook, or contacting the platform team. This is what self-service via abstraction looks like in practice.
+****
+
 Switch perspective: use the IDP you built as a developer would: from template selection to deployment.
 
 == Run a software template

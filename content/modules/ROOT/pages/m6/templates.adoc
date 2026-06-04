@@ -3,6 +3,11 @@
 
 The portal is live and the catalog is populated. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths: the ultimate self-service experience.
 
+.Platform Engineering Principle: Golden Paths, Not Golden Cages
+****
+A Software Template is the embodiment of a golden path. It bundles everything a developer needs to start shipping: a Git repository, a Tekton pipeline, an ArgoCD application, a Quay image tag, and a Vault secret reference — all created from a single form fill. The "right way" to build a service at Golden Path Inc. is also the easiest way. Developers are not forced into it, but they have no reason to look elsewhere.
+****
+
 You will now register a pre-built collection of templates from your GitLab repository into the Developer Hub catalog.
 
 == The templates Location file

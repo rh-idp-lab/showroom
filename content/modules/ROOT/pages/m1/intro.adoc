@@ -24,11 +24,36 @@ An **Internal Developer Platform (IDP)** is a self-service layer that reduces co
 
 == Why Platform Engineering Matters
 
-Platform engineering shifts the burden of toolchain complexity from individual teams to a dedicated platform layer. Developers get:
+Platform engineering shifts the burden of toolchain complexity from individual teams to a dedicated platform layer. Instead of every developer managing their own CI setup, secrets strategy, or deployment scripts, the platform team builds the road — and developers drive on it.
 
-* Self-service access to environments, pipelines, and services
-* Pre-built templates (golden paths) that encode security and best practices
-* Consistent experience across the organization
+The reference architecture from link:https://platformengineering.org[platformengineering.org^] defines a set of principles shared by successful IDP implementations. This lab is designed around them.
+
+== Platform Engineering Principles
+
+[cols="1,3",options="header"]
+|===
+|Principle |What it means
+
+|*Product Mindset*
+|Treat the platform as a product, not a project. Focus on user needs (developers), gather continuous feedback, and measure internal adoption. A platform nobody uses is a platform that failed.
+
+|*Golden Paths, Not Golden Cages*
+|Provide pre-configured, supported workflows that make the "right way" to deploy the easiest way for developers. Golden paths encode security and best practices into reusable templates — without locking teams into rigid choices.
+
+|*Self-Service via Abstraction*
+|Enable developers to provision environments, secrets, pipelines, and deployments independently — through a portal or API — without opening a ticket or waiting for the platform team.
+
+|*Developer Experience (DevEx)*
+|Design the platform to minimize cognitive load. Tools should be intuitive, well-documented, and friction-free. If onboarding takes three days, the platform has a problem.
+
+|*Shared Responsibility & Governance*
+|Embed security, compliance, and monitoring directly into the platform. Automate governance so teams do not have to think about it — and so the platform team does not become a bottleneck.
+
+|*GitOps as the rule*
+|Every infrastructure change goes through Git. No manual `kubectl apply`, no imperative scripts. Git is the single source of truth, and reconciliation is continuous.
+|===
+
+You will see each of these principles applied, step by step, throughout this lab.
 
 == Architecture we will build
 
