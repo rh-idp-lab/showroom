@@ -72,7 +72,9 @@ Dev Spaces needs a GitLab OAuth application to authenticate developers and allow
 |===
 
 . Click *Save application*
-. Copy the **Application ID** and **Secret**: these values are shown only once
+. Copy the **Application ID** and **Secret**: these values are shown **only once**
+
+image::gitlab-oauth-devspaces.png[GitLab OAuth application for Dev Spaces,800,align="center"]
 
 Save them in environment variables in your terminal:
 
