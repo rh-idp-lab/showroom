@@ -30,7 +30,7 @@ In this lab you assembled, from scratch, a production-grade Internal Developer P
 
 |Foundation
 |Red Hat OpenShift Container Platform
-|The enterprise Kubernetes platform that hosts every component of this IDP.
+|The enterprise application platform that hosts every component of this IDP.
 
 |Foundation
 |OpenShift GitOps (ArgoCD)
