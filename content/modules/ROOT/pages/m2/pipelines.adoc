@@ -141,7 +141,3 @@ TIP: 💡 **Platform health check**: You can check all platform components at an
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-
-== Next
-
-Continue to xref:m2/quay.adoc[Deploy Red Hat Quay].

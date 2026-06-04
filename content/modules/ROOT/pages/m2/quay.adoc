@@ -174,7 +174,3 @@ TIP: Press **Ctrl+C** once you see `REGISTRY ENDPOINT` populated and `AVAILABLE:
 |`Job` (noobaa-status)
 |Waits for NooBaa to be healthy before creating the `QuayRegistry`
 |===
-
-== Next
-
-Continue to xref:m2/external-secrets.adoc[Deploy External Secrets Operator].

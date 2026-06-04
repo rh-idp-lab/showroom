@@ -102,6 +102,3 @@ TIP: 💡 **Want to verify all components are healthy?** At any point in this la
 ----
 bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
 ----
-
-[.text-center]
-xref:m1/explore-gitops.adoc[Explore ArgoCD (GitOps) →]

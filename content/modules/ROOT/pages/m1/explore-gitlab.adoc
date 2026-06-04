@@ -39,6 +39,3 @@ oc get pods -n gitlab
 ----
 
 Ensure pods are `Running`. GitLab has multiple components (web, sidekiq, gitaly); allow time for full startup.
-
-[.text-center]
-xref:m1/explore-vault.adoc[Explore Vault →]

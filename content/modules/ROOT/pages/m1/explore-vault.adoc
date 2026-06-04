@@ -39,6 +39,3 @@ Each platform component can have its own path (e.g., `kv/secrets/rhdh/backstage`
 |===
 
 In Module 3, you will store Keycloak and other secrets in Vault. External Secrets Operator (Module 2) will sync them into cluster namespaces.
-
-[.text-center]
-xref:m1/keycloak.adoc[Explore Keycloak (RHBK) →]

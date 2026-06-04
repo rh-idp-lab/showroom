@@ -124,7 +124,3 @@ Four problems solved. You've built Golden Path Inc.'s CI/CD layer:
 * **Deployment chaos** → Dedicated ArgoCD: GitOps for every application deployment
 
 Next challenge: Vault is installed and External Secret Operator (ESO) is connected, but the actual secrets aren't stored yet. Time to populate Vault with the credentials your platform needs.
-
-== Next
-
-Continue to xref:m3/vault-secrets.adoc[Module 3: Identity & Access].

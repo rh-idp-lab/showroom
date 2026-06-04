@@ -120,5 +120,3 @@ Developer Hub extends Backstage with a curated set of plugins:
 |===
 
 TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git: ArgoCD handles the rest.
-
-xref:m6/templates.adoc[Next: Import Software Templates →]

@@ -66,6 +66,3 @@ spec:
 * `destination.namespace`: target Kubernetes namespace
 
 Throughout the lab, you will create similar Application manifests for each platform component.
-
-[.text-center]
-xref:m1/explore-gitlab.adoc[Explore GitLab →]
