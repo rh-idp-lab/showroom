@@ -1,4 +1,4 @@
 = Appendix: Architecture Reference
 :navtitle: Architecture Reference
 
-The complete platform architecture diagram is embedded in xref:c1/intro.adoc[Module 1: Discover the Foundation].
+The complete platform architecture diagram is embedded in xref:c1/intro.adoc[Challenge #1: Discover the Foundation].

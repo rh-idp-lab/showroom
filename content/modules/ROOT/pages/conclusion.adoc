@@ -136,30 +136,30 @@ This platform is a foundation, not a ceiling. Possible next steps:
 
 == Platform Engineering Principles: mission accomplished
 
-At the start of this lab, Module 1 introduced six principles from link:https://platformengineering.org[platformengineering.org^]. Here is how each one was implemented.
+At the start of this lab, Challenge #1 introduced six principles from link:https://platformengineering.org[platformengineering.org^]. Here is how each one was implemented.
 
 [cols="2,2,3",options="header"]
 |===
 |Principle |Where you applied it |How
 
 |*Product Mindset*
-|Module 6: Developer Hub
+|Challenge #8: Developer Hub
 |RHDH is the front door of the platform. It is designed around developer needs: one login, one catalog, one place for services, pipelines, and templates.
 
 |*Golden Paths, Not Golden Cages*
-|Module 6: Software Templates
+|Challenge #8: Software Templates
 |Every template bundles Git, Tekton, ArgoCD, Quay, and Vault configuration into a single form. The right way is the easy way — teams are not forced into it, but they have no reason to bypass it.
 
 |*Self-Service via Abstraction*
-|Module 9: Developer Experience
+|Challenge #9: Developer Experience
 |A developer created a production-ready application without a ticket, a runbook, or any help from the platform team. One form, one click, done.
 
 |*Developer Experience (DevEx)*
-|Module 4: Dev Spaces
+|Challenge #6: Dev Spaces
 |Zero local setup. New developers are productive from a browser tab on day one, with a standardized environment identical to every other developer on the team.
 
 |*Shared Responsibility & Governance*
-|Module 4: External Secrets + Module 7: Trusted Artifact Signer
+|Challenge #4: External Secrets + Challenge #7: Trusted Artifact Signer
 |Secrets never touch Git. Every image is cryptographically signed at build time. Security and compliance are enforced by the platform, not by individual discipline.
 
 |*GitOps as the rule*

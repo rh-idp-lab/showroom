@@ -94,7 +94,7 @@ oc get rolebindings -n openshift-gitops
 oc get rolebindings -n rhdh-gitops
 ----
 
-== Module 3 Summary
+== Challenge #5 Summary
 
 You configured identity, secrets, and access control:
 
@@ -102,4 +102,4 @@ You configured identity, secrets, and access control:
 * **Vault**: Central storage for shared secrets; External Secrets syncs them into Kubernetes
 * **RBAC**: RoleBindings grant developers and platform engineers appropriate access to GitLab, ArgoCD, and team namespaces
 
-xref:c6/devspaces.adoc[Continue to Module 4: Deploy Dev Spaces →]
+xref:c6/devspaces.adoc[Continue to Challenge #6: Deploy Dev Spaces →]

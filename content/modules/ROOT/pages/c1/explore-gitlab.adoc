@@ -28,7 +28,7 @@ Good news: Golden Path Inc. already has a source code management platform. GitLa
 |Run Tekton/OpenShift Pipelines triggered from GitLab webhooks
 
 |OAuth provider
-|Authenticate users in Red Hat OpenShift Dev Spaces (Module 5)
+|Authenticate users in Red Hat OpenShift Dev Spaces (Challenge #7)
 |===
 
 == Check GitLab Health

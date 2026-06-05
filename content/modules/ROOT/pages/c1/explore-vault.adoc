@@ -38,4 +38,4 @@ Each platform component can have its own path (e.g., `kv/secrets/rhdh/backstage`
 |Secrets for Red Hat Developer Hub, Keycloak, Dev Spaces, etc.
 |===
 
-In Module 3, you will store Keycloak and other secrets in Vault. External Secrets Operator (Module 2) will sync them into cluster namespaces.
+In Challenge #5, you will store Keycloak and other secrets in Vault. External Secrets Operator (Challenge #2/#3/#4/#5) will sync them into cluster namespaces.
