@@ -1,5 +1,5 @@
-= Use the Platform as a Developer
-:navtitle: Use the Platform as a Developer
+= Ship Code Without Help
+:navtitle: Ship Code Without Help
 :m1-status: ✅
 :m2-status: ✅
 :m3-status: ✅
@@ -7,50 +7,59 @@
 :m5-status: ✅
 :m6-status: ✅
 :m7-status: ⏳
-:overall-progress: 90
-:time-spent: 95
-:time-remaining: 10
+:overall-progress: 95
+:time-spent: 100
+:time-remaining: 5
 
 include::partial$progress-bar.adoc[]
 
-[NOTE]
-====
-*Challenge #9: "Great, you built a platform. Now show me a developer can ship code without your help."*
-
-The CTO is watching. You've built the platform, now prove it works. Switch perspective: you're no longer the Platform Engineer. You're a Golden Path Inc. developer who just needs to ship a feature. No Helm, no ArgoCD, no Vault, just the portal, a template, and your code.
-====
-
 .Platform Engineering Principle: Self-Service via Abstraction
 ****
-This module is the ultimate proof of concept. A developer opens the portal, fills in a form, and gets a fully configured Git repository, a running pipeline, and a deployed application — without opening a single ticket, reading a runbook, or contacting the platform team. This is what self-service via abstraction looks like in practice.
+This is the ultimate proof of concept. A developer opens a browser IDE, edits a file, pushes a commit — and the platform handles everything else: build, sign, push, deploy. No ticket, no runbook, no platform team involvement.
 ****
 
-Switch perspective: use the IDP you built as a developer would: from template selection to deployment.
+== Open Dev Spaces from the component
 
-== Run a software template
+. In Developer Hub, open the `hero` component you created in the previous step.
+. On the **Overview** tab, click **Open in Dev Spaces** in the shortcut links.
 
-. Open https://backstage-rhdh.{openshift_cluster_ingress_domain}[Developer Hub^] and sign in.
-. Go to **Create** and select a Software Template.
-. Fill in the form: component name, team, description.
-. Click **Create** and watch the execution.
+Dev Spaces opens a browser-based VS Code IDE already cloned and authenticated to GitLab — no local setup, no SSH keys.
 
-== Observe the workflow
+== Make a change and push
 
-* **Repository created**: New repo appears in GitLab.
-* **Pipeline triggered**: OpenShift Pipelines runs the build.
-* **ArgoCD Application created**: In `rhdh-gitops` or your GitOps namespace.
-* **Application deployed**: The app is deployed to the cluster.
+. Open any source file (for example, a REST endpoint or a string constant).
+. Make a small visible change: a label, a message, a comment.
+. In the **Source Control** panel (left sidebar), stage the change, write a commit message, and click **Sync** to push.
 
-== Make a code change
+The push triggers the Tekton pipeline automatically via a GitLab webhook.
 
-. Open https://devspaces.{openshift_cluster_ingress_domain}[Dev Spaces^].
-. Open the workspace for your new component.
-. Edit a file and push the change.
-. Watch the pipeline re-run and the deployment update.
+== Watch the pipeline run
 
-== Verify the signed artifact
+Switch back to Developer Hub and open the **CI/CD** tab on the `hero` component. The pipeline stages appear in sequence:
 
-If Trusted Artifact Signer is integrated with your pipeline, confirm that the built image is signed and verifiable.
+. **Clone** — source code fetched from GitLab
+. **Build** — Maven compiles and runs tests
+. **Push** — image pushed to Quay (`quayadmin/user1-hero`)
+. **Sign** — image signed by Trusted Artifact Signer (if enabled)
+. **Deploy** — ArgoCD detects the new image tag and updates the deployment in `workshop-dev`
+
+[WARNING]
+====
+The demo environment has limited cluster resources (CPU, memory, ephemeral storage). The first pipeline run — which downloads all Maven dependencies and builds the container image — may fail with resource pressure errors such as `node(s) had untolerated taint {node.kubernetes.io/disk-pressure}` or `OOMKilled`.
+
+If the pipeline fails, retry the run from the **CI/CD** tab. Subsequent runs are faster because Maven artifacts are cached.
+====
+
+== Verify the deployment
+
+Once the pipeline completes:
+
+* **CI/CD tab**: all stages green, image tag updated
+* **ArgoCD tab**: application synced and healthy
+* **Topology tab**: pods restarted with the new image
+* **Image tab**: new image visible in Quay with vulnerability scan results
+
+From commit to running update: the developer never opened a terminal, never touched a Helm chart, never contacted the platform team.
 
 TIP: 💡 **Platform health check**: Verify all components are healthy.
 
