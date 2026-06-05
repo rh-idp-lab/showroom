@@ -5,7 +5,7 @@
 
 [cols="7*",frame=none,grid=none]
 |===
-| Challenge #1 | Challenge #2 | Challenge #3 | Challenge #4 | Challenge #5 | Challenge #6 | Challenge #7
+| Ch. #1 | Ch. #2–5 | Secure | Ch. #6 | Ch. #7 | Ch. #8 | Ch. #9
 
 a| {m1-status}
 a| {m2-status}
