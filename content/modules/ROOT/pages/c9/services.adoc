@@ -190,24 +190,36 @@ The scaffolder executes 6 steps and produces a fully wired project:
 
 |6
 |Create ArgoCD bootstrap
-|Creates the bootstrap ArgoCD Application in `rhdh-gitops`, which then automatically deploys the two child applications below
+|Creates the bootstrap ArgoCD Application in `rhdh-gitops`, which then automatically deploys the four child applications below
 |===
 
-=== The three ArgoCD Applications
+=== The four ArgoCD Applications
 
-The bootstrap application (`<user>-<name>-bootstrap`) manages two child applications, both deployed in `rhdh-gitops` and targeting the `workshop-dev` namespace:
+The bootstrap application (`<user>-<name>-bootstrap`) manages four child applications, all deployed in `rhdh-gitops`:
 
-[cols="1,2,3",options="header"]
+[cols="1,1,2,2",options="header"]
 |===
-|Application |Helm chart |What it deploys
+|Application |Helm chart |Target namespace |What it deploys
 
 |`<user>-<name>-dev-build`
 |`helm/build/`
+|`workshop-dev`
 |All CI resources: Tekton Pipelines, Tasks, Triggers, EventListener, GitLab webhook Job, ExternalSecrets (Quay credentials, Git token, Vault secrets), service accounts, RBAC
 
 |`<user>-<name>-dev`
 |`helm/app/`
+|`workshop-dev`
 |The application runtime: Deployment, Service, Route, PostgreSQL, and the image reference (updated by the pipeline after each build)
+
+|`<user>-<name>-preprod`
+|`helm/app/`
+|`workshop-preprod`
+|Same application stack deployed to the pre-production environment, promoted after a successful dev pipeline run
+
+|`<user>-<name>-prod`
+|`helm/app/`
+|`workshop-prod`
+|Same application stack deployed to the production environment, promoted after preprod validation
 |===
 
 The `build` chart is deployed first (sync-wave `-1`) so that all pipeline resources and credentials are ready before the first build runs.
