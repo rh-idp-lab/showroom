@@ -28,9 +28,9 @@
 ** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
 ** xref:m6/configure-rhdh.adoc[Explore the Portal]
 ** xref:m6/templates.adoc[Import Software Templates]
-** xref:m6/services.adoc[Create Services]
 
 * Challenge #9: Prove It Works
+** xref:m7/services.adoc[Create Services]
 ** xref:m7/developer-experience.adoc[Ship Code Without Help]
 
 * xref:m7/conclusion.adoc[Mission Accomplished]

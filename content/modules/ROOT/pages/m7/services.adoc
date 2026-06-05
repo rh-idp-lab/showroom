@@ -5,11 +5,11 @@
 :m3-status: ✅
 :m4-status: ✅
 :m5-status: ✅
-:m6-status: ⏳
-:m7-status: ⚪
-:overall-progress: 88
-:time-spent: 92
-:time-remaining: 13
+:m6-status: ✅
+:m7-status: ⏳
+:overall-progress: 90
+:time-spent: 95
+:time-remaining: 10
 
 include::partial$progress-bar.adoc[]
 

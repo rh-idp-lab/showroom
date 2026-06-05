@@ -38,4 +38,4 @@ Developer Hub will register the `Location` entity and automatically discover all
 . Navigate to **Self Service** in the left menu.
 . You should now see the four OpenCodeQuest templates available for use.
 
-Templates are now registered in the catalog. Continue to xref:m6/services.adoc[Create Services] to deploy your first components.
+Templates are now registered in the catalog. Continue to xref:m7/services.adoc[Create Services] to deploy your first components.
