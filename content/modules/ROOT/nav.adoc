@@ -33,6 +33,6 @@
 ** xref:m7/services.adoc[Create Services]
 ** xref:m7/developer-experience.adoc[Ship Code Without Help]
 
-* xref:m7/conclusion.adoc[Mission Accomplished]
+* xref:conclusion.adoc[Mission Accomplished]
 
 * xref:demo/guide.adoc[Demo Guide (45 min)]
