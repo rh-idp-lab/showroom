@@ -35,7 +35,7 @@ The file https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodeq
 
 == Register the templates
 
-. In Developer Hub, click **Self Service** in the left menu.
+. In Developer Hub, click **Catalog** in the left menu, then click **Self Service** (top right of the page).
 . Click **Import an existing Git repository**.
 . Paste the following URL in the *Repository URL* field:
 +
@@ -49,7 +49,7 @@ Developer Hub will register the `Template` entity and automatically discover all
 
 == Verify
 
-. Navigate to **Self Service** in the left menu.
+. In Developer Hub, click **Catalog** in the left menu, then click **Self Service** (top right of the page).
 . You should now see the four OpenCodeQuest templates available for use.
 
 Templates are now registered in the catalog. Continue to xref:c9/services.adoc[Create Services] to deploy your first components.
