@@ -29,45 +29,54 @@ In this hands-on lab, you will build a fully functional **Internal Developer Pla
 
 Each module presents a **real-world challenge** that Golden Path Inc. is facing. You'll solve them one by one, and by the end of this 2-hour session, you'll have assembled a complete platform that enables developers to self-service their way from idea to production.
 
-=== The Challenges You'll Solve
+=== Lab Structure
 
-[cols="1,2,3",options="header"]
+[cols="1,1,2,2",options="header"]
 |===
-|Challenge |The Problem at Golden Path Inc. |Your Solution
+|Challenge |Duration |The Problem at Golden Path Inc. |Your Solution
 
-|*1. Discover the Foundation*
+|*#1 — Discover the Foundation*
+|15 min
 |"We have tools installed but nobody knows what's there or how they connect."
 |Explore ArgoCD, GitLab, Vault, and Keycloak: the foundation already in place.
 
-|*2. Inconsistent Builds*
+|*#2 — Inconsistent Builds*
+|10 min
 |"Works on Alice's machine, fails on Bob's. Every developer runs builds differently."
 |Deploy OpenShift Pipelines (Tekton) for reproducible, containerized builds.
 
-|*3. Where Are Our Images?*
+|*#3 — Where Are Our Images?*
+|10 min
 |"Teams push images to random registries. No scanning, no audit trail."
 |Deploy Red Hat Quay as the single source of truth for all container images.
 
-|*4. Secrets Are in Slack!*
+|*#4 — Secrets Are in Slack!*
+|10 min
 |"Database passwords shared in DMs. API keys committed in Git. Security is panicking."
-|Deploy External Secrets Operator + store secrets in Vault.
+|Deploy External Secrets Operator and store all secrets in Vault.
 
-|*5. Deployment Chaos*
+|*#5 — Deployment Chaos*
+|10 min
 |"Each team deploys differently. No visibility, no consistency, no rollback."
-|Deploy a dedicated ArgoCD instance for application deployments.
+|Deploy a dedicated ArgoCD instance for application GitOps, then store platform secrets in Vault.
 
-|*6. Onboarding Takes a Week*
+|*#6 — Onboarding Takes a Week*
+|10 min
 |"New developers spend 3 days installing tools before writing a single line of code."
 |Deploy Dev Spaces: a cloud IDE with zero local setup.
 
-|*7. Supply Chain Risk*
+|*#7 — Supply Chain Risk*
+|10 min
 |"How do we know the image in production is what we actually built?"
 |Deploy Trusted Artifact Signer for cryptographic signing of every build.
 
-|*8. Too Many Doors*
+|*#8 — Too Many Doors*
+|15 min
 |"Developers need 6 different logins. They can't find anything."
-|Deploy Developer Hub: one portal to rule them all, with SSO.
+|Deploy Developer Hub: one portal, one SSO, one place for everything.
 
-|*9. Prove It Works*
+|*#9 — Prove It Works*
+|10 min
 |"Great, you built a platform. Now show me a developer can ship code without your help."
 |Use the platform as a developer: template → code → pipeline → deploy.
 |===
@@ -104,50 +113,6 @@ Each module presents a **real-world challenge** that Golden Path Inc. is facing.
 
 |*Software Supply Chain Security*
 |Red Hat Trusted Artifact Signer (Sigstore)
-|===
-
-
-=== Lab Structure
-
-[cols="1,1,3",options="header"]
-|===
-|Challenge |Duration |What You Do
-
-|*#1*
-|15 min
-|Explore the pre-installed foundation: ArgoCD, GitLab, Vault, NooBaa, Keycloak
-
-|*#2*
-|10 min
-|Deploy OpenShift Pipelines: standardize CI across all teams
-
-|*#3*
-|10 min
-|Deploy Red Hat Quay: a private container registry as the single source of truth for images
-
-|*#4*
-|10 min
-|Deploy External Secrets Operator: sync Vault secrets into Kubernetes automatically
-
-|*#5*
-|10 min
-|Deploy a dedicated ArgoCD instance for application GitOps, then store platform secrets in Vault
-
-|*#6*
-|10 min
-|Deploy Red Hat OpenShift Dev Spaces: a cloud IDE, zero local setup for developers
-
-|*#7*
-|10 min
-|Deploy Trusted Artifact Signer: cryptographically sign every image at build time
-
-|*#8*
-|15 min
-|Deploy Red Hat Developer Hub, the portal that unifies all platform services, and import Software Templates
-
-|*#9*
-|10 min
-|Use the platform as a developer: create a service from a template, push code, watch CI run
 |===
 
 === Prerequisites
