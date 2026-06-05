@@ -53,3 +53,9 @@ Developer Hub will register the `Template` entity and automatically discover all
 . You should now see the four OpenCodeQuest templates available for use.
 
 Templates are now registered in the catalog. Continue to xref:c9/services.adoc[Create Services] to deploy your first components.
+
+TIP: 💡 *Platform health check*: Verify all components are healthy.
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/main/scripts/platform-health.sh)
+----

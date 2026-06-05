@@ -250,3 +250,9 @@ The `build` chart is deployed first (sync-wave `-1`) so that all pipeline resour
 |**Dev Spaces**
 |One-click link to open the source repository in a browser-based VS Code IDE, pre-configured with the Quarkus toolchain
 |===
+
+TIP: 💡 *Platform health check*: Verify all components are healthy.
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/main/scripts/platform-health.sh)
+----
