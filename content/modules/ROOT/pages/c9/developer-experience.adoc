@@ -27,6 +27,14 @@ This is the ultimate proof of concept. A developer opens a browser IDE, edits a 
 
 Dev Spaces opens a browser-based VS Code IDE already cloned and authenticated to GitLab — no local setup, no SSH keys.
 
+[NOTE]
+====
+Dev Spaces may prompt you to re-authenticate with GitLab before cloning the repository. If a login screen appears, use your lab credentials:
+
+* *Username*: `user1`
+* *Password*: `{common_password}`
+====
+
 == Make a change and push
 
 . Open any source file (for example, a REST endpoint or a string constant).
