@@ -31,7 +31,7 @@ https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/opencodequest-temp
 ----
 . Click **Analyze**, then **Import**.
 
-Developer Hub will register the `Location` entity and automatically discover all four templates referenced by it.
+Developer Hub will register the `Template` entity and automatically discover all four templates referenced by it.
 
 == Verify
 
