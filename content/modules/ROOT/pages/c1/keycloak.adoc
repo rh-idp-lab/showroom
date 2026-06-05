@@ -12,10 +12,8 @@ Check that Keycloak pods are running and the realm import completed:
 [source,bash,subs="attributes"]
 ----
 oc get pods -n keycloak
-oc get keycloakrealmimport -n keycloak
+oc get keycloak -n keycloak
 ----
-
-The `sso` realm should show `Reconciled`.
 
 Confirm the operator is installed in the OpenShift Console:
 
