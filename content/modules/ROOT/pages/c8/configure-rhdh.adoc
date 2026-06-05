@@ -53,8 +53,6 @@ This sync is handled by the **Keycloak Org Entity Provider** plugin. Every user 
 
 === Components
 
-. Switch the **Kind** filter to **Component**
-
 [NOTE]
 ====
 At this stage the catalog shows **no Components** — this is expected. Components are registered automatically when a developer creates a service from a Software Template (Challenge #9). The plugins (ArgoCD, Tekton, Quay) will surface real data once a component exists.
