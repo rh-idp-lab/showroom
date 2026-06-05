@@ -140,7 +140,6 @@ oc get tektonconfig -w
 
 Press **Ctrl+C** once the TektonConfig shows `Ready=True`.
 
-TIP: 🎉 **First component deployed!** You just witnessed the GitOps pattern in action: ArgoCD Application → Helm chart → reconciled resources. Every subsequent deployment follows this same pattern. This is the foundation of your IDP: version-controlled infrastructure as code.
 
 TIP: 💡 **Platform health check**: You can check all platform components at any time.
 
