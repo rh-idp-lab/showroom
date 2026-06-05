@@ -1,5 +1,19 @@
 = Deploy a Dedicated ArgoCD Instance
 :navtitle: Deploy a Dedicated ArgoCD Instance
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ✅
+:c4-status: ✅
+:c5-status: ⏳
+:c6-status: ⚪
+:c7-status: ⚪
+:c8-status: ⚪
+:c9-status: ⚪
+:overall-progress: 45
+:time-spent: 45
+:time-remaining: 60
+
+include::partial$progress-bar.adoc[]
 
 [NOTE]
 ====

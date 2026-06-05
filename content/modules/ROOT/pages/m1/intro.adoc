@@ -1,12 +1,14 @@
 = Day 1 at Golden Path Inc.: Discover the Foundation
 :navtitle: Discover the Foundation
-:m1-status: ⏳
-:m2-status: ⚪
-:m3-status: ⚪
-:m4-status: ⚪
-:m5-status: ⚪
-:m6-status: ⚪
-:m7-status: ⚪
+:c1-status: ⏳
+:c2-status: ⚪
+:c3-status: ⚪
+:c4-status: ⚪
+:c5-status: ⚪
+:c6-status: ⚪
+:c7-status: ⚪
+:c8-status: ⚪
+:c9-status: ⚪
 :overall-progress: 15
 :time-spent: 15
 :time-remaining: 90

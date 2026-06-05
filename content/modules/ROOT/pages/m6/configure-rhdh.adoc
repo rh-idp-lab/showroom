@@ -1,5 +1,19 @@
 = Explore the Developer Hub Portal
 :navtitle: Explore the Portal
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ✅
+:c4-status: ✅
+:c5-status: ✅
+:c6-status: ✅
+:c7-status: ✅
+:c8-status: ⏳
+:c9-status: ⚪
+:overall-progress: 80
+:time-spent: 84
+:time-remaining: 21
+
+include::partial$progress-bar.adoc[]
 
 Developer Hub is deployed and configured via GitOps. Now step into a developer's shoes for the first time: open the portal, see what's discoverable, and understand how the configuration-as-code approach keeps everything version-controlled.
 

@@ -1,5 +1,19 @@
 = Deploy Red Hat Quay
 :navtitle: Deploy Red Hat Quay
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ⏳
+:c4-status: ⚪
+:c5-status: ⚪
+:c6-status: ⚪
+:c7-status: ⚪
+:c8-status: ⚪
+:c9-status: ⚪
+:overall-progress: 30
+:time-spent: 30
+:time-remaining: 75
+
+include::partial$progress-bar.adoc[]
 
 [NOTE]
 ====

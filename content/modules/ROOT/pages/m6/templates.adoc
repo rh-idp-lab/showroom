@@ -1,5 +1,19 @@
 = Import Software Templates (Golden Paths)
 :navtitle: Import Software Templates
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ✅
+:c4-status: ✅
+:c5-status: ✅
+:c6-status: ✅
+:c7-status: ✅
+:c8-status: ⏳
+:c9-status: ⚪
+:overall-progress: 85
+:time-spent: 89
+:time-remaining: 16
+
+include::partial$progress-bar.adoc[]
 
 The portal is live and the catalog is populated. Software Templates are the last piece: opinionated scaffolding workflows that create repositories, pipelines, and ArgoCD applications from a single form. They encode platform best practices into reusable golden paths: the ultimate self-service experience.
 

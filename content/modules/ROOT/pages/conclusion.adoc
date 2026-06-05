@@ -1,12 +1,14 @@
 = Mission Accomplished
 :navtitle: Mission Accomplished
-:m1-status: ✅
-:m2-status: ✅
-:m3-status: ✅
-:m4-status: ✅
-:m5-status: ✅
-:m6-status: ✅
-:m7-status: ✅
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ✅
+:c4-status: ✅
+:c5-status: ✅
+:c6-status: ✅
+:c7-status: ✅
+:c8-status: ✅
+:c9-status: ✅
 :overall-progress: 100
 :time-spent: 105
 :time-remaining: 0
