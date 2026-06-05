@@ -2,36 +2,40 @@
 * xref:env.adoc[Your Environment]
 
 * Challenge #1: Discover the Foundation
-** xref:m1/intro.adoc[Discover the Foundation]
-** xref:m1/explore-gitops.adoc[Explore ArgoCD]
-** xref:m1/explore-gitlab.adoc[Explore GitLab]
-** xref:m1/explore-vault.adoc[Explore Vault]
-** xref:m1/keycloak.adoc[Explore Keycloak (RHBK)]
+** xref:c1/intro.adoc[Discover the Foundation]
+** xref:c1/explore-gitops.adoc[Explore ArgoCD]
+** xref:c1/explore-gitlab.adoc[Explore GitLab]
+** xref:c1/explore-vault.adoc[Explore Vault]
+** xref:c1/keycloak.adoc[Explore Keycloak (RHBK)]
 
-* Challenges #2–5: Build the CI/CD Layer
-** xref:m2/pipelines.adoc[Fix Inconsistent Builds]
-** xref:m2/quay.adoc[Centralize Container Images]
-** xref:m2/external-secrets.adoc[End Secrets in Slack]
-** xref:m2/rhdh-gitops.adoc[Tame Deployment Chaos]
+* Challenge #2: Fix Inconsistent Builds
+** xref:c2/pipelines.adoc[Fix Inconsistent Builds]
 
-* Secure the Platform
-** xref:m3/vault-secrets.adoc[Store Secrets in Vault]
-// ** xref:m3/rbac.adoc[Configure RBAC]
+* Challenge #3: Centralize Container Images
+** xref:c3/quay.adoc[Centralize Container Images]
+
+* Challenge #4: End Secrets in Slack
+** xref:c4/external-secrets.adoc[End Secrets in Slack]
+
+* Challenge #5: Tame Deployment Chaos
+** xref:c5/rhdh-gitops.adoc[Tame Deployment Chaos]
+** xref:c5/vault-secrets.adoc[Store Secrets in Vault]
+// ** xref:c5/rbac.adoc[Configure RBAC]
 
 * Challenge #6: Fix Onboarding
-** xref:m4/devspaces.adoc[Deploy Dev Spaces]
+** xref:c6/devspaces.adoc[Deploy Dev Spaces]
 
 * Challenge #7: Prove the Supply Chain
-** xref:m5/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
+** xref:c7/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
 
 * Challenge #8: One Portal to Rule Them All
-** xref:m6/developer-hub.adoc[Deploy Red Hat Developer Hub]
-** xref:m6/configure-rhdh.adoc[Explore the Portal]
-** xref:m6/templates.adoc[Import Software Templates]
+** xref:c8/developer-hub.adoc[Deploy Red Hat Developer Hub]
+** xref:c8/configure-rhdh.adoc[Explore the Portal]
+** xref:c8/templates.adoc[Import Software Templates]
 
 * Challenge #9: Prove It Works
-** xref:m7/services.adoc[Create Services]
-** xref:m7/developer-experience.adoc[Ship Code Without Help]
+** xref:c9/services.adoc[Create Services]
+** xref:c9/developer-experience.adoc[Ship Code Without Help]
 
 * xref:conclusion.adoc[Mission Accomplished]
 

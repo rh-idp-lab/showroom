@@ -53,7 +53,7 @@ Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/quay[{helm_repo_browse
 The chart installs both the Quay Operator (via an OLM `Subscription`) and a `QuayRegistry` instance in one shot.
 
 TIP: 💨 **Already familiar with the GitOps pattern?** +
-You deployed Pipelines in the previous section using the same create-apply-verify workflow. If you're comfortable with it, you can fast-track this deployment by skipping ahead to xref:m2/quay.adoc#_apply_the_application[Apply the Application], or continue below for the full walkthrough.
+You deployed Pipelines in the previous section using the same create-apply-verify workflow. If you're comfortable with it, you can fast-track this deployment by skipping ahead to xref:c3/quay.adoc#_apply_the_application[Apply the Application], or continue below for the full walkthrough.
 
 == Create the ArgoCD Application
 
