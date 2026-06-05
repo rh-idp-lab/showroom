@@ -115,7 +115,7 @@ oc apply -f quay-application.yaml
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Operators → Installed Operators*
+. Navigate to *Ecosystem → Installed Operators*
 . Select the `quay-registry` project from the dropdown
 . Confirm **Red Hat Quay** appears with status `Succeeded`
 

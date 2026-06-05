@@ -116,7 +116,7 @@ oc apply -f trusted-artifact-signer-app.yaml
 == Verify in the OpenShift Console
 
 . Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
-. Navigate to *Operators → Installed Operators*
+. Navigate to *Ecosystem → Installed Operators*
 . Select the `trusted-artifact-signer` project
 . Confirm **Red Hat Trusted Artifact Signer** appears with status `Succeeded`
 
