@@ -15,6 +15,16 @@
 
 include::partial$progress-bar.adoc[]
 
+[WARNING]
+====
+This challenge requires significant cluster resources (CPU, memory, ephemeral storage). In a shared or resource-constrained demo environment, pipeline runs may fail or take longer than expected.
+
+If you encounter errors such as `node(s) had untolerated taint`, `OOMKilled`, or a pipeline that simply does not start:
+
+* Wait a few minutes and retry the pipeline run from the *CI/CD* tab in Developer Hub.
+* Ask the facilitator to check available cluster capacity.
+====
+
 .Platform Engineering Principle: Self-Service via Abstraction
 ****
 This is the ultimate proof of concept. A developer opens a browser IDE, edits a file, pushes a commit — and the platform handles everything else: build, sign, push, deploy. No ticket, no runbook, no platform team involvement.
