@@ -161,13 +161,8 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: external-secrets
+    namespace: external-secrets-operator
   project: default
-  ignoreDifferences:
-    - group: admissionregistration.k8s.io
-      kind: MutatingWebhookConfiguration
-      jqPathExpressions:
-        - '.webhooks[]?.clientConfig.caBundle'
   source:
     repoURL: {helm_repo}
     targetRevision: {helm_repo_tag}
@@ -192,7 +187,6 @@ spec:
       limit: 2
     syncOptions:
       - CreateNamespace=true
-      - RespectIgnoreDifferences=true
 EOF
 oc apply -f external-secrets-application.yaml
 ----
@@ -635,7 +629,7 @@ Demonstrate GitOps self-healing: delete a resource and watch ArgoCD restore it:
 
 [source,bash,subs="attributes"]
 ----
-oc delete pod -n external-secrets -l app.kubernetes.io/name=external-secrets --wait=false
+oc delete pod -n external-secrets-operator -l app.kubernetes.io/name=external-secrets-operator --wait=false
 ----
 
 * Switch to ArgoCD UI: the application briefly shows **OutOfSync** then self-heals
@@ -737,7 +731,7 @@ spec:
               namespace: default
   destination:
     server: https://kubernetes.default.svc
-    namespace: external-secrets
+    namespace: external-secrets-operator
   syncPolicy:
     automated:
       prune: true
