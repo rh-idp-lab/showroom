@@ -1,5 +1,6 @@
 * xref:index.adoc[Welcome to Golden Path Inc.]
 * xref:env.adoc[Your Environment]
+* xref:platform-overview.adoc[Platform Overview]
 
 * Challenge #1: Discover the Foundation
 ** xref:c1/intro.adoc[Discover the Foundation]

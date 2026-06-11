@@ -44,7 +44,90 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 The ArgoCD Application points to the `redhat-developer-hub` chart in your GitLab repository.
 Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub^]
 
-The chart installs the Developer Hub operator (via OLM) and a `Red Hat Developer Hub` instance pre-configured with plugins, catalog sources, and integrations for GitLab, Keycloak, ArgoCD, Vault, Quay, and Dev Spaces.
+The chart is organized into four subcharts deployed in sequence using ArgoCD sync waves:
+
+[cols="1,2,1",options="header"]
+|===
+|Subchart |What it deploys |Sync wave
+
+|`redhat-developer-hub-prereqs`
+|Kubernetes `Secrets` (GitLab token, ArgoCD password, Keycloak OAuth client, Kubernetes SA token, backend secret) and the RBAC policy `ConfigMap`
+|-1
+
+|`redhat-developer-hub-config-template`
+|Ansible job that clones the `opencodequest-templates` repo from GitLab and substitutes cluster-specific placeholders (domain, Quay host, etc.) in the Scaffolder template files
+|0
+
+|`redhat-developer-hub-operator`
+|OLM `Subscription` for the Red Hat Developer Hub operator (`rhdh-operator.v1.9.0`, channel `fast`) in the `rhdh-operator` namespace
+|0 → 1
+
+|`redhat-developer-hub-instance`
+|`app-config-rhdh` ConfigMap (Backstage `app-config.yaml` with all integrations), `dynamic-plugins-rhdh` ConfigMap, and the `Backstage` CR that the operator reconciles into a running RHDH instance
+|1 → 2
+|===
+
+=== Dynamic plugins en RHDH 1.9
+
+Starting with RHDH 1.9, some community-supported plugins are no longer bundled in the container image.
+They are published to the GitHub Container Registry (`ghcr.io`) and must be referenced by OCI path.
+
+Source: https://docs.redhat.com/en/documentation/red_hat_developer_hub/1.9/html-single/dynamic_plugins_reference/index#ref-community-plugins-migration_title-plugins-rhdh-about[RHDH 1.9 dynamic plugins reference^]
+
+NOTE: For `ghcr.io` plugins, pin the tag with the format `bs_<backstage-version>__<plugin-version>`. RHDH 1.9 is based on Backstage `1.45.3`, so tags have the form `bs_1.45.3__x.y.z`.
+
+[cols="3,1,3",options="header"]
+|===
+|Plugin |Location |Path used in this lab
+
+|Kubernetes backend + frontend
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-plugin-kubernetes*`
+
+|OpenShift Topology
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-community-plugin-topology`
+
+|RBAC
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-community-plugin-rbac`
+
+|Keycloak
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-community-plugin-catalog-backend-module-keycloak-dynamic`
+
+|GitLab catalog / org / scaffolder
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-plugin-catalog-backend-module-gitlab-*`
+
+|GitLab backend (MR/pipeline UI)
+|`ghcr.io` _(migrated in 1.9)_
+|`oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/immobiliarelabs-backstage-plugin-gitlab-backend:bs_1.45.3__6.13.0`
+
+|OpenShift Pipelines (Tekton)
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-community-plugin-tekton`
+
+|ArgoCD backend (roadiehq)
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/roadiehq-backstage-plugin-argo-cd-backend`
+
+|ArgoCD scaffolder (roadiehq)
+|Bundled (Tech Preview)
+|`./dynamic-plugins/dist/roadiehq-scaffolder-backend-argocd-dynamic`
+
+|Quay frontend
+|Bundled (Red Hat supported)
+|`./dynamic-plugins/dist/backstage-community-plugin-quay`
+
+|Quay backend
+|`ghcr.io` _(migrated in 1.9)_
+|`oci://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/backstage-community-plugin-quay-backend:bs_1.45.3__1.10.1`
+|===
+
+NOTE: When upgrading to RHDH 1.10, the following plugins will move to `ghcr.io`: Tekton, Quay frontend, ArgoCD backend (roadiehq), ArgoCD scaffolder. Check the https://docs.redhat.com/en/documentation/red_hat_developer_hub/[release notes^] before upgrading.
+
+TIP: To find or pin a SHA256 digest for a `ghcr.io` plugin: `skopeo inspect docker://ghcr.io/redhat-developer/rhdh-plugin-export-overlays/<plugin>:<tag> | jq '.Digest'`
 
 == Step 1: Retrieve required credentials
 
@@ -109,6 +192,8 @@ spec:
           gitlab:
             host: gitlab-gitlab.{openshift_cluster_ingress_domain}
             rootPassword: {common_password}
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
           backstage:
             host: backstage-rhdh.{openshift_cluster_ingress_domain}
           keycloak:
@@ -118,22 +203,24 @@ spec:
             clientSecret: $KEYCLOAK_CLIENT_SECRET
           gitops:
             host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
-          kubernetes:
-            api: https://kubernetes.default.svc
-          cluster:
-            subdomain: {openshift_cluster_ingress_domain}
           quay:
             project: quayadmin
-          stackrox:
-            endpoint: central-stackrox.apps.cluster-m4mqn.dynamic2.redhatworkshops.io:443
 
-        redhat-developer-hub-application:
+        redhat-developer-hub-instance:
+          namespace: rhdh
+          backstage:
+            host: backstage-rhdh.{openshift_cluster_ingress_domain}
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
+          gitlab:
+            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+          keycloak:
+            host: sso.{openshift_cluster_ingress_domain}
+            realm: sso
           gitops:
-            namespace: openshift-gitops
-          helm:
-            values:
-              git:
-                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+          quay:
+            project: quayadmin
   destination:
     server: https://kubernetes.default.svc
     namespace: rhdh
