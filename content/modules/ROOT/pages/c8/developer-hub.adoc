@@ -44,29 +44,34 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 The chart follows the **apps-of-apps** pattern: `rhdh-bootstrap` is a lightweight ArgoCD Application that creates a second application `rhdh`, which deploys the actual RHDH workloads.
 Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub^]
 
-[cols="1,2,1",options="header"]
+[cols="1,2,1,1",options="header"]
 |===
-|Subchart |What it deploys |Sync wave
-
-|`redhat-developer-hub-application`
-|A single ArgoCD `Application` resource (`rhdh`) that deploys all subcharts below. This is what `rhdh-bootstrap` deploys.
-|—
+|Subchart |What it deploys |Sync wave |App
 
 |`redhat-developer-hub-prereqs`
 |Kubernetes `Secrets` (GitLab token, ArgoCD password, Keycloak OAuth client, Kubernetes SA token, backend secret) and the RBAC policy `ConfigMap`
 |-1
+|`rhdh-bootstrap`
 
 |`redhat-developer-hub-operator`
-|OLM `Subscription` (`rhdh-operator.v1.9.1`, channel `fast-1.9`) in `openshift-operators` (no dedicated namespace or OperatorGroup needed — OpenShift provides one globally).
+|OLM `Subscription` (`rhdh-operator.v1.9.1`, channel `fast-1.9`) in `openshift-operators`.
 |0
-
-|`redhat-developer-hub-instance`
-|`app-config-rhdh` ConfigMap (Backstage `app-config.yaml` with all integrations), `dynamic-plugins-rhdh` ConfigMap, PVC for the dynamic plugins cache, and the `Backstage` CR.
-|1 → 2
+|`rhdh-bootstrap`
 
 |`redhat-developer-hub-config-template`
-|Ansible job that clones the `opencodequest-templates` repo from GitLab and substitutes cluster-specific placeholders (domain, Quay host, etc.) in the Scaffolder template files. Runs *after* the operator and Backstage CR are in place.
+|Ansible job that clones the `opencodequest-templates` repo from GitLab and substitutes cluster-specific placeholders. Runs *after* the operator and Backstage CR are in place.
 |3
+|`rhdh-bootstrap`
+
+|`redhat-developer-hub-application`
+|A single ArgoCD `Application` resource (`rhdh`) that triggers the deployment of the instance sub-chart below.
+|—
+|`rhdh-bootstrap`
+
+|`redhat-developer-hub-instance`
+|`app-config-rhdh` ConfigMap, `dynamic-plugins-rhdh` ConfigMap, PVC for the dynamic plugins cache, and the `Backstage` CR managed by the operator.
+|1 → 2
+|`rhdh` _(child app)_
 |===
 
 
@@ -98,7 +103,7 @@ export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
 
 == Step 2: Create the ArgoCD Application
 
-`rhdh-bootstrap` is the parent app. It deploys the `redhat-developer-hub-application` sub-chart, which creates a child ArgoCD Application `rhdh` that manages all RHDH workloads.
+`rhdh-bootstrap` déploie directement les subcharts `prereqs`, `operator` et `config-template`, et crée via le subchart `application` une application fille `rhdh` qui déploie uniquement le Backstage CR (`instance`).
 
 [source,bash,subs="specialcharacters,attributes"]
 ----
@@ -114,44 +119,44 @@ spec:
   project: default
   source:
     repoURL: {helm_repo}
-    path: redhat-developer-hub/redhat-developer-hub-application
+    path: redhat-developer-hub
     targetRevision: {helm_repo_tag}
     helm:
       values: |
-        helm:
-          inlineValues:
-            redhat-developer-hub-prereqs:
-              namespace: rhdh
-              backstage:
-                argocd:
-                  password: $ARGOCD_PASSWORD
-                gitlab:
-                  token: $GITLAB_TOKEN
-                oauth:
-                  clientId: backstage
-                  clientSecret: $KEYCLOAK_CLIENT_SECRET
+        redhat-developer-hub-prereqs:
+          namespace: rhdh
+          backstage:
+            argocd:
+              password: $ARGOCD_PASSWORD
+            gitlab:
+              token: $GITLAB_TOKEN
+            oauth:
+              clientId: backstage
+              clientSecret: $KEYCLOAK_CLIENT_SECRET
 
-            redhat-developer-hub-config-template:
-              nameOverride: "backstage"
-              namespace: rhdh
-              gitlab:
-                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
-                rootPassword: {common_password}
-              cluster:
-                subdomain: {openshift_cluster_ingress_domain}
-              backstage:
-                host: backstage-rhdh.{openshift_cluster_ingress_domain}
-              keycloak:
-                host: sso.{openshift_cluster_ingress_domain}
-                realm: sso
-                clientId: backstage
-                clientSecret: $KEYCLOAK_CLIENT_SECRET
-              gitops:
-                host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
-              quay:
-                project: quayadmin
+        redhat-developer-hub-config-template:
+          nameOverride: "backstage"
+          namespace: rhdh
+          gitlab:
+            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+            rootPassword: {common_password}
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
+          backstage:
+            host: backstage-rhdh.{openshift_cluster_ingress_domain}
+          keycloak:
+            host: sso.{openshift_cluster_ingress_domain}
+            realm: sso
+            clientId: backstage
+            clientSecret: $KEYCLOAK_CLIENT_SECRET
+          gitops:
+            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+          quay:
+            project: quayadmin
 
-            redhat-developer-hub-instance:
+        redhat-developer-hub-application:
+          helm:
+            inlineValues:
               namespace: rhdh
               backstage:
                 host: backstage-rhdh.{openshift_cluster_ingress_domain}
