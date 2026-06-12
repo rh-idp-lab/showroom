@@ -117,6 +117,127 @@ Every component you deployed today is covered by Red Hat subscriptions and backe
 
 The total cost of ownership of a DIY platform is not the cost of open-source licenses. It is the cost of the engineers who maintain the glue, the outages caused by incompatible upgrades, and the developers slowed down by inconsistent tools.
 
+== What you built — and where it comes from
+
+Over the course of this lab you assembled a complete Internal Developer Platform.
+Before moving on, it is worth stepping back to look at what is actually running — and where it comes from.
+
+=== The full stack at a glance
+
+[cols="3,2,2,3",options="header"]
+|===
+|Service |How it was installed |Origin |Subscription / bundle
+
+|**OpenShift GitOps** _(ArgoCD)_
+|Red Hat OLM Operator
+|Red Hat
+|✅ Included in OpenShift subscription
+
+|**OpenShift Pipelines** _(Tekton)_
+|Red Hat OLM Operator
+|Red Hat
+|✅ Included in OpenShift subscription
+
+|**Keycloak** _(Red Hat Build of Keycloak)_
+|Red Hat OLM Operator
+|Red Hat
+|✅ Included in OpenShift subscription
+
+|**External Secrets Operator**
+|Red Hat OLM Operator
+|Red Hat
+|✅ Included in OpenShift subscription
+
+|**Red Hat OpenShift Dev Spaces**
+|Red Hat OLM Operator
+|Red Hat
+|✅ Included in OpenShift subscription
+
+|**NooBaa** _(Multi-Cloud Gateway)_
+|Red Hat OLM Operator _(via Helm)_
+|Red Hat
+|✅ Included in OpenShift Data Foundation (ODF)
+
+|**Red Hat Quay**
+|Red Hat OLM Operator _(via Helm)_
+|Red Hat
+|📦 Red Hat Quay subscription +
+_(or OpenShift Platform Plus)_
+
+|**Red Hat Trusted Artifact Signer**
+|Red Hat OLM Operator _(via Helm)_
+|Red Hat
+|📦 Red Hat Advanced Developer Suite
+
+|**Red Hat Developer Hub** _(Backstage)_
+|Red Hat OLM Operator _(via Helm)_
+|Red Hat
+|📦 Red Hat Advanced Developer Suite
+
+|**HashiCorp Vault**
+|Custom Helm chart +
+_(wraps official HashiCorp chart)_
+|HashiCorp _(open source)_
+|— Community Edition (BSL license)
+
+|**GitLab**
+|Custom Helm chart
+|GitLab Inc. _(open source)_
+|— Community Edition (MIT license)
+|===
+
+=== Key takeaway
+
+*9 out of 11 services come directly from Red Hat.* +
+*7 of those are installed through OLM — the Red Hat operator framework built into every OpenShift cluster.*
+
+This is not a coincidence.
+OpenShift is not just a Kubernetes distribution: it ships with a curated ecosystem of certified operators.
+When you subscribed to OpenShift, you already had access to GitOps, Pipelines, Dev Spaces, Keycloak, and External Secrets — without additional procurement.
+
+The remaining Red Hat products extend the base platform through two additional bundles:
+
+* **Red Hat Quay** is available as a standalone subscription or as part of OpenShift Platform Plus.
+* **Red Hat Trusted Artifact Signer** and **Red Hat Developer Hub** are part of the **Red Hat Advanced Developer Suite** — Red Hat's bundle focused on developer productivity, supply chain security, and the internal developer portal experience.
+
+[NOTE]
+====
+*Two components are not Red Hat products:*
+
+* **HashiCorp Vault** is used here as the secrets backend. In a production environment it may be replaced by a managed secrets service (AWS Secrets Manager, Azure Key Vault, etc.) or Red Hat's own secrets management integrations — the External Secrets Operator supports them all through the same `ClusterSecretStore` abstraction.
+* **GitLab** provides source control and mirrors the Helm chart repository. In a real deployment, any Git provider (GitHub, Gitea, Bitbucket) works equally well with ArgoCD and OpenShift Pipelines.
+====
+
+=== The operator pattern
+
+Every Red Hat component in this lab was installed the same way: an OLM `Subscription` tells the cluster which operator to install, and a Custom Resource (CR) tells the operator what to run.
+
+[source]
+----
+Subscription  →  installs the operator
+      ↓
+Custom Resource  →  describes the desired state
+      ↓
+Operator  →  reconciles continuously toward that state
+----
+
+This pattern means that:
+
+* *Day-2 operations are declarative*: update a CR and the operator handles the rollout, migration, or reconfiguration.
+* *GitOps is natural*: CRs are YAML files committed to Git and applied by ArgoCD — the same workflow as any other Kubernetes resource.
+* *Upgrades are automated*: OLM watches the catalog and can apply operator updates without manual intervention.
+
+=== The role of ArgoCD
+
+Every component in this lab — operator subscriptions, CRs, Helm charts — is deployed through an ArgoCD `Application`.
+ArgoCD is the single enforcement point: Git is the source of truth, and ArgoCD continuously reconciles the cluster toward it.
+
+This means the entire platform is:
+
+* **Reproducible**: delete the cluster, re-run Ansible, get back an identical environment
+* **Auditable**: every change is a Git commit
+* **Self-healing**: ArgoCD detects and corrects manual drift automatically
+
 == What comes next
 
 This platform is a foundation, not a ceiling. Possible next steps:
