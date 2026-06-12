@@ -24,7 +24,7 @@ All of the following should show `Synced` / `Healthy`:
 * `rbac`
 * `devspaces`
 * `trusted-artifact-signer`
-* `backstage-bootstrap`
+* `rhdh-bootstrap`
 
 Quick health check:
 
@@ -385,11 +385,11 @@ echo "KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET"
 
 [source,bash,subs="attributes"]
 ----
-cat <<EOF > backstage-bootstrap-app.yaml
+cat <<EOF > rhdh-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: backstage-bootstrap
+  name: rhdh-bootstrap
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
@@ -453,7 +453,7 @@ spec:
     syncOptions:
       - CreateNamespace=true
 EOF
-oc apply -f backstage-bootstrap-app.yaml
+oc apply -f rhdh-bootstrap-app.yaml
 ----
 
 TIP: Developer Hub installs its dynamic plugins on first boot. Wait 5–10 minutes before the portal is accessible.

@@ -41,25 +41,27 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 
 == The Helm Chart
 
-The ArgoCD Application points to the `redhat-developer-hub` chart in your GitLab repository.
+The chart follows the **apps-of-apps** pattern: `rhdh-bootstrap` is a lightweight ArgoCD Application that creates a second application `rhdh`, which deploys the actual RHDH workloads.
 Browse it here: {helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub[{helm_repo_browse}/-/tree/{helm_repo_tag}/redhat-developer-hub^]
-
-The chart is organized into four subcharts deployed in sequence using ArgoCD sync waves:
 
 [cols="1,2,1",options="header"]
 |===
 |Subchart |What it deploys |Sync wave
+
+|`redhat-developer-hub-application`
+|A single ArgoCD `Application` resource (`rhdh`) that deploys all subcharts below. This is what `rhdh-bootstrap` deploys.
+|—
 
 |`redhat-developer-hub-prereqs`
 |Kubernetes `Secrets` (GitLab token, ArgoCD password, Keycloak OAuth client, Kubernetes SA token, backend secret) and the RBAC policy `ConfigMap`
 |-1
 
 |`redhat-developer-hub-operator`
-|OLM `Subscription` (`rhdh-operator.v1.9.1`, channel `fast-1.9`) in `openshift-operators` (no dedicated namespace or OperatorGroup needed — OpenShift provides one globally). ArgoCD waits for the Subscription to be healthy before proceeding.
+|OLM `Subscription` (`rhdh-operator.v1.9.1`, channel `fast-1.9`) in `openshift-operators` (no dedicated namespace or OperatorGroup needed — OpenShift provides one globally).
 |0
 
 |`redhat-developer-hub-instance`
-|`app-config-rhdh` ConfigMap (Backstage `app-config.yaml` with all integrations), `dynamic-plugins-rhdh` ConfigMap, and the `Backstage` CR that the operator reconciles into a running RHDH instance
+|`app-config-rhdh` ConfigMap (Backstage `app-config.yaml` with all integrations), `dynamic-plugins-rhdh` ConfigMap, PVC for the dynamic plugins cache, and the `Backstage` CR.
 |1 → 2
 
 |`redhat-developer-hub-config-template`
@@ -96,13 +98,15 @@ export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
 
 == Step 2: Create the ArgoCD Application
 
+`rhdh-bootstrap` is the parent app. It deploys the `redhat-developer-hub-application` sub-chart, which creates a child ArgoCD Application `rhdh` that manages all RHDH workloads.
+
 [source,bash,subs="specialcharacters,attributes"]
 ----
-cat <<EOF > backstage-bootstrap-app.yaml
+cat <<EOF > rhdh-bootstrap-app.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: backstage-bootstrap
+  name: rhdh-bootstrap
   namespace: openshift-gitops
   finalizers:
     - resources-finalizer.argocd.argoproj.io/foreground
@@ -110,66 +114,67 @@ spec:
   project: default
   source:
     repoURL: {helm_repo}
-    path: redhat-developer-hub
+    path: redhat-developer-hub/redhat-developer-hub-application
     targetRevision: {helm_repo_tag}
     helm:
       values: |
-        redhat-developer-hub-prereqs:
-          namespace: rhdh
-          backstage:
-            argocd:
-              password: $ARGOCD_PASSWORD
-            gitlab:
-              token: $GITLAB_TOKEN
-            oauth:
-              clientId: backstage
-              clientSecret: $KEYCLOAK_CLIENT_SECRET
+        helm:
+          inlineValues:
+            redhat-developer-hub-prereqs:
+              namespace: rhdh
+              backstage:
+                argocd:
+                  password: $ARGOCD_PASSWORD
+                gitlab:
+                  token: $GITLAB_TOKEN
+                oauth:
+                  clientId: backstage
+                  clientSecret: $KEYCLOAK_CLIENT_SECRET
 
-        redhat-developer-hub-config-template:
-          nameOverride: "backstage"
-          namespace: rhdh
-          gitlab:
-            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
-            rootPassword: {common_password}
-          cluster:
-            subdomain: {openshift_cluster_ingress_domain}
-          backstage:
-            host: backstage-rhdh.{openshift_cluster_ingress_domain}
-          keycloak:
-            host: sso.{openshift_cluster_ingress_domain}
-            realm: sso
-            clientId: backstage
-            clientSecret: $KEYCLOAK_CLIENT_SECRET
-          gitops:
-            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
-          quay:
-            project: quayadmin
+            redhat-developer-hub-config-template:
+              nameOverride: "backstage"
+              namespace: rhdh
+              gitlab:
+                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+                rootPassword: {common_password}
+              cluster:
+                subdomain: {openshift_cluster_ingress_domain}
+              backstage:
+                host: backstage-rhdh.{openshift_cluster_ingress_domain}
+              keycloak:
+                host: sso.{openshift_cluster_ingress_domain}
+                realm: sso
+                clientId: backstage
+                clientSecret: $KEYCLOAK_CLIENT_SECRET
+              gitops:
+                host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+              quay:
+                project: quayadmin
 
-        redhat-developer-hub-instance:
-          namespace: rhdh
-          backstage:
-            host: backstage-rhdh.{openshift_cluster_ingress_domain}
-          cluster:
-            subdomain: {openshift_cluster_ingress_domain}
-          gitlab:
-            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
-          keycloak:
-            host: sso.{openshift_cluster_ingress_domain}
-            realm: sso
-          gitops:
-            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
-          quay:
-            project: quayadmin
+            redhat-developer-hub-instance:
+              namespace: rhdh
+              backstage:
+                host: backstage-rhdh.{openshift_cluster_ingress_domain}
+              cluster:
+                subdomain: {openshift_cluster_ingress_domain}
+              gitlab:
+                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+              keycloak:
+                host: sso.{openshift_cluster_ingress_domain}
+                realm: sso
+              gitops:
+                host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+              quay:
+                project: quayadmin
   destination:
     server: https://kubernetes.default.svc
-    namespace: rhdh
+    namespace: openshift-gitops
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
-      - SkipDryRunOnMissingResource=true
     retry:
       limit: 10
       backoff:
@@ -183,16 +188,19 @@ Apply it:
 
 [source,bash]
 ----
-oc apply -f backstage-bootstrap-app.yaml
+oc apply -f rhdh-bootstrap-app.yaml
 ----
 
 == Verify
 
 === Verify in ArgoCD UI
 
-Open the ArgoCD UI and confirm the `backstage-bootstrap` application syncs successfully and shows **Healthy** status.
+Open the ArgoCD UI and confirm **two** applications are present and sync successfully:
 
-ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications/backstage-bootstrap[Backstage Bootstrap Application in ArgoCD^]
+* `rhdh-bootstrap` → **Healthy** (deploys the `rhdh-application` sub-chart)
+* `rhdh` → **Healthy** (deploys all RHDH workloads)
+
+ArgoCD link: https://openshift-gitops-server-openshift-gitops.{openshift_cluster_ingress_domain}/applications[ArgoCD Applications^]
 
 === Verify in the OpenShift Console
 
@@ -213,7 +221,7 @@ TIP: The `-w` flag watches for changes in real-time. Press **Ctrl+C** to stop wa
 
 [NOTE]
 ====
-*First startup takes a few minutes.* Developer Hub installs its dynamic plugins on the first boot, which requires downloading and initializing each plugin before the interface becomes available. Subsequent restarts will be significantly faster as plugins are already in place.
+*First startup takes a few minutes.* Developer Hub installs its dynamic plugins on the first boot, which requires downloading and initializing each plugin before the interface becomes available. A PVC persists the plugin cache — subsequent restarts skip the downloads and are significantly faster.
 ====
 
 TIP: 💡 **Platform health check**: Verify all components are healthy.
