@@ -186,6 +186,19 @@ spec:
         duration: 30s
         factor: 2
         maxDuration: 5m
+  ignoreDifferences:
+    - group: rhdh.redhat.com
+      kind: Backstage
+      jsonPointers:
+        - /metadata/annotations/rhdh.redhat.com~1ext-config-hash
+        - /spec/monitoring
+        - /status
+    - group: apps
+      kind: Deployment
+      name: backstage-developer-hub
+      jsonPointers:
+        - /spec/strategy
+        - /spec/template/metadata/annotations/rhdh.redhat.com~1ext-config-hash
 EOF
 ----
 
