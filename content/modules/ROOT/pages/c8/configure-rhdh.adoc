@@ -27,13 +27,13 @@ Developer Hub is deployed and configured via GitOps. Now step into a developer's
 
 == Configuration as Code
 
-The entire Developer Hub configuration is managed as code in a dedicated GitLab repository:
+The entire Developer Hub configuration is managed as code in the platform Helm chart:
 
-https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]
+https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/tree/main/redhat-developer-hub[Developer Hub Helm Chart^]
 
-This repository contains the `values.yaml` that configures the Red Hat Developer Hub Helm chart. This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
+The `redhat-developer-hub-instance` sub-chart contains the ConfigMaps that configure the Red Hat Developer Hub operator. This follows the **Infrastructure as Code** approach: every change to the portal is version-controlled, reviewed, and deployed via ArgoCD. No manual configuration in the UI.
 
-Browse the `values.yaml` to see:
+Browse the chart to see:
 
 * **RHDH configuration**: Authentication (Keycloak OpenID Connect (OIDC)), integrations (GitLab, ArgoCD), base URL, and theme
 * **Plugin configuration**: Which dynamic plugins are enabled (Tekton, ArgoCD, Kubernetes, Keycloak, Quay, etc.) and their settings
@@ -92,7 +92,7 @@ The installed plugins are directly visible in the catalog:
 
 Each entry describes a dynamic plugin installed in this Developer Hub instance. The data-bearing plugins (Tekton, ArgoCD, Quay, Kubernetes) will surface live information on component pages once the first component is deployed in Challenge #9.
 
-TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/rhdh/developer-hub-config[Developer Hub Config Repository^]. To add or change a plugin, update the config and push to Git: ArgoCD handles the rest.
+TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/tree/main/redhat-developer-hub/redhat-developer-hub-instance[Developer Hub instance chart^]. To add or change a plugin, update the chart and push to Git: ArgoCD handles the rest.
 
 == What the catalog shows right now
 
