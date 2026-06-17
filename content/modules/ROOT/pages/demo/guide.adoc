@@ -77,10 +77,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
-      limit: 2
+        maxDuration: 10m
+      limit: 15
     syncOptions:
       - CreateNamespace=false
       - RespectIgnoreDifferences=true
@@ -135,9 +135,9 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
+        maxDuration: 10m
       limit: 10
     syncOptions:
       - CreateNamespace=true
@@ -181,10 +181,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
-      limit: 2
+        maxDuration: 10m
+      limit: 15
     syncOptions:
       - CreateNamespace=true
 EOF
@@ -240,10 +240,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
-      limit: 2
+        maxDuration: 10m
+      limit: 15
     syncOptions:
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
@@ -297,9 +297,9 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
+        maxDuration: 10m
       limit: 5
     syncOptions:
       - CreateNamespace=true
@@ -340,9 +340,9 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
+        maxDuration: 10m
       limit: 5
     syncOptions:
       - CreateNamespace=true

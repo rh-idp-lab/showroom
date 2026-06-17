@@ -83,10 +83,10 @@ spec:
       selfHeal: true
     retry:
       backoff:
-        duration: 5s
+        duration: 30s
         factor: 2
-        maxDuration: 3m0s
-      limit: 2
+        maxDuration: 10m
+      limit: 15
     syncOptions:
       - CreateNamespace=true
       - RespectIgnoreDifferences=true
