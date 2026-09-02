@@ -3,21 +3,21 @@
 
 [NOTE]
 ====
-*Page admin — non destinée aux participants.* +
-Déploie l'intégralité du lab en 2 blocs copy-paste.
-Pré-requis : GitLab, Vault, Keycloak, NooBaa et OpenShift GitOps sont déjà déployés par Ansible.
+*Admin page — not intended for participants.* +
+Deploys the entire lab with 2 copy-pastes.
+Prerequisites: GitLab, Vault, Keycloak, NooBaa, and OpenShift GitOps are already deployed by Ansible.
 ====
 
-== Pré-requis manuel : OAuth GitLab pour DevSpaces
+== Prerequisite (manual): GitLab OAuth App for DevSpaces
 
-. Ouvrir https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] en tant que `root` / `{common_password}`
-. *Avatar → Edit profile → Applications → Add new application* :
-** Name : `devspaces`
-** Redirect URI : `\https://devspaces.{openshift_cluster_ingress_domain}/api/oauth/callback`
-** Scopes : `api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
-. Sauvegarder et copier l'**Application ID** et le **Secret**
+. Open https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] as `root` / `{common_password}`
+. *Avatar → Edit profile → Applications → Add new application*:
+** Name: `devspaces`
+** Redirect URI: `\https://devspaces.{openshift_cluster_ingress_domain}/api/oauth/callback`
+** Scopes: `api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
+. Save and copy the **Application ID** and **Secret**
 
-== Bloc 1 — Récupérer les credentials
+== Block 1 — Retrieve credentials
 
 [source,bash,subs="attributes"]
 ----
@@ -28,7 +28,7 @@ export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab \
 # ArgoCD password
 export ARGOCD_PASSWORD="{common_password}"
 
-# Keycloak : client secret du client backstage
+# Keycloak: retrieve the backstage client secret
 export KEYCLOAK_TOKEN=$(curl -sk -X POST \
   "https://sso.{openshift_cluster_ingress_domain}/realms/master/protocol/openid-connect/token" \
   -d "client_id=admin-cli&username=admin&password={common_password}&grant_type=password" \
@@ -44,7 +44,7 @@ export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
   "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients/$CLIENT_UUID/client-secret" \
   | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
 
-# DevSpaces GitLab OAuth (créés à l'étape précédente)
+# DevSpaces GitLab OAuth (created in the prerequisite step above)
 export GITLAB_OAUTH_ID=<Application ID>
 export GITLAB_OAUTH_SECRET=<Secret>
 
@@ -53,7 +53,7 @@ echo "KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET"
 echo "GITLAB_OAUTH_ID:        $GITLAB_OAUTH_ID"
 ----
 
-== Bloc 2 — Déployer toutes les Applications ArgoCD
+== Block 2 — Deploy all ArgoCD Applications
 
 [source,bash,subs="attributes"]
 ----
@@ -307,14 +307,14 @@ spec:
 EOF
 ----
 
-== Vérification
+== Verify
 
 [source,bash,subs="attributes"]
 ----
 watch oc get applications -n openshift-gitops
 ----
 
-Attendre que toutes les Applications affichent `Synced / Healthy` (15–30 min selon les opérateurs).
+Wait for all Applications to show `Synced / Healthy` (15–30 min depending on operator install times).
 
 [source,bash,subs="attributes"]
 ----
