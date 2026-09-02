@@ -197,6 +197,37 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: rhtpa
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-profile-analyzer
+  project: default
+  source:
+    repoURL: https://github.com/redhat-tssc-tmm/rhdp-tpa-demo.git
+    path: .
+    targetRevision: main
+    helm:
+      values: |
+        deployer:
+          domain: "{openshift_cluster_ingress_domain}"
+        components:
+          prerequisites:
+            keycloak:
+              namespace: keycloak
+              keycloakCRName: keycloak
+          userinfoDashboard:
+            enabled: false
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
   name: trusted-artifact-signer
   namespace: openshift-gitops
   finalizers: [resources-finalizer.argocd.argoproj.io/foreground]

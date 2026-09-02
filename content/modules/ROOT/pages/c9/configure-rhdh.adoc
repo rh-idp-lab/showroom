@@ -7,8 +7,9 @@
 :c5-status: ✅
 :c6-status: ✅
 :c7-status: ✅
-:c8-status: ⏳
-:c9-status: ⚪
+:c8-status: ✅
+:c9-status: ⏳
+:c10-status: ⚪
 :overall-progress: 80
 :time-spent: 84
 :time-remaining: 21
@@ -55,7 +56,7 @@ This sync is handled by the **Keycloak Org Entity Provider** plugin. Every user 
 
 [NOTE]
 ====
-At this stage the catalog shows **no Components** — this is expected. Components are registered automatically when a developer creates a service from a Software Template (Challenge #9). The plugins (ArgoCD, Tekton, Quay) will surface real data once a component exists.
+At this stage the catalog shows **no Components** — this is expected. Components are registered automatically when a developer creates a service from a Software Template (Challenge #10). The plugins (ArgoCD, Tekton, Quay) will surface real data once a component exists.
 ====
 
 === Domain & System
@@ -90,7 +91,7 @@ The installed plugins are directly visible in the catalog:
 . In the left menu, click **Catalog**
 . Open the **Kind** filter and select **Plugin**
 
-Each entry describes a dynamic plugin installed in this Developer Hub instance. The data-bearing plugins (Tekton, ArgoCD, Quay, Kubernetes) will surface live information on component pages once the first component is deployed in Challenge #9.
+Each entry describes a dynamic plugin installed in this Developer Hub instance. The data-bearing plugins (Tekton, ArgoCD, Quay, Kubernetes) will surface live information on component pages once the first component is deployed in Challenge #10.
 
 TIP: The list of enabled plugins and their configuration is in the https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/tree/main/redhat-developer-hub/redhat-developer-hub-instance[Developer Hub instance chart^]. To add or change a plugin, update the chart and push to Git: ArgoCD handles the rest.
 
@@ -118,11 +119,11 @@ TIP: The list of enabled plugins and their configuration is in the https://gitla
 
 |**Template**
 |⏳ Next step
-|4 templates available after import (Challenge #8 → Import Software Templates)
+|4 templates available after import (Challenge #9 → Import Software Templates)
 
 |**Component**
-|⏳ After Challenge #9
+|⏳ After Challenge #10
 |Created automatically when a developer runs a template
 |===
 
-The portal is fully operational. The integrations (ArgoCD, Tekton, Quay) will display live data as soon as the first component is deployed in Challenge #9.
+The portal is fully operational. The integrations (ArgoCD, Tekton, Quay) will display live data as soon as the first component is deployed in Challenge #10.

@@ -8,7 +8,8 @@
 :c6-status: ✅
 :c7-status: ✅
 :c8-status: ✅
-:c9-status: ⏳
+:c9-status: ✅
+:c10-status: ⏳
 :overall-progress: 90
 :time-spent: 95
 :time-remaining: 10
@@ -17,7 +18,7 @@ include::partial$progress-bar.adoc[]
 
 [NOTE]
 ====
-*Challenge #9: "Great, you built a platform. Now show me a developer can ship code without your help."*
+*Challenge #10: "Great, you built a platform. Now show me a developer can ship code without your help."*
 
 The CTO is watching. Switch perspective: you are no longer the Platform Engineer. You are a Golden Path Inc. developer. Use the portal, pick a template, and ship — without touching Helm, ArgoCD, or Vault.
 ====

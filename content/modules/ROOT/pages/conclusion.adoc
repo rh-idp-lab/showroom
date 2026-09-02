@@ -9,6 +9,7 @@
 :c7-status: ✅
 :c8-status: ✅
 :c9-status: ✅
+:c10-status: ✅
 :overall-progress: 100
 :time-spent: 105
 :time-remaining: 0
@@ -17,7 +18,7 @@ include::partial$progress-bar.adoc[]
 
 [NOTE]
 ====
-*The CTO's final memo: "I had 9 problems. You solved all 9. Ship it."*
+*The CTO's final memo: "I had 10 problems. You solved all 10. Ship it."*
 
 Golden Path Inc. now has a real Internal Developer Platform. Developers create services from templates, pipelines run on every commit, secrets never touch Git, and every deployment is auditable. You did this in under two hours, with no handwritten YAML, no bespoke scripts, no firefighting.
 ====
@@ -264,15 +265,15 @@ At the start of this lab, Challenge #1 introduced six principles from link:https
 |Principle |Where you applied it |How
 
 |*Product Mindset*
-|Challenge #8: Developer Hub
+|Challenge #9: Developer Hub
 |RHDH is the front door of the platform. It is designed around developer needs: one login, one catalog, one place for services, pipelines, and templates.
 
 |*Golden Paths, Not Golden Cages*
-|Challenge #8: Software Templates
+|Challenge #9: Software Templates
 |Every template bundles Git, Tekton, ArgoCD, Quay, and Vault configuration into a single form. The right way is the easy way — teams are not forced into it, but they have no reason to bypass it.
 
 |*Self-Service via Abstraction*
-|Challenge #9: Developer Experience
+|Challenge #10: Developer Experience
 |A developer created a production-ready application without a ticket, a runbook, or any help from the platform team. One form, one click, done.
 
 |*Developer Experience (DevEx)*
@@ -280,8 +281,8 @@ At the start of this lab, Challenge #1 introduced six principles from link:https
 |Zero local setup. New developers are productive from a browser tab on day one, with a standardized environment identical to every other developer on the team.
 
 |*Shared Responsibility & Governance*
-|Challenge #4: External Secrets + Challenge #7: Trusted Artifact Signer
-|Secrets never touch Git. Every image is cryptographically signed at build time. Security and compliance are enforced by the platform, not by individual discipline.
+|Challenge #4: External Secrets + Challenge #7: Trusted Profile Analyzer + Challenge #8: Trusted Artifact Signer
+|Secrets never touch Git. SBOMs are tracked and vulnerabilities surfaced automatically. Every image is cryptographically signed at build time. Security and compliance are enforced by the platform, not by individual discipline.
 
 |*GitOps as the rule*
 |Every module

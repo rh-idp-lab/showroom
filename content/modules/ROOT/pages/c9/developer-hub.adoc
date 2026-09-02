@@ -7,8 +7,9 @@
 :c5-status: ✅
 :c6-status: ✅
 :c7-status: ✅
-:c8-status: ⏳
-:c9-status: ⚪
+:c8-status: ✅
+:c9-status: ⏳
+:c10-status: ⚪
 :overall-progress: 75
 :time-spent: 80
 :time-remaining: 25
@@ -17,7 +18,7 @@ include::partial$progress-bar.adoc[]
 
 [NOTE]
 ====
-*Challenge #8: "Developers need 6 different logins. They can't find anything."*
+*Challenge #9: "Developers need 6 different logins. They can't find anything."*
 
 You've built all the pieces: pipelines, registry, secrets, IDE, signing. But Golden Path Inc. developers still have to know about ArgoCD, Tekton, Quay, Vault, Dev Spaces: and log into each one separately. The CTO's vision was _one place_ for everything. Time to build that front door.
 ====
@@ -37,7 +38,7 @@ Red Hat Developer Hub (RHDH) is Red Hat's supported distribution of Backstage. I
 * **OpenShift Pipelines**: pipeline run visibility (Challenge #2/#3/#4/#5)
 * **External Secrets / Vault**: secrets injection (Modules 2 & 3)
 * **Dev Spaces**: one-click cloud IDE links (Challenge #6)
-* **Trusted Artifact Signer**: signed artifact verification (Challenge #7)
+* **Trusted Artifact Signer**: signed artifact verification (Challenge #8)
 
 == The Helm Chart
 

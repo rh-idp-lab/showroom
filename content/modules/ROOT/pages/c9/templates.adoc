@@ -7,8 +7,9 @@
 :c5-status: ✅
 :c6-status: ✅
 :c7-status: ✅
-:c8-status: ⏳
-:c9-status: ⚪
+:c8-status: ✅
+:c9-status: ⏳
+:c10-status: ⚪
 :overall-progress: 85
 :time-spent: 89
 :time-remaining: 16
@@ -52,7 +53,7 @@ Developer Hub will register the `Template` entity and automatically discover all
 . In Developer Hub, click **Catalog** in the left menu, then click **Self Service** (top right of the page).
 . You should now see the four OpenCodeQuest templates available for use.
 
-Templates are now registered in the catalog. Continue to xref:c9/services.adoc[Create Services] to deploy your first components.
+Templates are now registered in the catalog. Continue to xref:c10/services.adoc[Create Services] to deploy your first components.
 
 TIP: 💡 *Platform health check*: Verify all components are healthy.
 [source,bash,subs="attributes"]

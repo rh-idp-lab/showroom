@@ -25,17 +25,20 @@
 * Challenge #6: Fix Onboarding
 ** xref:c6/devspaces.adoc[Deploy Dev Spaces]
 
-* Challenge #7: Prove the Supply Chain
-** xref:c7/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
+* Challenge #7: Track Vulnerabilities in SBOMs
+** xref:c7/tpa.adoc[Deploy Trusted Profile Analyzer]
 
-* Challenge #8: One Portal to Rule Them All
-** xref:c8/developer-hub.adoc[Deploy Red Hat Developer Hub]
-** xref:c8/configure-rhdh.adoc[Explore the Portal]
-** xref:c8/templates.adoc[Import Software Templates]
+* Challenge #8: Prove the Supply Chain
+** xref:c8/trusted-artifact-signer.adoc[Deploy Trusted Artifact Signer]
 
-* Challenge #9: Prove It Works
-** xref:c9/services.adoc[Create Services]
-** xref:c9/developer-experience.adoc[Ship Code Without Help]
+* Challenge #9: One Portal to Rule Them All
+** xref:c9/developer-hub.adoc[Deploy Red Hat Developer Hub]
+** xref:c9/configure-rhdh.adoc[Explore the Portal]
+** xref:c9/templates.adoc[Import Software Templates]
+
+* Challenge #10: Prove It Works
+** xref:c10/services.adoc[Create Services]
+** xref:c10/developer-experience.adoc[Ship Code Without Help]
 
 * xref:conclusion.adoc[Mission Accomplished]
 

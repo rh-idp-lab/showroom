@@ -1,0 +1,217 @@
+= Deploy Red Hat Trusted Profile Analyzer
+:navtitle: Deploy Trusted Profile Analyzer
+:c1-status: ✅
+:c2-status: ✅
+:c3-status: ✅
+:c4-status: ✅
+:c5-status: ✅
+:c6-status: ✅
+:c7-status: ⏳
+:c8-status: ⚪
+:c9-status: ⚪
+:c10-status: ⚪
+:overall-progress: 60
+:time-spent: 65
+:time-remaining: 40
+
+include::partial$progress-bar.adoc[]
+
+[NOTE]
+====
+*Challenge #7: "We generate SBOMs for every build. So what? Nobody is actually looking at them."*
+
+Golden Path Inc. has achieved something most teams haven't: every image now ships with a Software Bill of Materials. The security team's next question cuts right through the self-congratulation: _"Great — but are you actually using those SBOMs to find what's vulnerable? Can you tell me right now which running workloads are exposed to a given CVE?"_ Nobody has an answer. You need a system that ingests SBOMs, correlates them against vulnerability advisories, and makes the data queryable.
+====
+
+.Platform Engineering Principle: Shared Responsibility & Governance
+****
+Generating SBOMs is hygiene. _Querying_ them is security posture. By deploying Trusted Profile Analyzer as a platform service, the security team gets a single pane of glass over every software component across every workload — without requiring developers to change how they build or ship code. Compliance is not a one-time audit; it is a continuously updated dataset.
+****
+
+Red Hat Trusted Profile Analyzer (TPA) is an open-source SBOM management and vulnerability analysis platform. It ingests SBOMs (CycloneDX, SPDX), correlates them against advisory sources (Red Hat CSAF, CVE List, OSV), and exposes the relationships via a queryable API and web interface. In this challenge, you will deploy a fully operational TPA instance preloaded with a curated dataset of 45 SBOMs so the platform is immediately useful for exploration.
+
+[cols="1,2",options="header"]
+|===
+|Component |Purpose
+
+|**TPA Server**
+|SBOM ingestion, vulnerability correlation, advisory tracking — the core platform
+
+|**PostgreSQL 18**
+|Persistent database backend for all TPA data
+
+|**Keycloak realm (`tssc-sso`)**
+|Isolated OIDC realm for TPA users (separate from your platform SSO)
+
+|**S3 bucket (NooBaa)**
+|Object storage for SBOM documents
+
+|**Demo dataset**
+|45 pre-loaded SBOMs with matching advisories and CVEs — ready to explore immediately
+
+|**RHDA Backend**
+|Red Hat Dependency Analytics middleware — bridges the TPA server and IDE plugins
+|===
+
+== The Deployment
+
+Rather than writing a Helm chart from scratch, this challenge deploys TPA directly from the upstream reference repository maintained by Red Hat field engineers: https://github.com/redhat-tssc-tmm/rhdp-tpa-demo[redhat-tssc-tmm/rhdp-tpa-demo^]. This repository is itself a Helm-based ArgoCD app-of-apps that orchestrates all TPA components in the correct order using sync waves.
+
+The only values you need to provide are the cluster domain (for route generation) and the Keycloak namespace (to import the TPA realm into the existing Keycloak instance).
+
+== Create the ArgoCD Application
+
+[source,bash,subs="specialcharacters,attributes"]
+----
+cat <<'EOF' > tpa-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhtpa
+  namespace: openshift-gitops
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/redhat-tssc-tmm/rhdp-tpa-demo.git
+    path: .
+    targetRevision: main
+    helm:
+      values: |
+        deployer:
+          domain: "{openshift_cluster_ingress_domain}"
+        components:
+          prerequisites:
+            keycloak:
+              namespace: keycloak
+              keycloakCRName: keycloak
+          userinfoDashboard:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-profile-analyzer
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+    retry:
+      limit: 15
+      backoff:
+        duration: 30s
+        factor: 2
+        maxDuration: 10m
+EOF
+----
+
+[source,bash,subs="attributes"]
+----
+oc apply -f tpa-app.yaml
+----
+
+The `rhtpa` application will appear in ArgoCD. It will create four child applications — `tpa-prerequisites`, `tpa-postgresql`, `tpa-server`, and `tpa-demo-dataset` — each with its own sync wave. The full deployment takes approximately **15–20 minutes**.
+
+== Monitor the Deployment
+
+Watch the child applications in ArgoCD:
+
+https://rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}/applications?proj=&sync=&autoSync=&health=&namespace=&cluster=&labels=[ArgoCD Applications (rhtpa)^]
+
+Or follow progress from the CLI:
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n trusted-profile-analyzer -w
+----
+
+Expect to see pods come up in waves:
+
+. **Wave 0**: `tpa-postgresql-*` starts first
+. **Wave 1**: `server-*` pods (API, UI, storage, importers) start once PostgreSQL is healthy
+. **Wave 2**: dataset upload Job runs once the TPA server is ready
+
+The dataset upload Job (`tpa-dataset-upload-*`) runs to completion — `Completed` status is correct.
+
+== Verify in the OpenShift Console
+
+. Open the https://console-openshift-console.{openshift_cluster_ingress_domain}[OpenShift Console^]
+. Navigate to the `trusted-profile-analyzer` namespace
+. Verify all pods are in `Running` or `Completed` state
+
+Direct link: https://console-openshift-console.{openshift_cluster_ingress_domain}/topology/ns/trusted-profile-analyzer?view=graph[Topology (trusted-profile-analyzer)^]
+
+== Verify with CLI
+
+[source,bash,subs="attributes"]
+----
+oc get pods -n trusted-profile-analyzer
+oc get route -n trusted-profile-analyzer
+----
+
+You should see a route for the TPA web interface.
+
+== Access the TPA Interface
+
+Once all pods are running, open the TPA web interface:
+
+https://tpa.{openshift_cluster_ingress_domain}[https://tpa.{openshift_cluster_ingress_domain}^]
+
+Log in with:
+
+* **Username**: `admin`
+* **Password**: `r3dh8t1!`
+
+[NOTE]
+====
+The login screen uses the `tssc-sso` Keycloak realm, which was imported by the `tpa-prerequisites` application. This realm is completely separate from your platform `sso` realm and contains only TPA-specific users and clients.
+====
+
+== Explore the Demo Data
+
+After logging in, the TPA dashboard shows the ingested dataset:
+
+* **SBOMs** — 45 pre-loaded software bills of materials
+* **Advisories** — linked Red Hat Security Advisories (RHSAs)
+* **CVEs** — correlated Common Vulnerabilities and Exposures
+
+Try the following queries in the interface:
+
+. **SBOM list** — browse all ingested SBOMs and their component inventories
+. **Vulnerability search** — search for a CVE (e.g., `CVE-2021-44228`) and see which SBOMs are affected
+. **Advisory details** — open an RHSA advisory and trace it back to the affected packages and SBOMs
+
+=== Query the API
+
+TPA exposes a REST API. Test it with:
+
+[source,bash,subs="attributes"]
+----
+TPA_TOKEN=$(curl -s -X POST \
+  "https://sso.{openshift_cluster_ingress_domain}/realms/tssc-sso/protocol/openid-connect/token" \
+  -d "client_id=tpa-frontend&grant_type=password&username=admin&password=r3dh8t1!" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+
+curl -s -H "Authorization: Bearer $TPA_TOKEN" \
+  "https://tpa.{openshift_cluster_ingress_domain}/api/v1/sbom?limit=5" \
+  | python3 -m json.tool | head -50
+----
+
+== Load More Data (Optional)
+
+The default dataset is a static snapshot. To ingest live data, enable the importers in the TPA UI:
+
+. Navigate to *Importers* in the TPA interface
+. Enable **Red Hat CSAF** and **CVEList v5** for the most complete vulnerability matching
+. Click *Run* to schedule an immediate import
+
+[WARNING]
+====
+Live importers can take up to 24 hours for a full initial import. Enable them at the end of the lab or after your demo to avoid long waits.
+====
+
+TIP: 💡 **Platform health check**: Verify all components are healthy.
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----

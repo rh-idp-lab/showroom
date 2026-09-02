@@ -9,6 +9,7 @@
 :c7-status: ⚪
 :c8-status: ⚪
 :c9-status: ⚪
+:c10-status: ⚪
 :overall-progress: 45
 :time-spent: 45
 :time-remaining: 60

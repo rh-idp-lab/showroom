@@ -3,9 +3,9 @@
 [discrete]
 == Your Progress
 
-[cols="9*",frame=none,grid=none]
+[cols="10*",frame=none,grid=none]
 |===
-| Ch. #1 | Ch. #2 | Ch. #3 | Ch. #4 | Ch. #5 | Ch. #6 | Ch. #7 | Ch. #8 | Ch. #9
+| Ch. #1 | Ch. #2 | Ch. #3 | Ch. #4 | Ch. #5 | Ch. #6 | Ch. #7 | Ch. #8 | Ch. #9 | Ch. #10
 
 a| {c1-status}
 a| {c2-status}
@@ -16,6 +16,7 @@ a| {c6-status}
 a| {c7-status}
 a| {c8-status}
 a| {c9-status}
+a| {c10-status}
 |===
 
 *Overall Progress*: {overall-progress}% • *Time Spent*: ~{time-spent} min • *Estimated Remaining*: ~{time-remaining} min

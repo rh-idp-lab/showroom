@@ -23,6 +23,7 @@ All of the following should show `Synced` / `Healthy`:
 * `keycloak`
 * `rbac`
 * `devspaces`
+* `rhtpa`
 * `trusted-artifact-signer`
 * `rhdh-bootstrap`
 
@@ -308,7 +309,49 @@ EOF
 oc apply -f devspaces-app.yaml
 ----
 
-=== Step 7: Red Hat Trusted Artifact Signer
+=== Step 7: Red Hat Trusted Profile Analyzer
+
+[source,bash,subs="specialcharacters,attributes"]
+----
+cat <<'EOF' > tpa-app.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhtpa
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/redhat-tssc-tmm/rhdp-tpa-demo.git
+    path: .
+    targetRevision: main
+    helm:
+      values: |
+        deployer:
+          domain: "{openshift_cluster_ingress_domain}"
+        components:
+          prerequisites:
+            keycloak:
+              namespace: keycloak
+              keycloakCRName: keycloak
+          userinfoDashboard:
+            enabled: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-profile-analyzer
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true]
+EOF
+oc apply -f tpa-app.yaml
+----
+
+Wait for the `rhtpa` application and its 4 child applications to become healthy (~15-20 min).
+TPA is accessible at: https://tpa.{openshift_cluster_ingress_domain}[https://tpa.{openshift_cluster_ingress_domain}^] (admin / r3dh8t1!)
+
+=== Step 8: Red Hat Trusted Artifact Signer
 
 [source,bash,subs="attributes"]
 ----
@@ -350,7 +393,7 @@ EOF
 oc apply -f trusted-artifact-signer-app.yaml
 ----
 
-=== Step 8: Red Hat Developer Hub
+=== Step 9: Red Hat Developer Hub
 
 First, retrieve the secrets needed by the Helm chart:
 
