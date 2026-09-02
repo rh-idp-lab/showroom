@@ -1,0 +1,322 @@
+= Admin Deployment Runbook
+:navtitle: Admin Deploy (1-shot)
+
+[NOTE]
+====
+*Page admin — non destinée aux participants.* +
+Déploie l'intégralité du lab en 2 blocs copy-paste.
+Pré-requis : GitLab, Vault, Keycloak, NooBaa et OpenShift GitOps sont déjà déployés par Ansible.
+====
+
+== Pré-requis manuel : OAuth GitLab pour DevSpaces
+
+. Ouvrir https://gitlab-gitlab.{openshift_cluster_ingress_domain}[GitLab^] en tant que `root` / `{common_password}`
+. *Avatar → Edit profile → Applications → Add new application* :
+** Name : `devspaces`
+** Redirect URI : `\https://devspaces.{openshift_cluster_ingress_domain}/api/oauth/callback`
+** Scopes : `api`, `read_user`, `read_repository`, `write_repository`, `openid`, `profile`, `email`
+. Sauvegarder et copier l'**Application ID** et le **Secret**
+
+== Bloc 1 — Récupérer les credentials
+
+[source,bash,subs="attributes"]
+----
+# GitLab root token
+export GITLAB_TOKEN=$(oc get secret root-user-personal-token -n gitlab \
+  -o jsonpath='{.data.token}' | base64 -d)
+
+# ArgoCD password
+export ARGOCD_PASSWORD="{common_password}"
+
+# Keycloak : client secret du client backstage
+export KEYCLOAK_TOKEN=$(curl -sk -X POST \
+  "https://sso.{openshift_cluster_ingress_domain}/realms/master/protocol/openid-connect/token" \
+  -d "client_id=admin-cli&username=admin&password={common_password}&grant_type=password" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])")
+
+export CLIENT_UUID=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients?clientId=backstage" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)[0]['id'])")
+
+export KEYCLOAK_CLIENT_SECRET=$(curl -sk \
+  -H "Authorization: Bearer $KEYCLOAK_TOKEN" \
+  "https://sso.{openshift_cluster_ingress_domain}/admin/realms/sso/clients/$CLIENT_UUID/client-secret" \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['value'])")
+
+# DevSpaces GitLab OAuth (créés à l'étape précédente)
+export GITLAB_OAUTH_ID=<Application ID>
+export GITLAB_OAUTH_SECRET=<Secret>
+
+echo "GITLAB_TOKEN:           $GITLAB_TOKEN"
+echo "KEYCLOAK_CLIENT_SECRET: $KEYCLOAK_CLIENT_SECRET"
+echo "GITLAB_OAUTH_ID:        $GITLAB_OAUTH_ID"
+----
+
+== Bloc 2 — Déployer toutes les Applications ArgoCD
+
+[source,bash,subs="attributes"]
+----
+cat <<EOF | oc apply -f -
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-pipelines
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-operators
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: openshift-pipelines
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=false, RespectIgnoreDifferences=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: external-secrets
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: external-secrets-operator
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: external-secrets
+    helm:
+      values: |
+        vault-integration:
+          vault:
+            namespace: vault
+            name: vault
+            auth:
+              namespace: default
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhdh-gitops
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: rhdh-gitops
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: gitops
+    helm:
+      values: |
+        nameOverride: rhdh-gitops
+        password: {common_password}
+        controller:
+          resources:
+            requests: {cpu: 500m, memory: 1Gi}
+            limits: {cpu: 1500m, memory: 3Gi}
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true, RespectIgnoreDifferences=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: quay
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: quay-registry
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: quay
+    helm:
+      values: |
+        quay-registry:
+          quay:
+            host: quay.{openshift_cluster_ingress_domain}
+            adminUser: quayadmin
+            adminUserPassword: {common_password}
+          noobaa:
+            name: noobaa
+            namespace: openshift-storage
+          vault:
+            name: vault
+            namespace: vault
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true, RespectIgnoreDifferences=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: devspaces
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-devspaces
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: devspaces
+    helm:
+      values: |
+        devspaces:
+          gitlab:
+            url: https://gitlab-gitlab.{openshift_cluster_ingress_domain}
+            oauthClientId: $GITLAB_OAUTH_ID
+            oauthClientSecret: $GITLAB_OAUTH_SECRET
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true, RespectIgnoreDifferences=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: trusted-artifact-signer
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: trusted-artifact-signer
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: rhtas
+    helm:
+      values: |
+        trusted-artifact-signer:
+          instance: securesign
+          email: admin@example.com
+          org: my-org
+          oidc: sso.{openshift_cluster_ingress_domain}/realms/sso
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 15}
+    syncOptions: [CreateNamespace=true]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rhdh-bootstrap
+  namespace: openshift-gitops
+  finalizers: [resources-finalizer.argocd.argoproj.io/foreground]
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: openshift-gitops
+  project: default
+  source:
+    repoURL: {helm_repo}
+    targetRevision: {helm_repo_tag}
+    path: redhat-developer-hub
+    helm:
+      values: |
+        redhat-developer-hub-prereqs:
+          namespace: rhdh
+          backstage:
+            argocd:
+              password: $ARGOCD_PASSWORD
+            gitlab:
+              token: $GITLAB_TOKEN
+            oauth:
+              clientId: backstage
+              clientSecret: $KEYCLOAK_CLIENT_SECRET
+
+        redhat-developer-hub-config-template:
+          nameOverride: "backstage"
+          namespace: rhdh
+          gitlab:
+            host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+            rootPassword: {common_password}
+          cluster:
+            subdomain: {openshift_cluster_ingress_domain}
+          backstage:
+            host: backstage-rhdh.{openshift_cluster_ingress_domain}
+          keycloak:
+            host: sso.{openshift_cluster_ingress_domain}
+            realm: sso
+            clientId: backstage
+            clientSecret: $KEYCLOAK_CLIENT_SECRET
+          gitops:
+            host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+          quay:
+            project: quayadmin
+
+        redhat-developer-hub-application:
+          helm:
+            inlineValues:
+              namespace: rhdh
+              backstage:
+                host: backstage-rhdh.{openshift_cluster_ingress_domain}
+              cluster:
+                subdomain: {openshift_cluster_ingress_domain}
+              gitlab:
+                host: gitlab-gitlab.{openshift_cluster_ingress_domain}
+              keycloak:
+                host: sso.{openshift_cluster_ingress_domain}
+                realm: sso
+              gitops:
+                host: rhdh-gitops-server-rhdh-gitops.{openshift_cluster_ingress_domain}
+              quay:
+                project: quayadmin
+  syncPolicy:
+    automated: {prune: true, selfHeal: true}
+    retry: {backoff: {duration: 30s, factor: 2, maxDuration: 10m}, limit: 10}
+    syncOptions: [CreateNamespace=true]
+  ignoreDifferences:
+    - group: rhdh.redhat.com
+      kind: Backstage
+      jsonPointers:
+        - /metadata/annotations/rhdh.redhat.com~1ext-config-hash
+        - /spec/monitoring
+        - /status
+    - group: apps
+      kind: Deployment
+      name: backstage-developer-hub
+      jsonPointers:
+        - /spec/strategy
+        - /spec/template/metadata/annotations/rhdh.redhat.com~1ext-config-hash
+EOF
+----
+
+== Vérification
+
+[source,bash,subs="attributes"]
+----
+watch oc get applications -n openshift-gitops
+----
+
+Attendre que toutes les Applications affichent `Synced / Healthy` (15–30 min selon les opérateurs).
+
+[source,bash,subs="attributes"]
+----
+bash <(curl -s https://gitlab-gitlab.{openshift_cluster_ingress_domain}/idp-lab/helm/-/raw/{helm_repo_tag}/scripts/platform-health.sh)
+----
