@@ -218,7 +218,11 @@ spec:
             keycloak:
               namespace: keycloak
               keycloakCRName: keycloak
-          userinfoDashboard:
+          tpaServer:
+            modules:
+              createImporters:
+                enabled: false
+          rhdaBackend:
             enabled: false
   syncPolicy:
     automated: {prune: true, selfHeal: true}

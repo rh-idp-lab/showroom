@@ -84,7 +84,11 @@ spec:
             keycloak:
               namespace: keycloak
               keycloakCRName: keycloak
-          userinfoDashboard:
+          tpaServer:
+            modules:
+              createImporters:
+                enabled: false
+          rhdaBackend:
             enabled: false
   destination:
     server: https://kubernetes.default.svc
@@ -109,7 +113,7 @@ EOF
 oc apply -f tpa-app.yaml
 ----
 
-The `rhtpa` application will appear in ArgoCD. It will create four child applications — `tpa-prerequisites`, `tpa-postgresql`, `tpa-server`, and `tpa-demo-dataset` — each with its own sync wave. The full deployment takes approximately **15–20 minutes**.
+The `rhtpa` application will appear in ArgoCD. It will create six child applications — `tpa-prerequisites`, `tpa-postgresql`, `tpa-server`, `tpa-demo-dataset`, `tpa-userinfo-dashboard`, and `tpa-rhda-backend` — each with its own sync wave. The full deployment takes approximately **15–20 minutes**.
 
 == Monitor the Deployment
 

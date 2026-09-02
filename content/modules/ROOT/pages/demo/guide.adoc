@@ -335,7 +335,11 @@ spec:
             keycloak:
               namespace: keycloak
               keycloakCRName: keycloak
-          userinfoDashboard:
+          tpaServer:
+            modules:
+              createImporters:
+                enabled: false
+          rhdaBackend:
             enabled: false
   destination:
     server: https://kubernetes.default.svc
