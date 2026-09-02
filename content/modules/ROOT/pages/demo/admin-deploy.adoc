@@ -55,10 +55,9 @@ echo "GITLAB_OAUTH_ID:        $GITLAB_OAUTH_ID"
 
 == Block 2 — Deploy all ArgoCD Applications
 
-[source,bash,subs="attributes"]
+[source,bash,subs="specialcharacters,attributes"]
 ----
 cat <<EOF | oc apply -f -
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
