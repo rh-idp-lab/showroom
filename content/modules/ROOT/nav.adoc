@@ -40,3 +40,4 @@
 * xref:conclusion.adoc[Mission Accomplished]
 
 * xref:demo/guide.adoc[Demo Guide (45 min)]
+* xref:demo/admin-deploy.adoc[Admin Deploy (1-shot)]
